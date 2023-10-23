@@ -70,4 +70,16 @@ public class UserBadge {
     public void setActivation_date(Date activation_date) {
         this.activation_date = activation_date;
     }
+
+
+    @Override
+    public String toString() {
+        return "UserBadge{" +
+                "badge_id=" + badge_id +
+                ", name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", birth_date=" + birth_date +
+                ", activation_date=" + activation_date +
+                '}';
+    }
 }
