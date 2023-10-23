@@ -9,10 +9,9 @@ import java.time.LocalDate;
 @Table(name = "tickets")
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class Tickets extends TicketsItem {
-
-
     @Nullable
     @ManyToOne
+    @JoinColumn(name = "validation_id")
     private Validation validationId;
 
 
