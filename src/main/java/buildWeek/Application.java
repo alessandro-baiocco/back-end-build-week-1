@@ -1,4 +1,4 @@
-package coso;
+package buildWeek;
 
 public class Application {
 

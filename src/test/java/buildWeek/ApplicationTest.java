@@ -1,4 +1,4 @@
-package coso;
+package buildWeek;
 
 import org.junit.jupiter.api.Test;
 
