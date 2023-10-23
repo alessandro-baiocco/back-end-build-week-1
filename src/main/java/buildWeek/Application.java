@@ -13,7 +13,6 @@ public class Application {
 
         System.out.println("Hello World!");
 
-
         em.close();
         emf.close();
     }

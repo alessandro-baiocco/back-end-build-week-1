@@ -1,6 +1,7 @@
 package buildWeek.entities;
 
-import Enums.SellerType;
+
+import enums.SellerType;
 
 import javax.persistence.*;
 
@@ -14,8 +15,10 @@ public class Seller {
     @Column(name = "id")
     private int id;
 
+    @Column(name = "licensed")
     private boolean licensed;
 
+    @Column(name = "seller_type")
     private SellerType sellerType;
 
     //costruttore di default e costruttore con parametri

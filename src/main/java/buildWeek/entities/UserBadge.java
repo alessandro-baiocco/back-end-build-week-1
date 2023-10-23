@@ -18,19 +18,19 @@ public class UserBadge {
     @Column(name="surname")
     private String surname;
 
-    @Column(name="birt_date")
-    private Date birth_date;
+    @Column(name="birth_date")
+    private Date birthDate;
     @Column(name="activation_date")
-    private Date activation_date;
+    private Date activationDate;
 
     //costruttore di default e costruttore con parametri
     public UserBadge(){}
 
-    public UserBadge( String name, String surname, Date birth_date, Date activation_date) {
+    public UserBadge( String name, String surname, Date birthDate, Date activationDate) {
         this.name = name;
         this.surname = surname;
-        this.birth_date = birth_date;
-        this.activation_date = activation_date;
+        this.birthDate = birthDate;
+        this.activationDate = activationDate;
     }
 
 
@@ -55,20 +55,20 @@ public class UserBadge {
         this.surname = surname;
     }
 
-    public Date getBirth_date() {
-        return birth_date;
+    public Date getBirthDate() {
+        return birthDate;
     }
 
-    public void setBirth_date(Date birth_date) {
-        this.birth_date = birth_date;
+    public void setBirthDate(Date birthDate) {
+        this.birthDate = birthDate;
     }
 
-    public Date getActivation_date() {
-        return activation_date;
+    public Date getActivationDate() {
+        return activationDate;
     }
 
-    public void setActivation_date(Date activation_date) {
-        this.activation_date = activation_date;
+    public void setActivationDate(Date activationDate) {
+        this.activationDate = activationDate;
     }
 
 
@@ -78,8 +78,8 @@ public class UserBadge {
                 "badge_id=" + badge_id +
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
-                ", birth_date=" + birth_date +
-                ", activation_date=" + activation_date +
+                ", birth_date=" + birthDate +
+                ", activation_date=" + activationDate +
                 '}';
     }
 }
