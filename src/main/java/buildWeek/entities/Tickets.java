@@ -8,13 +8,9 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "tickets")
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public class Tickets {
-    @Id
-    @GeneratedValue
-    private int ID;
-    private LocalDate created_date;
-    @ManyToOne
-    private Seller sellerId;
+public class Tickets extends TicketsItem {
+
+
     @Nullable
     @ManyToOne
     private Validation validationId;
@@ -23,36 +19,15 @@ public class Tickets {
     public Tickets() {
     }
 
-    public Tickets(LocalDate created_date, Seller sellerId) {
-        this.created_date = created_date;
-        this.sellerId = sellerId;
-        ;
+    public Tickets(int ID, LocalDate createdDate, Seller sellerId) {
+        super(ID, createdDate, sellerId);
+        this.validationId = null;
     }
 
-    public Tickets(LocalDate created_date, Seller sellerId, Validation validationId) {
-        this.created_date = created_date;
-        this.sellerId = sellerId;
+
+    public Tickets(int ID, LocalDate createdDate, Seller sellerId, Validation validationId) {
+        super(ID, createdDate, sellerId);
         this.validationId = validationId;
-    }
-
-    public int getID() {
-        return ID;
-    }
-
-    public LocalDate getCreated_date() {
-        return created_date;
-    }
-
-    public void setCreated_date(LocalDate created_date) {
-        this.created_date = created_date;
-    }
-
-    public Seller getSellerId() {
-        return sellerId;
-    }
-
-    public void setSellerId(Seller sellerId) {
-        this.sellerId = sellerId;
     }
 
     public Validation getValidationId() {
@@ -66,9 +41,6 @@ public class Tickets {
 
     @Override
     public String toString() {
-        return "biglietto N" + ID +
-                " creato il " + created_date +
-                " venduto da " + sellerId +
-                " validato? " + validationId;
+        return " validato? " + validationId;
     }
 }

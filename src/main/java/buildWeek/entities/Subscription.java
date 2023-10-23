@@ -9,9 +9,10 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "subscriptions")
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public class Subscription extends Tickets {
+public class Subscription extends TicketsItem {
     @Enumerated(EnumType.STRING)
     private TicketDuration type;
+    @Column(name = "activation_date")
     private LocalDate activationDate;
     @OneToOne
     private UserBadge userId;
@@ -21,13 +22,12 @@ public class Subscription extends Tickets {
     }
 
 
-    public Subscription(LocalDate created_date, Seller sellerId, Validation validationId, TicketDuration type, LocalDate activationDate, UserBadge userId) {
-        super(created_date, sellerId, validationId);
+    public Subscription(int ID, LocalDate createdDate, Seller sellerId, TicketDuration type, LocalDate activationDate, UserBadge userId) {
+        super(ID, createdDate, sellerId);
         this.type = type;
         this.activationDate = activationDate;
         this.userId = userId;
     }
-
 
     public TicketDuration getType() {
         return type;
