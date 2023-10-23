@@ -15,6 +15,7 @@ public class Subscription extends TicketsItem {
     @Column(name = "activation_date")
     private LocalDate activationDate;
     @OneToOne
+    @JoinColumn(name = "user_id")
     private UserBadge userId;
 
 
