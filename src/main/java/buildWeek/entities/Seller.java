@@ -1,6 +1,6 @@
 package buildWeek.entities;
 
-import Enums.SellerType;
+import enums.SellerType;
 
 import javax.persistence.*;
 
