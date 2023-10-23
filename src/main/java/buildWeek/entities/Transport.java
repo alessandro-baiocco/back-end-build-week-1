@@ -18,6 +18,8 @@ public class Transport {
     @Id
     @GeneratedValue
     private int Id;
+
+    private String name;
     private TransportType type;
     private int capacity;
     private boolean active;
@@ -25,10 +27,19 @@ public class Transport {
     public Transport() {
     }
 
-    public Transport(TransportType type, int capacity, boolean active) {
+    public Transport(String name, TransportType type, int capacity, boolean active) {
+        this.name = name;
         this.type = type;
         this.capacity = capacity;
         this.active = active;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public List<Service> getServices() {
