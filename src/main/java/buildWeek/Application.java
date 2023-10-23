@@ -95,6 +95,9 @@ public class Application {
 //        rouDao.setTravel();
 //        }
 
+//        subDao.reNew(82);
+        System.out.println(subDao.getExpirationDate(9087251));
+
         em.close();
         emf.close();
     }

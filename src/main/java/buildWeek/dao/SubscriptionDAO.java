@@ -49,6 +49,41 @@ public class SubscriptionDAO {
         }
     }
 
+
+    public void reNew(int id) {
+        Subscription founded = em.find(Subscription.class, id);
+        try {
+            if (founded != null) {
+                founded.setActivationDate(founded.getActivationDate().plusYears(1));
+                EntityTransaction transaction = em.getTransaction();
+                transaction.begin();
+                em.persist(founded);
+                transaction.commit();
+                System.out.println("l'abbonamento è rinnovato correttamente");
+            } else {
+                System.err.println("l'abbonamento non è stato trovato");
+            }
+        } catch (Exception ex) {
+            System.err.println(ex.getMessage());
+        }
+    }
+
+    public LocalDate getExpirationDate(int id) {
+        Subscription founded = em.find(Subscription.class, id);
+        try {
+            if (founded != null) {
+                return founded.getActivationDate();
+            } else {
+                return null;
+            }
+        } catch (Exception ex) {
+            System.err.println("l'abbonamento non è stato trovato");
+            System.err.println(ex.getMessage());
+            return null;
+        }
+    }
+
+
     public Subscription getRandomSubscription() {
         TypedQuery<Subscription> query = em.createQuery("SELECT s FROM Subscription s ORDER BY RAND()", Subscription.class);
         query.setMaxResults(1);
