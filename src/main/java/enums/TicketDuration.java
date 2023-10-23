@@ -1,6 +1,6 @@
-package Enums;
+package enums;
 
 public enum TicketDuration {
-    WEEKLY ,
+    WEEKLY,
     MONTHLY
 }
