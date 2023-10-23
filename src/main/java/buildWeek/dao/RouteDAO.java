@@ -17,7 +17,7 @@ public class RouteDAO {
             transaction.begin();
             entityManager.persist(route);
             transaction.commit();
-            System.out.println("Il prestito è stato correttamente inserito");
+            System.out.println("La tratta è stata correttamente inserita");
         }
 
         public Route findById(int id) {

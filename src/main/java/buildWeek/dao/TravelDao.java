@@ -47,4 +47,6 @@ public class TravelDao {
         System.out.println("Viaggio " + travel.getId() + " refreshed");
 
 
+    }
 }
+
