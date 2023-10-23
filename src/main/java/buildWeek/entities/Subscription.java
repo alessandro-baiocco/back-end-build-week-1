@@ -18,7 +18,6 @@ public class Subscription extends TicketsItem {
     @JoinColumn(name = "user_id")
     private UserBadge userId;
 
-
     public Subscription() {
     }
 
