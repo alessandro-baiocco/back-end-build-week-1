@@ -5,6 +5,7 @@ import buildWeek.entities.Subscription;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
+import java.time.LocalDate;
 
 public class SubscriptionDAO {
     private final EntityManager em;
@@ -44,6 +45,40 @@ public class SubscriptionDAO {
             }
         } catch (Exception ex) {
             System.err.println(ex.getMessage());
+        }
+    }
+
+
+    public void reNew(int id) {
+        Subscription founded = em.find(Subscription.class, id);
+        try {
+            if (founded != null) {
+                founded.setActivationDate(founded.getActivationDate().plusYears(1));
+                EntityTransaction transaction = em.getTransaction();
+                transaction.begin();
+                em.persist(founded);
+                transaction.commit();
+                System.out.println("l'abbonamento è rinnovato correttamente");
+            } else {
+                System.err.println("l'abbonamento non è stato trovato");
+            }
+        } catch (Exception ex) {
+            System.err.println(ex.getMessage());
+        }
+    }
+
+    public LocalDate getExpirationDate(int id) {
+        Subscription founded = em.find(Subscription.class, id);
+        try {
+            if (founded != null) {
+                return founded.getActivationDate();
+            } else {
+                return null;
+            }
+        } catch (Exception ex) {
+            System.err.println("l'abbonamento non è stato trovato");
+            System.err.println(ex.getMessage());
+            return null;
         }
     }
 
