@@ -23,12 +23,12 @@ public class UserBadgeDao {
         System.out.println("Nuovo user salvato correttamente");
     }
 
-    public String getById(int id) {
-        return em.find(UserBadge.class, id).toString();
+    public UserBadge getById(int id) {
+        return em.find(UserBadge.class, id);
     }
 
 
-    public void getByIsbnAndDelete(int id) {
+    public void getByIdAndDelete(int id) {
 
         UserBadge found = em.find(UserBadge.class, id);
 

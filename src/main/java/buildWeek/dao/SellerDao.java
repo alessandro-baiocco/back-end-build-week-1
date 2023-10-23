@@ -23,12 +23,12 @@ public class SellerDao {
             System.out.println("Nuovo seller salvato correttamente");
         }
 
-        public String getById(int id) {
-            return em.find(Seller.class, id).toString();
+        public Seller getById(int id) {
+            return em.find(Seller.class, id);
         }
 
 
-        public void getByIsbnAndDelete(int id) {
+        public void getByIdAndDelete(int id) {
 
             Seller found = em.find(Seller.class, id);
 
