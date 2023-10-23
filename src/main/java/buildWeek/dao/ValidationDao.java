@@ -1,5 +1,6 @@
 package buildWeek.dao;
 
+import buildWeek.entities.Ticket;
 import buildWeek.entities.Transport;
 import buildWeek.entities.Travel;
 import buildWeek.entities.Validation;
