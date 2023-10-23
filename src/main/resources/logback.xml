@@ -20,7 +20,7 @@
 
     <!-- Set log level of Hibernate to WARN level -->
     <logger name="org.hibernate">
-        <level value="WARN"/>
+        <level value="ERROR"/>
     </logger>
 
 </configuration>
