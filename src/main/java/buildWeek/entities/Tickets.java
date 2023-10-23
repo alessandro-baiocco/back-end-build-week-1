@@ -11,7 +11,9 @@ public class Tickets {
     @GeneratedValue
     private int ID;
     private LocalDate created_date;
+    @ManyToOne
     private Seller sellerId;
+    @ManyToOne
     private Validation validationId;
 
 
@@ -56,8 +58,8 @@ public class Tickets {
     @Override
     public String toString() {
         return "biglietto N" + ID +
-                " creato il " + created_date;
-        " venduto da " + sellerId +
+                " creato il " + created_date +
+                " venduto da " + sellerId +
                 " validato? " + validationId;
     }
 }

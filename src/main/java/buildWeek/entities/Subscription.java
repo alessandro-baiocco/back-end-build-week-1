@@ -3,41 +3,31 @@ package buildWeek.entities;
 
 import enums.TicketDuration;
 
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
+import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
+@Table(name = "subscriptions")
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class Subscription extends Tickets {
     @Enumerated(EnumType.STRING)
     private TicketDuration type;
     private LocalDate activationDate;
+    @OneToOne
     private UserBadge userId;
 
 
     public Subscription() {
     }
 
-    public Subscription(LocalDate createDate, TicketDuration type, Seller sellerId, LocalDate activationDate, UserBadge userId) {
-        this.createDate = createDate;
+
+    public Subscription(LocalDate created_date, Seller sellerId, Validation validationId, TicketDuration type, LocalDate activationDate, UserBadge userId) {
+        super(created_date, sellerId, validationId);
         this.type = type;
-        this.sellerId = sellerId;
         this.activationDate = activationDate;
         this.userId = userId;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public LocalDate getCreateDate() {
-        return createDate;
-    }
-
-    public void setCreateDate(LocalDate createDate) {
-        this.createDate = createDate;
-    }
 
     public TicketDuration getType() {
         return type;
@@ -47,13 +37,6 @@ public class Subscription extends Tickets {
         this.type = type;
     }
 
-    public Seller getSellerId() {
-        return sellerId;
-    }
-
-    public void setSellerId(Seller sellerId) {
-        this.sellerId = sellerId;
-    }
 
     public LocalDate getActivationDate() {
         return activationDate;
@@ -71,14 +54,12 @@ public class Subscription extends Tickets {
         this.userId = userId;
     }
 
-
     @Override
     public String toString() {
-        return "biglietto N." + id +
-                " creato il " + createDate +
-                " tipo" + type;
-        " venduto da " + sellerId +
-                " attivato il" + activationDate +
-                " numero utente" + userId;
+        return "abbonamento di tipo " + type +
+                " attivo da " + activationDate +
+                " numero utente" + userId + super.toString();
     }
+
+
 }
