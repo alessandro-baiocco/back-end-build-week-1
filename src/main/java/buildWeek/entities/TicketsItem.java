@@ -13,16 +13,15 @@ public abstract class TicketsItem {
     private LocalDate createdDate;
     @ManyToOne
     @JoinColumn(name = "seller_id")
-    private Seller sellerId;
+    private Seller seller;
 
 
     public TicketsItem() {
     }
 
-    public TicketsItem(int ID, LocalDate createdDate, Seller sellerId) {
-        this.ID = ID;
+    public TicketsItem(LocalDate createdDate, Seller seller) {
         this.createdDate = createdDate;
-        this.sellerId = sellerId;
+        this.seller = seller;
     }
 
     public int getID() {
@@ -37,12 +36,12 @@ public abstract class TicketsItem {
         this.createdDate = createdDate;
     }
 
-    public Seller getSellerId() {
-        return sellerId;
+    public Seller getSeller() {
+        return seller;
     }
 
-    public void setSellerId(Seller sellerId) {
-        this.sellerId = sellerId;
+    public void setSeller(Seller seller) {
+        this.seller = seller;
     }
 
 
@@ -50,6 +49,6 @@ public abstract class TicketsItem {
     public String toString() {
         return "biglietto N." + ID +
                 " creato il " + createdDate +
-                " venduto da " + sellerId;
+                " venduto da " + seller;
     }
 }

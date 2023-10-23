@@ -12,34 +12,34 @@ public class Tickets extends TicketsItem {
     @Nullable
     @ManyToOne
     @JoinColumn(name = "validation_id")
-    private Validation validationId;
+    private Validation validation;
 
 
     public Tickets() {
     }
 
-    public Tickets(int ID, LocalDate createdDate, Seller sellerId) {
-        super(ID, createdDate, sellerId);
-        this.validationId = null;
+    public Tickets(LocalDate createdDate, Seller seller) {
+        super(createdDate, seller);
+        this.validation = null;
     }
 
 
-    public Tickets(int ID, LocalDate createdDate, Seller sellerId, Validation validationId) {
-        super(ID, createdDate, sellerId);
-        this.validationId = validationId;
+    public Tickets(LocalDate createdDate, Seller seller, Validation validation) {
+        super(createdDate, seller);
+        this.validation = validation;
     }
 
-    public Validation getValidationId() {
-        return validationId;
+    public Validation getValidation() {
+        return validation;
     }
 
-    public void setValidationId(Validation validationId) {
-        this.validationId = validationId;
+    public void setValidation(Validation validation) {
+        this.validation = validation;
     }
 
 
     @Override
     public String toString() {
-        return " validato? " + validationId;
+        return " validato? " + validation;
     }
 }

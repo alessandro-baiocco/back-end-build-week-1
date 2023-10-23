@@ -4,6 +4,7 @@ import buildWeek.entities.Subscription;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.TypedQuery;
 
 public class SubscriptionDAO {
     private final EntityManager em;
@@ -44,6 +45,13 @@ public class SubscriptionDAO {
         } catch (Exception ex) {
             System.err.println(ex.getMessage());
         }
+    }
+
+
+    public Subscription getRandomSubscription() {
+        TypedQuery<Subscription> query = em.createQuery("SELECT s FROM Subscription s ORDER BY RAND()", Subscription.class);
+        query.setMaxResults(1);
+        return query.getSingleResult();
     }
 
 

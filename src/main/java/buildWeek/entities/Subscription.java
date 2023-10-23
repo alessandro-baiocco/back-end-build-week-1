@@ -23,8 +23,8 @@ public class Subscription extends TicketsItem {
     }
 
 
-    public Subscription(int ID, LocalDate createdDate, Seller sellerId, TicketDuration type, LocalDate activationDate, UserBadge userId) {
-        super(ID, createdDate, sellerId);
+    public Subscription(LocalDate createdDate, Seller seller, TicketDuration type, LocalDate activationDate, UserBadge userId) {
+        super(createdDate, seller);
         this.type = type;
         this.activationDate = activationDate;
         this.userId = userId;
