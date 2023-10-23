@@ -75,4 +75,5 @@ public class Travel {
                 ", transport=" + transport +
                 '}';
     }
+    
 }
