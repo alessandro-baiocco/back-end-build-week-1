@@ -1,6 +1,5 @@
 package buildWeek.dao;
 
-import buildWeek.entities.Subscription;
 import buildWeek.entities.Tickets;
 
 import javax.persistence.EntityManager;
@@ -27,7 +26,7 @@ public class TicketsDAO {
 
 
     public Tickets get(int id) {
-        return em.find(Subscription.class, id);
+        return em.find(Tickets.class, id);
     }
 
     public void delete(int id) {

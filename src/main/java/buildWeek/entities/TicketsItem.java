@@ -1,11 +1,10 @@
 package buildWeek.entities;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.time.LocalDate;
 
+@Entity
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class TicketsItem {
     @Id
     @GeneratedValue
@@ -13,7 +12,7 @@ public abstract class TicketsItem {
     @Column(name = "create_date")
     private LocalDate createdDate;
     @ManyToOne
-    @Column(name = "seller_id")
+    @JoinColumn(name = "seller_id")
     private Seller sellerId;
 
 
