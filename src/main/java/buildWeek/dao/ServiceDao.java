@@ -1,9 +1,13 @@
 package buildWeek.dao;
 
 import buildWeek.entities.Service;
+import buildWeek.entities.Transport;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.TypedQuery;
+import java.time.Duration;
+import java.util.List;
 
 public class ServiceDao {
 
@@ -40,6 +44,16 @@ public void save(Service service) {
         em.refresh(service);
         tx.commit();
         System.out.println("Service " + service.getId() + " refreshed");
+    }
+
+    public List<Service> getAllServices(Transport transport) {
+        TypedQuery<Service> query = em.createQuery("SELECT s FROM Service s WHERE s.transport = :transport", Service.class);
+        query.setParameter("transport", transport);
+        return query.getResultList();
+    }
+
+    public Duration getServiceDuration(Service service) {
+        return Duration.between(service.getStart_date(), service.getEnd_date());
     }
 
 }

@@ -1,6 +1,6 @@
 package buildWeek.dao;
 
-import buildWeek.entities.Tickets;
+import buildWeek.entities.Ticket;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
@@ -12,7 +12,7 @@ public class TicketsDAO {
         this.em = em;
     }
 
-    public void save(Tickets tick) {
+    public void save(Ticket tick) {
         EntityTransaction transaction = em.getTransaction();
         try {
             transaction.begin();
@@ -25,12 +25,12 @@ public class TicketsDAO {
     }
 
 
-    public Tickets get(int id) {
-        return em.find(Tickets.class, id);
+    public Ticket get(int id) {
+        return em.find(Ticket.class, id);
     }
 
     public void delete(int id) {
-        Tickets founded = em.find(Tickets.class, id);
+        Ticket founded = em.find(Ticket.class, id);
         try {
             if (founded != null) {
                 EntityTransaction transaction = em.getTransaction();

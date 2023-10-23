@@ -1,9 +1,13 @@
 package buildWeek.dao;
 
+import buildWeek.entities.Ticket;
+import buildWeek.entities.Transport;
+import buildWeek.entities.Travel;
 import buildWeek.entities.Validation;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import java.time.LocalDate;
 
 public class ValidationDao {
 
@@ -40,5 +44,17 @@ public class ValidationDao {
         em.refresh(validation);
         tx.commit();
         System.out.println("Validation " + validation.getId() + " refreshed");
+    }
+
+    public void validate(Ticket ticket, Transport transport, Travel travel) {
+
+        Validation validation = new Validation(LocalDate.now(),transport,travel);
+        ticket.setValidation(validation);
+        EntityTransaction tx = em.getTransaction();
+        tx.begin();
+        em.persist(validation);
+        em.persist(ticket);
+        tx.commit();
+        System.out.println("Validation " + validation.getId() + " saved");
     }
 }
