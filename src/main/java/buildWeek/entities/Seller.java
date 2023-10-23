@@ -3,7 +3,6 @@ package buildWeek.entities;
 
 import buildWeek.enums.SellerType;
 
-
 import javax.persistence.*;
 
 @Entity
@@ -20,6 +19,7 @@ public class Seller {
     private boolean licensed;
 
     @Column(name = "seller_type")
+    @Enumerated(EnumType.STRING)
     private SellerType sellerType;
 
     //costruttore di default e costruttore con parametri

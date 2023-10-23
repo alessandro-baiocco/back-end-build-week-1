@@ -2,10 +2,10 @@ package buildWeek.entities;
 
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity
-@Table(name="user_badges")
+@Table(name = "user_badges")
 public class UserBadge {
 
     //attributi
@@ -13,20 +13,21 @@ public class UserBadge {
     @GeneratedValue
     private int badge_id;
 
-    @Column(name="name")
+    @Column(name = "name")
     private String name;
-    @Column(name="surname")
+    @Column(name = "surname")
     private String surname;
 
-    @Column(name="birth_date")
-    private Date birthDate;
-    @Column(name="activation_date")
-    private Date activationDate;
+    @Column(name = "birth_date")
+    private LocalDate birthDate;
+    @Column(name = "activation_date")
+    private LocalDate activationDate;
 
     //costruttore di default e costruttore con parametri
-    public UserBadge(){}
+    public UserBadge() {
+    }
 
-    public UserBadge( String name, String surname, Date birthDate, Date activationDate) {
+    public UserBadge(String name, String surname, LocalDate birthDate, LocalDate activationDate) {
         this.name = name;
         this.surname = surname;
         this.birthDate = birthDate;
@@ -55,19 +56,19 @@ public class UserBadge {
         this.surname = surname;
     }
 
-    public Date getBirthDate() {
+    public LocalDate getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(Date birthDate) {
+    public void setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
     }
 
-    public Date getActivationDate() {
+    public LocalDate getActivationDate() {
         return activationDate;
     }
 
-    public void setActivationDate(Date activationDate) {
+    public void setActivationDate(LocalDate activationDate) {
         this.activationDate = activationDate;
     }
 
