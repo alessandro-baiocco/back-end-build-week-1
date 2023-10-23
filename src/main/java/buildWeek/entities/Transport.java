@@ -1,6 +1,6 @@
 package buildWeek.entities;
 
-import Enums.TransportType;
+import enums.TransportType;
 
 import javax.persistence.*;
 import java.util.List;
@@ -18,13 +18,13 @@ public class Transport {
     private int capacity;
     private boolean active;
 
-    @OneToMany(mappedBy = "travel", CascadeType= CascadeType.REMOVE)
+    @OneToMany(mappedBy = "transport", cascade = CascadeType.REMOVE)
     List<Travel> travels;
 
-    @OneToMany(mappedBy = "validation", CascadeType= CascadeType.REMOVE)
+    @OneToMany(mappedBy = "transport", cascade= CascadeType.REMOVE)
     List<Validation> validations;
 
-    @OneToMany(mappedBy = "service", CascadeType= CascadeType.REMOVE)
+    @OneToMany(mappedBy = "transport", cascade= CascadeType.REMOVE)
     List<Service> services;
 
     public List<Service> getServices() {

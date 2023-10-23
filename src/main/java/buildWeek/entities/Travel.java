@@ -15,8 +15,9 @@ public class Travel {
     @ManyToOne
     @JoinColumn
     private Route route;
+
     @ManyToOne
-    @JoinColumn
+    @JoinColumn(name = "transport_id")
     private Transport transport;
 
     public Travel() {}
