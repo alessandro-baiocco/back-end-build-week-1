@@ -7,6 +7,7 @@ import buildWeek.entities.Travel;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
+import java.util.List;
 
 public class RouteDAO {
     private final EntityManager em;
@@ -42,22 +43,22 @@ public class RouteDAO {
     }
 
     public Travel getRandomTravel() {
-        TypedQuery<Travel> query = entityManager.createQuery("SELECT t FROM Travel t ORDER BY RAND()", Travel.class);
+        TypedQuery<Travel> query = em.createQuery("SELECT t FROM Travel t ORDER BY RAND()", Travel.class);
         query.setMaxResults(1);
         return query.getSingleResult();
     }
 
     public Transport getRandomTrans() {
-        TypedQuery<Transport> query = entityManager.createQuery("SELECT t FROM Transport t ORDER BY RAND()", Transport.class);
+        TypedQuery<Transport> query = em.createQuery("SELECT t FROM Transport t ORDER BY RAND()", Transport.class);
         query.setMaxResults(1);
         return query.getSingleResult();
     }
 
 
     public void setTravel() {
-        EntityTransaction transaction = entityManager.getTransaction();
+        EntityTransaction transaction = em.getTransaction();
         transaction.begin();
-        TypedQuery<Route> getAllRoute = entityManager.createQuery("SELECT t FROM Route t", Route.class); // Query JPQL
+        TypedQuery<Route> getAllRoute = em.createQuery("SELECT t FROM Route t", Route.class); // Query JPQL
         List<Route> boh = getAllRoute.getResultList();
         boh.forEach(t -> t.setTravel(getRandomTravel()));
         // 2. Eseguo la query
@@ -67,9 +68,9 @@ public class RouteDAO {
     }
 
     public void setTrans() {
-        EntityTransaction transaction = entityManager.getTransaction();
+        EntityTransaction transaction = em.getTransaction();
         transaction.begin();
-        TypedQuery<Route> getAllRoute = entityManager.createQuery("SELECT t FROM Route t", Route.class); // Query JPQL
+        TypedQuery<Route> getAllRoute = em.createQuery("SELECT t FROM Route t", Route.class); // Query JPQL
         List<Route> boh = getAllRoute.getResultList();
         boh.forEach(t -> t.setMeansOfTransport(getRandomTrans()));
         // 2. Eseguo la query
@@ -77,6 +78,7 @@ public class RouteDAO {
         transaction.commit();
 
     }
+
     public int timesTraveled(Transport transport) {
         TypedQuery<Transport> query = em.createQuery("SELECT r FROM Route r WHERE r.transport = :transport", Transport.class);
         query.setParameter("transport", transport);
