@@ -7,36 +7,33 @@ import buildWeek.entities.Travel;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
-import java.util.List;
-import java.util.Random;
 
 public class RouteDAO {
-    private final EntityManager entityManager;
-    Random rnd = new Random();
+    private final EntityManager em;
 
-    public RouteDAO(EntityManager entityManager) {
-        this.entityManager = entityManager;
+    public RouteDAO(EntityManager em) {
+        this.em = em;
     }
 
     public void save(Route route) {
-        EntityTransaction transaction = entityManager.getTransaction();
+        EntityTransaction transaction = em.getTransaction();
         transaction.begin();
-        entityManager.persist(route);
+        em.persist(route);
         transaction.commit();
         System.out.println("La tratta è stata correttamente inserita");
     }
 
     public Route findById(int id) {
-        return entityManager.find(Route.class, id);
+        return em.find(Route.class, id);
     }
 
     public void delete(int id) {
-        Route routeToBeDeleted = entityManager.find(Route.class, id);
+        Route routeToBeDeleted = em.find(Route.class, id);
 
         if (routeToBeDeleted != null) {
-            EntityTransaction transaction = entityManager.getTransaction();
+            EntityTransaction transaction = em.getTransaction();
             transaction.begin();
-            entityManager.remove(routeToBeDeleted);
+            em.remove(routeToBeDeleted);
             transaction.commit();
             System.out.println("Questa tratta è stata cancellata con successo!");
         } else {
@@ -80,5 +77,11 @@ public class RouteDAO {
         transaction.commit();
 
     }
+    public int timesTraveled(Transport transport) {
+        TypedQuery<Transport> query = em.createQuery("SELECT r FROM Route r WHERE r.transport = :transport", Transport.class);
+        query.setParameter("transport", transport);
+        return query.getResultList().size();
+    }
+
 
 }

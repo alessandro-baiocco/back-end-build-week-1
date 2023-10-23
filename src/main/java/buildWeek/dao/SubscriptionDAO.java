@@ -5,6 +5,8 @@ import buildWeek.entities.Subscription;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
+import java.time.LocalDate;
+import java.time.Period;
 
 public class SubscriptionDAO {
     private final EntityManager em;
@@ -47,12 +49,20 @@ public class SubscriptionDAO {
         }
     }
 
-
     public Subscription getRandomSubscription() {
         TypedQuery<Subscription> query = em.createQuery("SELECT s FROM Subscription s ORDER BY RAND()", Subscription.class);
         query.setMaxResults(1);
         return query.getSingleResult();
     }
 
+    public boolean isActive(int id) {
+        Subscription founded = em.find(Subscription.class, id);
+        if (founded != null) {
+            return Period.between(LocalDate.now(), founded.getActivationDate()).getDays() < 365;
+        } else {
+            System.err.println("not found");
+            return false;
+        }
+    }
 
 }
