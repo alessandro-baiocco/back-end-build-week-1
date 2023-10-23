@@ -1,6 +1,6 @@
 package buildWeek.entities;
 
-import Enums.SellerType;
+import buildWeek.enums.SellerType;
 
 import javax.persistence.*;
 
@@ -19,9 +19,10 @@ public class Seller {
     private SellerType sellerType;
 
     //costruttore di default e costruttore con parametri
-    public Seller(){}
+    public Seller() {
+    }
 
-    public Seller( boolean licensed, SellerType sellerType) {
+    public Seller(boolean licensed, SellerType sellerType) {
         this.licensed = licensed;
         this.sellerType = sellerType;
     }

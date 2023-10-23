@@ -1,4 +1,4 @@
-package enums;
+package buildWeek.enums;
 
 public enum TransportType {
     TRAM,

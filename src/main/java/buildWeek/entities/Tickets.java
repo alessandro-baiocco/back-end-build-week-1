@@ -1,5 +1,7 @@
 package buildWeek.entities;
 
+import com.sun.istack.Nullable;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 
@@ -13,11 +15,18 @@ public class Tickets {
     private LocalDate created_date;
     @ManyToOne
     private Seller sellerId;
+    @Nullable
     @ManyToOne
     private Validation validationId;
 
 
     public Tickets() {
+    }
+
+    public Tickets(LocalDate created_date, Seller sellerId) {
+        this.created_date = created_date;
+        this.sellerId = sellerId;
+        ;
     }
 
     public Tickets(LocalDate created_date, Seller sellerId, Validation validationId) {
