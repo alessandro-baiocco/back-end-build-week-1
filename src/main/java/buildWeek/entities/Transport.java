@@ -1,6 +1,6 @@
 package buildWeek.entities;
 
-import enums.TransportType;
+import buildWeek.enums.TransportType;
 
 import javax.persistence.*;
 import java.util.List;
@@ -9,31 +9,18 @@ import java.util.List;
 @Table(name = "transports")
 public class Transport {
 
+    @OneToMany(mappedBy = "transport", cascade = CascadeType.REMOVE)
+    List<Travel> travels;
+    @OneToMany(mappedBy = "transport", cascade = CascadeType.REMOVE)
+    List<Validation> validations;
+    @OneToMany(mappedBy = "transport", cascade = CascadeType.REMOVE)
+    List<Service> services;
     @Id
     @GeneratedValue
     private int Id;
-
     private TransportType type;
-
     private int capacity;
     private boolean active;
-
-    @OneToMany(mappedBy = "transport", cascade = CascadeType.REMOVE)
-    List<Travel> travels;
-
-    @OneToMany(mappedBy = "transport", cascade= CascadeType.REMOVE)
-    List<Validation> validations;
-
-    @OneToMany(mappedBy = "transport", cascade= CascadeType.REMOVE)
-    List<Service> services;
-
-    public List<Service> getServices() {
-        return services;
-    }
-
-    public void setServices(List<Service> services) {
-        this.services = services;
-    }
 
     public Transport() {
     }
@@ -42,6 +29,14 @@ public class Transport {
         this.type = type;
         this.capacity = capacity;
         this.active = active;
+    }
+
+    public List<Service> getServices() {
+        return services;
+    }
+
+    public void setServices(List<Service> services) {
+        this.services = services;
     }
 
     public int getId() {

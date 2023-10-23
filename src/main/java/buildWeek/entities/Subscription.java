@@ -1,7 +1,7 @@
 package buildWeek.entities;
 
 
-import enums.TicketDuration;
+import buildWeek.enums.TicketDuration;
 
 import javax.persistence.*;
 import java.time.LocalDate;
