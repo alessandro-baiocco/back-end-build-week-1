@@ -1,16 +1,11 @@
 package buildWeek.dao;
 
-<<<<<<< HEAD
-import buildWeek.entities.Route;
-=======
->>>>>>> 1161292cd224fe969c47d464bb80dd894fcef840
 import buildWeek.entities.Travel;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 
 public class TravelDao {
-<<<<<<< HEAD
     private final EntityManager entityManager;
 
     public TravelDao(EntityManager entityManager) {
@@ -42,41 +37,14 @@ public class TravelDao {
             System.out.println("Viaggio non presente nel database");
         }
     }
-=======
 
-    private final EntityManager em;
 
-    public TravelDao(EntityManager em) {
-        this.em = em;
-    }
-
-    private void save(Travel travel) {
-        EntityTransaction tx = em.getTransaction();
+    public void refresh(Travel travel) {
+        EntityTransaction tx = entityManager.getTransaction();
         tx.begin();
-        em.persist(travel);
+        entityManager.refresh(travel);
         tx.commit();
-        System.out.println("Travels " + travel.getId() + " saved");
-    }
+        System.out.println("Viaggio " + travel.getId() + " refreshed");
 
-    private Travel getById(int id) {
-        return em.find(Travel.class, id);
-    }
 
-    private void delete(Travel travel) {
-        EntityTransaction tx = em.getTransaction();
-        tx.begin();
-        em.remove(travel);
-        tx.commit();
-        System.out.println("Travels " + travel.getId() + " deleted");
-    }
-
-    private void refresh(Travel travel) {
-        EntityTransaction tx = em.getTransaction();
-        tx.begin();
-        em.refresh(travel);
-        tx.commit();
-        System.out.println("Travels " + travel.getId() + " refreshed");
-    }
-
->>>>>>> 1161292cd224fe969c47d464bb80dd894fcef840
 }
