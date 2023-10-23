@@ -1,7 +1,7 @@
 package buildWeek.entities;
 
 import javax.persistence.*;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "Travels")
@@ -10,8 +10,8 @@ public class Travel {
     @Id
     @GeneratedValue
     private int id;
-    private LocalDate startDate;
-    private LocalDate endDate;
+    private LocalDateTime startDate;
+    private LocalDateTime endDate;
     @ManyToOne
     @JoinColumn
     private Route route;
@@ -20,9 +20,10 @@ public class Travel {
     @JoinColumn(name = "transport_id")
     private Transport transport;
 
-    public Travel() {}
+    public Travel() {
+    }
 
-    public Travel(LocalDate startDate, LocalDate endDate, Route route, Transport transport) {
+    public Travel(LocalDateTime startDate, LocalDateTime endDate, Route route, Transport transport) {
         this.startDate = startDate;
         this.endDate = endDate;
         this.route = route;
@@ -33,19 +34,19 @@ public class Travel {
         return id;
     }
 
-    public LocalDate getStartDate() {
+    public LocalDateTime getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(LocalDate startDate) {
+    public void setStartDate(LocalDateTime startDate) {
         this.startDate = startDate;
     }
 
-    public LocalDate getEndDate() {
+    public LocalDateTime getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(LocalDate endDate) {
+    public void setEndDate(LocalDateTime endDate) {
         this.endDate = endDate;
     }
 
@@ -75,5 +76,5 @@ public class Travel {
                 ", transport=" + transport +
                 '}';
     }
-    
+
 }

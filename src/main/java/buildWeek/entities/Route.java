@@ -15,17 +15,29 @@ public class Route {
     private int duration;
     @Nullable
     @OneToOne
-    private Transport meansOfTransport;
-   @ManyToOne
-   private Travel travel;
+    @JoinColumn(name = "transport_id")
+    private Transport transportId;
 
-    public Route() {}
+    @Nullable
+    @ManyToOne
+    private Travel travel;
 
-    public Route(String startRoutePlace, String endRoutePlace, int duration, Transport meansOfTransport, Travel travel) {
+    public Route() {
+    }
+
+    public Route(String startRoutePlace, String endRoutePlace, int duration) {
         this.startRoutePlace = startRoutePlace;
         this.endRoutePlace = endRoutePlace;
         this.duration = duration;
-        this.meansOfTransport = meansOfTransport;
+        this.transportId = null;
+        this.travel = null;
+    }
+
+    public Route(String startRoutePlace, String endRoutePlace, int duration, Transport transportId, Travel travel) {
+        this.startRoutePlace = startRoutePlace;
+        this.endRoutePlace = endRoutePlace;
+        this.duration = duration;
+        this.transportId = transportId;
         this.travel = travel;
     }
 
@@ -59,11 +71,11 @@ public class Route {
     }
 
     public Transport getMeansOfTransport() {
-        return meansOfTransport;
+        return transportId;
     }
 
-    public void setMeansOfTransport(Transport meansOfTransport) {
-        this.meansOfTransport = meansOfTransport;
+    public void setMeansOfTransport(Transport transportId) {
+        this.transportId = transportId;
     }
 
     public Travel getTravel() {
@@ -81,7 +93,7 @@ public class Route {
                 ", startRoutePlace='" + startRoutePlace + '\'' +
                 ", endRoutePlace='" + endRoutePlace + '\'' +
                 ", duration=" + duration +
-                ", meansOfTransport=" + meansOfTransport +
+                ", transportId=" + transportId +
                 ", travel=" + travel +
                 '}';
     }

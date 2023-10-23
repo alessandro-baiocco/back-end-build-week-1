@@ -1,5 +1,7 @@
 package buildWeek.dao;
 
+import buildWeek.entities.Ticket;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 
