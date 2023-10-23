@@ -18,14 +18,14 @@ public class Ticket extends TicketsItem {
     public Ticket() {
     }
 
-    public Ticket(int ID, LocalDate createdDate, Seller sellerId) {
-        super(ID, createdDate, sellerId);
+    public Ticket(LocalDate createdDate, Seller seller) {
+        super(createdDate, seller);
         this.validation = null;
     }
 
 
-    public Ticket(int ID, LocalDate createdDate, Seller sellerId, Validation validation) {
-        super(ID, createdDate, sellerId);
+    public Ticket(LocalDate createdDate, Seller seller, Validation validation) {
+        super(createdDate, seller);
         this.validation = validation;
     }
 

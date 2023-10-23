@@ -1,6 +1,5 @@
 package buildWeek.dao;
 
-import buildWeek.entities.Ticket;
 import buildWeek.entities.Transport;
 import buildWeek.entities.Travel;
 import buildWeek.entities.Validation;
@@ -48,7 +47,7 @@ public class ValidationDao {
 
     public void validate(Ticket ticket, Transport transport, Travel travel) {
 
-        Validation validation = new Validation(LocalDate.now(),transport,travel);
+        Validation validation = new Validation(LocalDate.now(), transport, travel);
         ticket.setValidation(validation);
         EntityTransaction tx = em.getTransaction();
         tx.begin();
