@@ -75,5 +75,12 @@ public class TravelDao {
         return query.getResultList().size();
     }
 
+
+    public Travel getRandomTravel() {
+        TypedQuery<Travel> query = em.createQuery("SELECT t FROM Travel t ORDER BY RAND()", Travel.class);
+        query.setMaxResults(1);
+        return query.getSingleResult();
+    }
+
 }
 

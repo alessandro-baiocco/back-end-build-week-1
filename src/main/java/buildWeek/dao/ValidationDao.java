@@ -7,6 +7,7 @@ import buildWeek.entities.Validation;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.TypedQuery;
 import java.time.LocalDate;
 
 public class ValidationDao {
@@ -57,4 +58,11 @@ public class ValidationDao {
         tx.commit();
         System.out.println("Validation " + validation.getId() + " saved");
     }
+
+    public Validation getRandomValidation() {
+        TypedQuery<Validation> query = em.createQuery("SELECT v FROM Validation v ORDER BY RAND()", Validation.class);
+        query.setMaxResults(1);
+        return query.getSingleResult();
+    }
+
 }

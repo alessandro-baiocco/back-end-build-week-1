@@ -85,5 +85,11 @@ public class RouteDAO {
         return query.getResultList().size();
     }
 
+    public Route getRandomRoute() {
+        TypedQuery<Route> query = em.createQuery("SELECT r FROM Route r ORDER BY RAND()", Route.class);
+        query.setMaxResults(1);
+        return query.getSingleResult();
+    }
+
 
 }
