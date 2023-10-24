@@ -40,7 +40,6 @@ public class Application {
 
     public static void main(String[] args) {
         menu();
-
         em.close();
         emf.close();
     }
@@ -106,7 +105,7 @@ public class Application {
                     break;
                 default:
                     System.out.println("Opzione non valida");
-                    menu();
+                    menu01 = -1;
             }
         }
     }
@@ -130,7 +129,37 @@ public class Application {
             System.out.println("5 - visualizza tratta trasporto");
             System.out.println("0 - indietro");
             menu01 = scanInt();
+            switch (menu01) {
 
+                case 1:
+                    transDao.getAll().forEach(System.out::println);
+                    menu01 = -1;
+                    break;
+                case 2:
+                    servDao.getAllServices(getTransport()).forEach(System.out::println);
+                    menu01 = -1;
+                    break;
+                case 0:
+                    System.out.println("Arrivederci");
+                    break;
+                default:
+                    System.out.println("Opzione non valida");
+                    menu01 = -1;
+            }
+        }
+    }
+
+    private static Transport getTransport() {
+        Transport transport = null;
+        while (true) {
+            System.out.println("inserisci l'id del trasporto");
+            System.out.println("0 - indietro");
+            transport = transDao.getById(scanInt());
+            if (transport != null) {
+                return transport;
+            } else {
+                System.out.println("trasporto non trovato");
+            }
         }
     }
 
@@ -144,16 +173,15 @@ public class Application {
             System.out.println("0 - indietro");
             System.out.println();
             menu01 = scanInt();
-            if (userDAO.getById(menu01) != null) {
-                userMenu(userDAO.getById(menu01));
-                menu01 = -1;
+            if (menu01 == 0) {
+                System.out.println("indietro");
             } else {
-                if (menu01 == 0) {
-                    System.out.println("indietro");
+                if (userDAO.getById(menu01) != null) {
+                    userMenu(userDAO.getById(menu01));
                 } else {
-                    System.out.println("non trovato");
-                    menu01 = -1;
+                    System.out.println("utente non trovato");
                 }
+                menu01 = -1;
             }
         }
 
@@ -233,6 +261,36 @@ public class Application {
         }
     }
 
+    private static void createTransport() {
+        for (int e = 0; e < 20; e++) {
+            if (e <= 5) {
+                transDao.save(new Transport(faker.name().title(), TransportType.BUS, 80, true));
+            } else if (e <= 10) {
+                transDao.save(new Transport(faker.name().title(), TransportType.TRAM, 80, true));
+            } else if (e <= 15) {
+                transDao.save(new Transport(faker.name().title(), TransportType.BUS, 80, false));
+            } else {
+                transDao.save(new Transport(faker.name().title(), TransportType.TRAM, 80, false));
+
+            }
+        }
+    }
+
+    private static void createServiceAndRoutes() {
+        for (int o = 0; o < 10; o++) {
+            servDao.save(new Service(transDao.getById(rnd.nextInt(96, 115)), now.minusDays(rnd.nextInt(20, 30))));
+        }
+        for (int u = 0; u < 10; u++) {
+            rouDao.save(new Route(faker.futurama().location(), faker.futurama().location(), rnd.nextInt(20, 40)));
+        }
+        for (int u = 0; u < 10; u++) {
+            rouDao.save(new Route(faker.futurama().location(), faker.futurama().location(), rnd.nextInt(20, 40)));
+        }
+        for (int e = 0; e < 5; e++) {
+            transDao.save(new Transport(faker.name().title(), TransportType.TRAM, 80, true));
+        }
+    }
+
     public void createSellers() {
         for (int i = 0; i < 10; i++) {
             if (i % 2 == 0) {
@@ -253,36 +311,6 @@ public class Application {
                     sellDao.getRandomSeller(),
                     lista.get(rnd.nextInt(0, 2)), now.minusMonths(rnd.nextInt(2, 5))
                     , userDAO.getRandomUserBadge()));
-        }
-    }
-
-    private void createTransport() {
-        for (int e = 0; e < 20; e++) {
-            if (e <= 5) {
-                transDao.save(new Transport(faker.name().title(), TransportType.BUS, 80, true));
-            } else if (e <= 10) {
-                transDao.save(new Transport(faker.name().title(), TransportType.TRAM, 80, true));
-            } else if (e <= 15) {
-                transDao.save(new Transport(faker.name().title(), TransportType.BUS, 80, false));
-            } else {
-                transDao.save(new Transport(faker.name().title(), TransportType.TRAM, 80, false));
-
-            }
-        }
-    }
-
-    private void createServiceAndRoutes() {
-        for (int o = 0; o < 10; o++) {
-            servDao.save(new Service(transDao.getById(rnd.nextInt(96, 115)), now.minusDays(rnd.nextInt(20, 30))));
-        }
-        for (int u = 0; u < 10; u++) {
-            rouDao.save(new Route(faker.futurama().location(), faker.futurama().location(), rnd.nextInt(20, 40)));
-        }
-        for (int u = 0; u < 10; u++) {
-            rouDao.save(new Route(faker.futurama().location(), faker.futurama().location(), rnd.nextInt(20, 40)));
-        }
-        for (int e = 0; e < 5; e++) {
-            transDao.save(new Transport(faker.name().title(), TransportType.TRAM, 80, true));
         }
     }
 

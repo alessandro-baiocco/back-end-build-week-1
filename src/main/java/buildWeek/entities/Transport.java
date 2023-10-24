@@ -93,4 +93,15 @@ public class Transport {
     public void setValidations(List<Validation> validations) {
         this.validations = validations;
     }
+
+    @Override
+    public String toString() {
+        return "Transport {" +
+                "Id=" + Id +
+                ", name='" + name + '\'' +
+                ", type=" + type +
+                ", capacity=" + capacity +
+                ", active=" + active +
+                '}';
+    }
 }
