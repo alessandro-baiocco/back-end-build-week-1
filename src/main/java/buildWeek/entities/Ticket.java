@@ -40,6 +40,7 @@ public class Ticket extends TicketsItem {
 
     @Override
     public String toString() {
-        return " validato? " + validation;
+        return "validato ? " + (this.validation != null ? "si" : "no")
+                + " " + super.toString();
     }
 }
