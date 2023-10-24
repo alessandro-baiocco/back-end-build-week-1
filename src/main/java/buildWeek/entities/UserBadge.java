@@ -3,6 +3,7 @@ package buildWeek.entities;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.temporal.TemporalAmount;
 
 @Entity
 @Table(name = "user_badges")

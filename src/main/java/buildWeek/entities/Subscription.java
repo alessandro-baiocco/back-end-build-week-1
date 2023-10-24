@@ -16,17 +16,17 @@ public class Subscription extends TicketsItem {
     private LocalDate activationDate;
     @OneToOne
     @JoinColumn(name = "user_id")
-    private UserBadge userId;
+    private UserBadge user;
 
     public Subscription() {
     }
 
 
-    public Subscription(LocalDate createdDate, Seller seller, TicketDuration type, LocalDate activationDate, UserBadge userId) {
+    public Subscription(LocalDate createdDate, Seller seller, TicketDuration type, LocalDate activationDate, UserBadge user) {
         super(createdDate, seller);
         this.type = type;
         this.activationDate = activationDate;
-        this.userId = userId;
+        this.user = user;
     }
 
     public TicketDuration getType() {
@@ -46,19 +46,19 @@ public class Subscription extends TicketsItem {
         this.activationDate = activationDate;
     }
 
-    public UserBadge getUserId() {
-        return userId;
+    public UserBadge getUser() {
+        return user;
     }
 
-    public void setUserId(UserBadge userId) {
-        this.userId = userId;
+    public void setUser(UserBadge user) {
+        this.user = user;
     }
 
     @Override
     public String toString() {
         return "abbonamento di tipo " + type +
                 " attivo da " + activationDate +
-                " numero utente" + userId + super.toString();
+                " numero utente" + user + super.toString();
     }
 
 

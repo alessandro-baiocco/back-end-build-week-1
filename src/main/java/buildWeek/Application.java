@@ -1,10 +1,9 @@
 package buildWeek;
 
 import buildWeek.dao.*;
-import buildWeek.entities.*;
+import buildWeek.entities.Seller;
+import buildWeek.entities.UserBadge;
 import buildWeek.enums.SellerType;
-import buildWeek.enums.TicketDuration;
-import buildWeek.enums.TransportType;
 import net.datafaker.Faker;
 
 import javax.persistence.EntityManager;
@@ -13,8 +12,6 @@ import javax.persistence.Persistence;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 import java.util.function.Supplier;
 
@@ -50,9 +47,9 @@ public class Application {
         };
 
 
-       Supplier<Seller> SellerSupplier = () -> {
-            return new Seller(true , SellerType.AUTO);
-       };
+        Supplier<Seller> SellerSupplier = () -> {
+            return new Seller(true, SellerType.AUTO);
+        };
 
       /*  for (int d = 0; d < 10; d++) {
            userDAO.save(userSupplier.get());
@@ -119,8 +116,10 @@ for (int c = 0; c < 10; c++) {
         }
         */
 
-        for(int i=0; i<=20;i++){}
-
+       /* for(int i=0; i<=30;i++){
+            tickDao.save(new Ticket(now.minusDays(rnd.nextInt(1, 30)),sellDao.getRandomSeller()));
+        }*/
+        //UserBadge userToTest = userDAO.getRandomUserBadge();
 
 
 //        subDao.reNew(82);
@@ -136,11 +135,19 @@ for (int c = 0; c < 10; c++) {
 //            tickDao.save(new Ticket(now.minusDays(rnd.nextInt(1, 20)), sellDao.getRandomSeller(), valDao.getRandomValidation()));
 //        }
 
+
+        //  Seller seller = sellDao.getRandomSeller();
+        UserBadge userBadge = userDAO.getById(1);
+        /*System.out.println(userBadge.getBadge_id());
+        Subscription subscription = new Subscription(now, seller, TicketDuration.MONTHLY, now, userBadge);
+        subDao.save(subscription);*/
+        //userDAO.reNewUserBadge(userBadge);
+
         em.close();
         emf.close();
-           }
+    }
 
-       }
+}
 
 
 
