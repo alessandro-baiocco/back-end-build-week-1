@@ -58,10 +58,6 @@ public class Subscription extends TicketsItem {
     public String toString() {
         return "abbonamento di tipo " + type +
                 " attivo da " + activationDate +
-
-                " numero utente" + userBadge + super.toString()
-                + super.toString() +
-
                 " numero utente" + userBadge + super.toString();
 
     }

@@ -57,4 +57,12 @@ public class Service {
     }
 
 
+    @Override
+    public String toString() {
+        return "Service{" +
+                "id=" + id +
+                ", start_date=" + start_date +
+                ", end_date=" + end_date +
+                '}';
+    }
 }
