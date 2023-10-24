@@ -1,12 +1,13 @@
 package buildWeek.dao;
 
 import buildWeek.entities.Subscription;
+import buildWeek.enums.TicketDuration;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
 import java.time.LocalDate;
-import java.time.Period;
+import java.time.temporal.ChronoUnit;
 
 public class SubscriptionDAO {
     private final EntityManager em;
@@ -17,13 +18,19 @@ public class SubscriptionDAO {
 
     public void save(Subscription subS) {
         EntityTransaction transaction = em.getTransaction();
-        try {
-            transaction.begin();
-            em.persist(subS);
-            transaction.commit();
-            System.out.println("nuovo abbonamento creato correttamente");
-        } catch (Exception ex) {
-            System.err.println(ex.getMessage());
+        UserBadgeDao ud = new UserBadgeDao(em);
+        boolean isActive = ud.isActive(subS.getUser());
+        if (isActive) {
+            try {
+                transaction.begin();
+                em.persist(subS);
+                transaction.commit();
+                System.out.println("nuovo abbonamento creato correttamente");
+            } catch (Exception ex) {
+                System.err.println(ex.getMessage());
+            }
+        } else {
+            System.out.println("Rinnova la tessera prima tirchio!");
         }
     }
 
@@ -34,22 +41,22 @@ public class SubscriptionDAO {
 
     public void delete(Subscription subscription) {
 
-                EntityTransaction transaction = em.getTransaction();
-                transaction.begin();
-                em.remove(subscription);
-                transaction.commit();
-                System.out.println("l'abbonamento è stato cancellato correttamente");
+        EntityTransaction transaction = em.getTransaction();
+        transaction.begin();
+        em.remove(subscription);
+        transaction.commit();
+        System.out.println("l'abbonamento è stato cancellato correttamente");
     }
 
 
     public void reNew(int id) {
-        Subscription founded = em.find(Subscription.class, id);
+        Subscription found = em.find(Subscription.class, id);
         try {
-            if (founded != null) {
-                founded.setActivationDate(founded.getActivationDate().plusYears(1));
+            if (found != null) {
+                found.setActivationDate(found.getActivationDate().plusYears(1));
                 EntityTransaction transaction = em.getTransaction();
                 transaction.begin();
-                em.persist(founded);
+                em.persist(found);
                 transaction.commit();
                 System.out.println("l'abbonamento è rinnovato correttamente");
             } else {
@@ -82,10 +89,12 @@ public class SubscriptionDAO {
         return query.getSingleResult();
     }
 
-    public boolean isActive(int id) {
-        Subscription founded = em.find(Subscription.class, id);
-        if (founded != null) {
-            return Period.between(LocalDate.now(), founded.getActivationDate()).getDays() < 365;
+    public boolean isActive(Subscription subscription) {
+
+        if (subscription.getType() == TicketDuration.WEEKLY) {
+            return ChronoUnit.DAYS.between(subscription.getActivationDate(), LocalDate.now()) < 8;
+        } else if (subscription.getType() == TicketDuration.MONTHLY) {
+            return ChronoUnit.DAYS.between(subscription.getActivationDate(), LocalDate.now()) < 31;
         } else {
             System.err.println("not found");
             return false;

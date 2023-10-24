@@ -18,7 +18,7 @@ public class TicketsDAO {
             transaction.begin();
             em.persist(tick);
             transaction.commit();
-            System.out.println("nuovo abbonamento creato correttamente");
+            System.out.println("nuovo ticket creato correttamente");
         } catch (Exception ex) {
             System.err.println(ex.getMessage());
         }
@@ -34,7 +34,7 @@ public class TicketsDAO {
                 transaction.begin();
                 em.remove(ticket);
                 transaction.commit();
-                System.out.println("l'abbonamento è stato cancellato correttamente");
+                System.out.println("Il ticket è stato cancellato correttamente");
     }
 
 
