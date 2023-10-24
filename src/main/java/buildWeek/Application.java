@@ -26,6 +26,8 @@ public class Application {
         TravelDao travDao = new TravelDao(em);
         ServiceDao servDao = new ServiceDao(em);
         RouteDAO rouDao = new RouteDAO(em);
+        ValidationDao valDao = new ValidationDao(em);
+        TicketsDAO tickDao = new TicketsDAO(em);
 
         Faker faker = new Faker();
         Random rnd = new Random();
@@ -96,7 +98,18 @@ public class Application {
 //        }
 
 //        subDao.reNew(82);
-        System.out.println(subDao.getExpirationDate(9087251));
+
+//
+//        for (int i = 0; i < 10; i++) {
+//            valDao.save(new Validation(now.minusDays(rnd.nextInt(1, 50)),
+//                    transDao.getById(rnd.nextInt(96, 115)),
+//                    travDao.findById(rnd.nextInt(156, 165))));
+//
+//        }
+//        for (int i = 0; i < 10; i++) {
+//            tickDao.save(new Ticket(now.minusDays(rnd.nextInt(1, 20)), sellDao.getRandomSeller(), valDao.getRandomValidation()));
+//        }
+
 
         em.close();
         emf.close();

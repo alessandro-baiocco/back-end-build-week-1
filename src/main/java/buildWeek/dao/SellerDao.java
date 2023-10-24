@@ -116,4 +116,10 @@ public class SellerDao {
         return query.getResultList().size();
     }
 
+    public Seller getRandomSell() {
+        TypedQuery<Seller> query = em.createQuery("SELECT s FROM Seller s ORDER BY RAND()", Seller.class);
+        query.setMaxResults(1);
+        return query.getSingleResult();
+    }
+
 }
