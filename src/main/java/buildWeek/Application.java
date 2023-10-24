@@ -29,13 +29,13 @@ public class Application {
     private static final TransportDao transDao = new TransportDao(em);
     private static final ServiceDao servDao = new ServiceDao(em);
     private static final RouteDAO rouDao = new RouteDAO(em);
+    private static final TravelDao travDao = new TravelDao(em);
+    private static final TicketsDAO tickDao = new TicketsDAO(em);
+    private static final ValidationDao valDao = new ValidationDao(em);
     private static final Random rnd = new Random();
     private static final LocalDate now = LocalDate.now();
     private static final Faker faker = new Faker();
-    private final TravelDao travDao = new TravelDao(em);
-    private final TicketsDAO tickDao = new TicketsDAO(em);
-    private final ValidationDao valDao = new ValidationDao(em);
-    private final LocalDateTime nowTime = LocalDateTime.now();
+    private static final LocalDateTime nowTime = LocalDateTime.now();
 
 
     public static void main(String[] args) {
@@ -208,6 +208,62 @@ public class Application {
     }
 
     private static void buyTicket(UserBadge userBadge) {
+        System.out.println("1 - biglietto");
+        System.out.println("2 - abbonamento");
+        System.out.println("3 - rinnova tessera");
+        int menu01 = scanInt();
+        switch (menu01) {
+            case 1: {
+                Ticket newTicket = new Ticket(LocalDate.now(), sellDao.getRandomSeller());
+                System.out.println("biglietto creato il nuovo biglietto è : " + newTicket);
+                tickDao.save(newTicket);
+                break;
+            }
+            case 2: {
+                System.out.println("che tipo ?");
+                System.out.println("1 - settimanale");
+                System.out.println("2 - mensile");
+                System.out.println("0 - indietro");
+                int menu02 = scanInt();
+                switch (menu02) {
+                    case 1: {
+                        Subscription newSub = new Subscription(LocalDate.now(), sellDao.getRandomSeller(),
+                                TicketDuration.WEEKLY, LocalDate.now(), userBadge);
+                        System.out.println("abbonamento creato il nuovo abbonamento è : " + newSub);
+                        subDao.save(newSub);
+                        break;
+                    }
+                    case 2: {
+                        Subscription newSub = new Subscription(LocalDate.now(), sellDao.getRandomSeller(),
+                                TicketDuration.MONTHLY, LocalDate.now(), userBadge);
+                        System.out.println("abbonamento creato il nuovo abbonamento è : " + newSub);
+                        subDao.save(newSub);
+                        break;
+                    }
+
+                    case 0: {
+                        System.out.println("indietro");
+                        break;
+                    }
+                    default: {
+                        System.out.println("Opzione non valida");
+                        menu02 = -1;
+                    }
+                }
+            }
+            case 3: {
+                userDAO.reNewUserBadge(userBadge);
+                break;
+            }
+            default: {
+                System.out.println("Opzione non valida");
+                menu01 = -1;
+            }
+
+
+        }
+
+
     }
 
     public static int scanInt() {
