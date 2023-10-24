@@ -16,6 +16,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.Scanner;
 import java.util.function.Supplier;
 
 public class Application {
@@ -38,13 +39,192 @@ public class Application {
 
 
     public static void main(String[] args) {
-
+        menu();
 
         em.close();
         emf.close();
     }
 
-    public void createUsers() {
+    public static void menu() {
+        int menu01 = -1;
+        while (menu01 < 0) {
+            System.out.println();
+            System.out.println("Benvenuto nel sistema di coso trasporti");
+            System.out.println();
+            System.out.println("seleziona un'opzione");
+            System.out.println("1 - Area utenti");
+            System.out.println("2 - Area amministrativa");
+            System.out.println("0 - Esci");
+            System.out.println();
+
+            menu01 = scanInt();
+
+            switch (menu01) {
+                case 1:
+                    userMenuLogin();
+                    menu01 = -1;
+                    break;
+                case 2:
+                    adminMenu();
+                    menu01 = -1;
+                    break;
+                case 0:
+                    System.out.println("Arrivederci");
+                    break;
+                default:
+                    System.out.println("Opzione non valida");
+                    menu();
+            }
+        }
+    }
+
+    private static void adminMenu() {
+        int menu01 = -1;
+        while (menu01 < 0) {
+            System.out.println();
+            System.out.println("Area amministrativa");
+            System.out.println();
+            System.out.println("1 - gestisci mezzi");
+            System.out.println("2 - gestisci tratte");
+            System.out.println("3 - visualizza statistiche viaggi");
+            System.out.println("0 - indietro");
+            menu01 = scanInt();
+            switch (menu01) {
+                case 1:
+                    manageTransports();
+                    menu01 = -1;
+                    break;
+                case 2:
+                    manageRoutes();
+                    menu01 = -1;
+                    break;
+                case 3:
+                    statisctic();
+                    menu01 = -1;
+                case 0:
+                    System.out.println("Arrivederci");
+                    break;
+                default:
+                    System.out.println("Opzione non valida");
+                    menu();
+            }
+        }
+    }
+
+    private static void statisctic() {
+    }
+
+    private static void manageRoutes() {
+    }
+
+    private static void manageTransports() {
+        int menu01 = -1;
+        while (menu01 < 0) {
+            System.out.println();
+            System.out.println("Gestione trasporti");
+            System.out.println();
+            System.out.println("1 - visualizza tutti i trasporti");
+            System.out.println("2 - visualizza manutenzioni trasporto");
+            System.out.println("3 - metti mezzo in manutenzione");
+            System.out.println("4 - metti mezzo in servizio");
+            System.out.println("5 - visualizza tratta trasporto");
+            System.out.println("0 - indietro");
+            menu01 = scanInt();
+
+        }
+    }
+
+    private static void userMenuLogin() {
+        int menu01 = -1;
+        while (menu01 < 0) {
+            System.out.println();
+            System.out.println("Area utenti");
+            System.out.println();
+            System.out.println("inserisci il tuo id");
+            System.out.println("0 - indietro");
+            System.out.println();
+            menu01 = scanInt();
+            if (userDAO.getById(menu01) != null) {
+                userMenu(userDAO.getById(menu01));
+                menu01 = -1;
+            } else {
+                if (menu01 == 0) {
+                    System.out.println("indietro");
+                } else {
+                    System.out.println("non trovato");
+                    menu01 = -1;
+                }
+            }
+        }
+
+    }
+
+    private static void userMenu(UserBadge userBadge) {
+        int menu01 = -1;
+        while (menu01 < 0) {
+            System.out.println("benvenuto " + userBadge.getName());
+            System.out.println();
+            System.out.println("seleziona un'opzione");
+            System.out.println("1 - Acquista biglietto");
+            System.out.println("2 - gestisti tessera personale");
+            System.out.println("3 - gestisci abbonamento");
+            System.out.println("4 - prendi un mezzo");
+            System.out.println("0 - indietro");
+            menu01 = scanInt();
+            switch (menu01) {
+                case 1:
+                    buyTicket(userBadge);
+                    menu01 = -1;
+                    break;
+                case 2:
+                    userBadgeMenu(userBadge);
+                    menu01 = -1;
+                    break;
+                case 3:
+                    subscriptionMenu(userBadge);
+                    menu01 = -1;
+                    break;
+                case 4:
+                    takeTransport(userBadge);
+                    menu01 = -1;
+                    break;
+                case 0:
+                    System.out.println("indietro");
+                    break;
+                default:
+                    System.out.println("Opzione non valida");
+                    menu01 = -1;
+            }
+        }
+    }
+
+    private static void takeTransport(UserBadge userBadge) {
+    }
+
+    private static void subscriptionMenu(UserBadge userBadge) {
+    }
+
+    private static void userBadgeMenu(UserBadge userBadge) {
+    }
+
+    private static void buyTicket(UserBadge userBadge) {
+    }
+
+    public static int scanInt() {
+        int num = -1;
+        Scanner scanner = new Scanner(System.in);
+        while (num < 0) {
+            try {
+                num = scanner.nextInt();
+            } catch (Exception e) {
+                System.err.println("Inserisci un numero");
+                scanner.nextLine();
+            }
+        }
+        return num;
+    }
+
+    public static void createUsers() {
         Supplier<UserBadge> userSupplier = () -> {
             return new UserBadge(faker.name().firstName(), faker.name().lastName(), now.minusYears(rnd.nextInt(20, 50)), now.minusYears(rnd.nextInt(2, 5)));
         };
