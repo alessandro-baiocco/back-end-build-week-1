@@ -12,8 +12,8 @@ public class Travel {
     private int id;
     private LocalDate startDate;
     private LocalDate endDate;
-    @ManyToOne
-    @JoinColumn
+    @OneToMany
+    @JoinColumn(name = "route_id")
     private Route route;
 
     @ManyToOne
