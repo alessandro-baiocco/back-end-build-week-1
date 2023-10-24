@@ -13,6 +13,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Random;
+import java.util.Scanner;
 import java.util.function.Supplier;
 
 public class Application {
@@ -28,6 +29,7 @@ public class Application {
         TravelDao travDao = new TravelDao(em);
         ServiceDao servDao = new ServiceDao(em);
         RouteDAO rouDao = new RouteDAO(em);
+        Scanner input = new Scanner(System.in);
 
         ValidationDao valDao = new ValidationDao(em);
         TicketsDAO tickDao = new TicketsDAO(em);
@@ -120,6 +122,7 @@ for (int c = 0; c < 10; c++) {
             tickDao.save(new Ticket(now.minusDays(rnd.nextInt(1, 30)),sellDao.getRandomSeller()));
         }*/
         //UserBadge userToTest = userDAO.getRandomUserBadge();
+//        for(int i=0; i<=20;i++){}
 
 
 //        subDao.reNew(82);
@@ -137,16 +140,15 @@ for (int c = 0; c < 10; c++) {
 
 
         //  Seller seller = sellDao.getRandomSeller();
-        UserBadge userBadge = userDAO.getById(1);
-        /*System.out.println(userBadge.getBadge_id());
+        /*UserBadge userBadge = userDAO.getById(1);
         Subscription subscription = new Subscription(now, seller, TicketDuration.MONTHLY, now, userBadge);
         subDao.save(subscription);*/
         //userDAO.reNewUserBadge(userBadge);
 
         em.close();
         emf.close();
-    }
 
+}
 }
 
 
