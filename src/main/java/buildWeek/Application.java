@@ -1,7 +1,6 @@
 package buildWeek;
 
 import buildWeek.dao.*;
-import buildWeek.entities.Ticket;
 import buildWeek.entities.UserBadge;
 import net.datafaker.Faker;
 
@@ -107,9 +106,9 @@ public class Application {
 //                    travDao.findById(rnd.nextInt(156, 165))));
 //
 //        }
-        for (int i = 0; i < 10; i++) {
-            tickDao.save(new Ticket(now.minusDays(rnd.nextInt(1, 20)), sellDao.getRandomSeller(), valDao.getRandomValidation()));
-        }
+//        for (int i = 0; i < 10; i++) {
+//            tickDao.save(new Ticket(now.minusDays(rnd.nextInt(1, 20)), sellDao.getRandomSeller(), valDao.getRandomValidation()));
+//        }
 
 
         em.close();
