@@ -24,14 +24,19 @@ public class Validation {
     @JoinColumn(name="travel_id")
     Travel travel;
 
+    @OneToOne
+    @JoinColumn(name="ticket_id")
+    Ticket ticket;
+
 
     public Validation() {
     }
 
-    public Validation(LocalDate validationDate, Transport transport, Travel travel) {
+    public Validation(LocalDate validationDate, Transport transport, Travel travel,Ticket ticket) {
         this.validationDate = validationDate;
         this.transport = transport;
         this.travel = travel;
+        this.ticket = ticket;
     }
 
     public int getId() {
@@ -60,5 +65,24 @@ public class Validation {
 
     public void setTravel(Travel travel) {
         this.travel = travel;
+    }
+
+    public Ticket getTicket() {
+        return ticket;
+    }
+
+    public void setTicket(Ticket ticket) {
+        this.ticket = ticket;
+    }
+
+    @Override
+    public String toString() {
+        return "Validation{" +
+                "id=" + id +
+                ", validationDate=" + validationDate +
+                ", transport=" + transport +
+                ", travel=" + travel +
+                ", ticket=" + ticket +
+                '}';
     }
 }

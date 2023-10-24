@@ -31,6 +31,7 @@ public class Application {
         TravelDao travDao = new TravelDao(em);
         ServiceDao servDao = new ServiceDao(em);
         RouteDAO rouDao = new RouteDAO(em);
+        TicketsDAO ticketsDAO = new TicketsDAO(em);
 
         Faker faker = new Faker();
         Random rnd = new Random();
@@ -115,6 +116,7 @@ for (int c = 0; c < 10; c++) {
         }
         */
 
+        for(int i=0; i<=20;i++){}
 
 
 

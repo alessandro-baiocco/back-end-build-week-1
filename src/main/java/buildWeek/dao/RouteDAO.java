@@ -24,7 +24,7 @@ public class RouteDAO {
         System.out.println("La tratta è stata correttamente inserita");
     }
 
-    public Route findById(int id) {
+    public Route getById(int id) {
         return em.find(Route.class, id);
     }
 

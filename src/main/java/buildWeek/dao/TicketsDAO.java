@@ -25,25 +25,16 @@ public class TicketsDAO {
     }
 
 
-    public Ticket get(int id) {
+    public Ticket getById(int id) {
         return em.find(Ticket.class, id);
     }
 
-    public void delete(int id) {
-        Ticket founded = em.find(Ticket.class, id);
-        try {
-            if (founded != null) {
+    public void delete(Ticket ticket) {
                 EntityTransaction transaction = em.getTransaction();
                 transaction.begin();
-                em.remove(founded);
+                em.remove(ticket);
                 transaction.commit();
                 System.out.println("l'abbonamento è stato cancellato correttamente");
-            } else {
-                System.err.println("l'abbonamento non è stato trovato");
-            }
-        } catch (Exception ex) {
-            System.err.println(ex.getMessage());
-        }
     }
 
 

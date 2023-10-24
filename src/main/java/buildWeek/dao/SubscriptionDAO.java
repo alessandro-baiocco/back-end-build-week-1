@@ -28,25 +28,17 @@ public class SubscriptionDAO {
     }
 
 
-    public Subscription get(int id) {
+    public Subscription getById(int id) {
         return em.find(Subscription.class, id);
     }
 
-    public void delete(int id) {
-        Subscription founded = em.find(Subscription.class, id);
-        try {
-            if (founded != null) {
+    public void delete(Subscription subscription) {
+
                 EntityTransaction transaction = em.getTransaction();
                 transaction.begin();
-                em.remove(founded);
+                em.remove(subscription);
                 transaction.commit();
                 System.out.println("l'abbonamento è stato cancellato correttamente");
-            } else {
-                System.err.println("l'abbonamento non è stato trovato");
-            }
-        } catch (Exception ex) {
-            System.err.println(ex.getMessage());
-        }
     }
 
     public Subscription getRandomSubscription() {
