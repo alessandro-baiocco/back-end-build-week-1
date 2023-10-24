@@ -59,8 +59,8 @@ public class RouteDAO {
         EntityTransaction transaction = em.getTransaction();
         transaction.begin();
         TypedQuery<Route> getAllRoute = em.createQuery("SELECT t FROM Route t", Route.class); // Query JPQL
-        List<Route> boh = getAllRoute.getResultList();
-        boh.forEach(t -> t.setTravel(getRandomTravel()));
+        List<Route> routeList = getAllRoute.getResultList();
+        routeList.forEach(t -> t.setTravel(getRandomTravel()));
         // 2. Eseguo la query
         // 3. Termino la transazione col salvataggio effettivo di una nuova riga nella tabella students
         transaction.commit();
@@ -71,8 +71,8 @@ public class RouteDAO {
         EntityTransaction transaction = em.getTransaction();
         transaction.begin();
         TypedQuery<Route> getAllRoute = em.createQuery("SELECT t FROM Route t", Route.class); // Query JPQL
-        List<Route> boh = getAllRoute.getResultList();
-        boh.forEach(t -> t.setMeansOfTransport(getRandomTrans()));
+        List<Route> routeList = getAllRoute.getResultList();
+        routeList.forEach(t -> t.setMeansOfTransport(getRandomTrans()));
         // 2. Eseguo la query
         // 3. Termino la transazione col salvataggio effettivo di una nuova riga nella tabella students
         transaction.commit();
