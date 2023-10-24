@@ -7,6 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
 import java.time.LocalDate;
+import java.util.List;
 
 public class SellerDao {
     private final EntityManager em;
@@ -29,39 +30,13 @@ public class SellerDao {
         return em.find(Seller.class, id);
     }
 
+    public void delete(Seller seller) {
 
-    public void getByIsbnAndDelete(int id) {
-
-        Seller found = em.find(Seller.class, id);
-
-        if (found != null) {
             EntityTransaction transaction = em.getTransaction();
-
             transaction.begin();
-            em.remove(found);
+            em.remove(seller);
             transaction.commit();
             System.out.println("Il seller è stato cancellato correttamente");
-        } else {
-            System.err.println("Il seller con l'id " + id + " non è stato trovato");
-        }
-    }
-
-
-    public void getByIdAndDelete(int id) {
-
-        Seller found = em.find(Seller.class, id);
-
-        if (found != null) {
-            EntityTransaction transaction = em.getTransaction();
-
-            transaction.begin();
-            em.remove(found);
-            transaction.commit();
-            System.out.println("Il seller è stato cancellato correttamente");
-        } else {
-            System.err.println("Il seller con l'id " + id + " non è stato trovato");
-        }
-
     }
 
     public Seller getRandomSeller() {
@@ -115,5 +90,17 @@ public class SellerDao {
         query.setParameter("date2", date2);
         return query.getResultList().size();
     }
+
+    public Seller getRandomSell() {
+        TypedQuery<Seller> query = em.createQuery("SELECT s FROM Seller s ORDER BY RAND()", Seller.class);
+        query.setMaxResults(1);
+        return query.getSingleResult();
+    }
+
+    public List<Seller> distributorsActive() {
+        TypedQuery<Seller> query = em.createQuery("SELECT s FROM Seller s WHERE s.licensed is true", Seller.class);
+        return query.getResultList();
+    }
+
 
 }

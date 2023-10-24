@@ -1,12 +1,13 @@
 package buildWeek.dao;
 
 import buildWeek.entities.Subscription;
+import buildWeek.enums.TicketDuration;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
 import java.time.LocalDate;
-import java.time.Period;
+import java.time.temporal.ChronoUnit;
 
 public class SubscriptionDAO {
     private final EntityManager em;
@@ -17,54 +18,57 @@ public class SubscriptionDAO {
 
     public void save(Subscription subS) {
         EntityTransaction transaction = em.getTransaction();
-        try {
-            transaction.begin();
-            em.persist(subS);
-            transaction.commit();
-            System.out.println("nuovo abbonamento creato correttamente");
-        } catch (Exception ex) {
-            System.err.println(ex.getMessage());
+        UserBadgeDao ud = new UserBadgeDao(em);
+        boolean isActive = ud.isActive(subS.getUser());
+        if (isActive) {
+            try {
+                transaction.begin();
+                em.persist(subS);
+                transaction.commit();
+                System.out.println("nuovo abbonamento creato correttamente");
+            } catch (Exception ex) {
+                System.err.println(ex.getMessage());
+            }
+        } else {
+            System.out.println("Rinnova la tessera prima tirchio!");
         }
     }
 
 
-    public Subscription get(int id) {
+    public Subscription getById(int id) {
         return em.find(Subscription.class, id);
     }
 
-    public void delete(int id) {
-        Subscription founded = em.find(Subscription.class, id);
-        try {
-            if (founded != null) {
-                EntityTransaction transaction = em.getTransaction();
-                transaction.begin();
-                em.remove(founded);
-                transaction.commit();
-                System.out.println("l'abbonamento è stato cancellato correttamente");
-            } else {
-                System.err.println("l'abbonamento non è stato trovato");
-            }
-        } catch (Exception ex) {
-            System.err.println(ex.getMessage());
-        }
+    public void delete(Subscription subscription) {
+
+        EntityTransaction transaction = em.getTransaction();
+        transaction.begin();
+        em.remove(subscription);
+        transaction.commit();
+        System.out.println("l'abbonamento è stato cancellato correttamente");
     }
 
 
-    public void reNew(int id) {
-        Subscription founded = em.find(Subscription.class, id);
-        try {
-            if (founded != null) {
-                founded.setActivationDate(founded.getActivationDate().plusYears(1));
-                EntityTransaction transaction = em.getTransaction();
-                transaction.begin();
-                em.persist(founded);
-                transaction.commit();
-                System.out.println("l'abbonamento è rinnovato correttamente");
+    public void reNew(Subscription subscription, TicketDuration ticketDuration) {
+        UserBadgeDao userBadgeDao = new UserBadgeDao(em);
+        if (userBadgeDao.isActive(subscription.getUser())) {
+            if (isActive(subscription)) {
+                if (ticketDuration == TicketDuration.WEEKLY) {
+                    subscription.setActivationDate(subscription.getActivationDate().plusDays(7));
+                } else {
+                    subscription.setActivationDate(subscription.getActivationDate().plusDays(30));
+                }
             } else {
-                System.err.println("l'abbonamento non è stato trovato");
+                subscription.setActivationDate(LocalDate.now());
             }
-        } catch (Exception ex) {
-            System.err.println(ex.getMessage());
+            subscription.setType(ticketDuration);
+            EntityTransaction transaction = em.getTransaction();
+            transaction.begin();
+            em.persist(subscription);
+            transaction.commit();
+            System.out.println("l'abbonamento è rinnovato correttamente");
+        } else {
+            System.out.println("Devi rinnovare prima la tessera utente.");
         }
     }
 
@@ -90,14 +94,20 @@ public class SubscriptionDAO {
         return query.getSingleResult();
     }
 
-    public boolean isActive(int id) {
-        Subscription founded = em.find(Subscription.class, id);
-        if (founded != null) {
-            return Period.between(LocalDate.now(), founded.getActivationDate()).getDays() < 365;
+    public boolean isActive(Subscription subscription) {
+        if (subscription.getType() == TicketDuration.WEEKLY) {
+            return ChronoUnit.DAYS.between(subscription.getActivationDate(), LocalDate.now()) < 8;
+        } else if (subscription.getType() == TicketDuration.MONTHLY) {
+            return ChronoUnit.DAYS.between(subscription.getActivationDate(), LocalDate.now()) < 31;
         } else {
             System.err.println("not found");
             return false;
         }
+    }
+
+    public boolean isBadgeActive(Subscription subscription) {
+        UserBadgeDao userBadgeDao = new UserBadgeDao(em);
+        return userBadgeDao.isActive(subscription.getUser());
     }
 
 }

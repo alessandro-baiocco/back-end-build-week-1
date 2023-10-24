@@ -24,7 +24,7 @@ public class RouteDAO {
         System.out.println("La tratta è stata correttamente inserita");
     }
 
-    public Route findById(int id) {
+    public Route getById(int id) {
         return em.find(Route.class, id);
     }
 
@@ -59,8 +59,8 @@ public class RouteDAO {
         EntityTransaction transaction = em.getTransaction();
         transaction.begin();
         TypedQuery<Route> getAllRoute = em.createQuery("SELECT t FROM Route t", Route.class); // Query JPQL
-        List<Route> boh = getAllRoute.getResultList();
-        boh.forEach(t -> t.setTravel(getRandomTravel()));
+        List<Route> routeList = getAllRoute.getResultList();
+        routeList.forEach(t -> t.setTravel(getRandomTravel()));
         // 2. Eseguo la query
         // 3. Termino la transazione col salvataggio effettivo di una nuova riga nella tabella students
         transaction.commit();
@@ -71,10 +71,10 @@ public class RouteDAO {
         EntityTransaction transaction = em.getTransaction();
         transaction.begin();
         TypedQuery<Route> getAllRoute = em.createQuery("SELECT t FROM Route t", Route.class); // Query JPQL
-        List<Route> boh = getAllRoute.getResultList();
-        boh.forEach(t -> t.setMeansOfTransport(getRandomTrans()));
-        // 2. Eseguo la query
-        // 3. Termino la transazione col salvataggio effettivo di una nuova riga nella tabella students
+
+        List<Route> routeList = getAllRoute.getResultList();
+        routeList.forEach(t -> t.setMeansOfTransport(getRandomTrans()));
+
         transaction.commit();
 
     }
@@ -83,6 +83,12 @@ public class RouteDAO {
         TypedQuery<Transport> query = em.createQuery("SELECT r FROM Route r WHERE r.transport = :transport", Transport.class);
         query.setParameter("transport", transport);
         return query.getResultList().size();
+    }
+
+    public Route getRandomRoute() {
+        TypedQuery<Route> query = em.createQuery("SELECT r FROM Route r ORDER BY RAND()", Route.class);
+        query.setMaxResults(1);
+        return query.getSingleResult();
     }
 
 
