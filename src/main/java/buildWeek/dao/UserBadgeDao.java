@@ -28,20 +28,14 @@ public class UserBadgeDao {
     }
 
 
-    public void getByIdAndDelete(int id) {
+    public void delete(UserBadge userBadge) {
 
-        UserBadge found = em.find(UserBadge.class, id);
-
-        if (found != null) {
             EntityTransaction transaction = em.getTransaction();
 
             transaction.begin();
-            em.remove(found);
+            em.remove(userBadge);
             transaction.commit();
             System.out.println("Lo user è stato cancellato correttamente");
-        } else {
-            System.err.println("Lo user con id " + id + " non è stato trovato");
-        }
 
     }
 

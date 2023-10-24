@@ -24,22 +24,16 @@ public class TravelDao {
         System.out.println("Il viaggio è stato correttamente inserito");
     }
 
-    public Travel findById(int id) {
+    public Travel getById(int id) {
         return em.find(Travel.class, id);
     }
 
-    public void delete(int id) {
-        Travel routeToBeDeleted = em.find(Travel.class, id);
-
-        if (routeToBeDeleted != null) {
+    public void delete(Travel travel) {
             EntityTransaction transaction = em.getTransaction();
             transaction.begin();
-            em.remove(routeToBeDeleted);
+            em.remove(travel);
             transaction.commit();
             System.out.println("Questo viaggio è stato cancellato con successo!");
-        } else {
-            System.out.println("Viaggio non presente nel database");
-        }
     }
 
 

@@ -49,7 +49,7 @@ public class ValidationDao {
 
     public void validate(Ticket ticket, Transport transport, Travel travel) {
 
-        Validation validation = new Validation(LocalDate.now(), transport, travel);
+        Validation validation = new Validation(LocalDate.now(), transport, travel,ticket);
         ticket.setValidation(validation);
         EntityTransaction tx = em.getTransaction();
         tx.begin();

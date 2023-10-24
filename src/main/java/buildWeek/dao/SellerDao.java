@@ -29,39 +29,13 @@ public class SellerDao {
         return em.find(Seller.class, id);
     }
 
+    public void delete(Seller seller) {
 
-    public void getByIsbnAndDelete(int id) {
-
-        Seller found = em.find(Seller.class, id);
-
-        if (found != null) {
             EntityTransaction transaction = em.getTransaction();
-
             transaction.begin();
-            em.remove(found);
+            em.remove(seller);
             transaction.commit();
             System.out.println("Il seller è stato cancellato correttamente");
-        } else {
-            System.err.println("Il seller con l'id " + id + " non è stato trovato");
-        }
-    }
-
-
-    public void getByIdAndDelete(int id) {
-
-        Seller found = em.find(Seller.class, id);
-
-        if (found != null) {
-            EntityTransaction transaction = em.getTransaction();
-
-            transaction.begin();
-            em.remove(found);
-            transaction.commit();
-            System.out.println("Il seller è stato cancellato correttamente");
-        } else {
-            System.err.println("Il seller con l'id " + id + " non è stato trovato");
-        }
-
     }
 
     public Seller getRandomSeller() {
