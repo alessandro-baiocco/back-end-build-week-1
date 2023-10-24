@@ -29,11 +29,11 @@ public class TravelDao {
     }
 
     public void delete(Travel travel) {
-            EntityTransaction transaction = em.getTransaction();
-            transaction.begin();
-            em.remove(travel);
-            transaction.commit();
-            System.out.println("Questo viaggio è stato cancellato con successo!");
+        EntityTransaction transaction = em.getTransaction();
+        transaction.begin();
+        em.remove(travel);
+        transaction.commit();
+        System.out.println("Questo viaggio è stato cancellato con successo!");
     }
 
 
