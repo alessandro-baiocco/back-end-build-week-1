@@ -80,9 +80,9 @@ public class Application {
         for (int e = 0; e < 20; e++) {
             if (e <= 5) {
                 transDao.save(new Transport(faker.name().title(), TransportType.BUS, 80, true));
-            } else if (e > 5 && e <= 10) {
+            } else if (e <= 10) {
                 transDao.save(new Transport(faker.name().title(), TransportType.TRAM, 80, true));
-            } else if (e > 10 && e <= 15) {
+            } else if (e <= 15) {
                 transDao.save(new Transport(faker.name().title(), TransportType.BUS, 80, false));
             } else {
                 transDao.save(new Transport(faker.name().title(), TransportType.TRAM, 80, false));
