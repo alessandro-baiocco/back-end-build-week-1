@@ -7,6 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
 import java.time.LocalDate;
+import java.util.List;
 
 public class SellerDao {
     private final EntityManager em;
@@ -95,5 +96,11 @@ public class SellerDao {
         query.setMaxResults(1);
         return query.getSingleResult();
     }
+
+    public List<Seller> distributorsActive() {
+        TypedQuery<Seller> query = em.createQuery("SELECT s FROM Seller s WHERE s.licensed is true", Seller.class);
+        return query.getResultList();
+    }
+
 
 }

@@ -136,7 +136,6 @@ for (int c = 0; c < 10; c++) {
 //            tickDao.save(new Ticket(now.minusDays(rnd.nextInt(1, 20)), sellDao.getRandomSeller(), valDao.getRandomValidation()));
 //        }
 
-
         em.close();
         emf.close();
            }
