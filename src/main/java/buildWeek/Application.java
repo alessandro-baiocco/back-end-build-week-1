@@ -45,15 +45,14 @@ public class Application {
 
         Application application = new Application();
 
-       /* application.createUsers();
-        application.createSellers();
-        application.createSubscriptions();
-        application.createTransport();
-        application.createServiceAndRoutes();
-        application.createTravelAndSetRouTransAndTravel();
-        application.createTicket();
-        application.createValidation();
-*/
+        //application.createUsers();
+        //application.createSellers();
+        //application.createSubscriptions();
+        //application.createTransport();
+        //application.createServiceAndRoutes();
+        // application.createTravelAndSetRouTransAndTravel();
+        //  application.createTicket();
+        //application.createValidation();
 
 
         em.close();
@@ -123,17 +122,22 @@ public class Application {
     }
 
     private void createTravelAndSetRouTransAndTravel() {
+
         for (int c = 0; c < 10; c++) {
             LocalDateTime coso = now2.minusDays(rnd.nextInt(20, 30));
             travDao.save(new Travel(coso,
                     coso.plus(randomMinutes, ChronoUnit.valueOf("MINUTES")),
-                    rouDao.getById(rnd.nextInt(72, 82)),
-                    transDao.getById(rnd.nextInt(57, 102))));
+                    rouDao.getRandomRoute(),
+                    transDao.getRandomTransport()));
         }
 
         for (int w = 0; w < 10; w++) {
+            LocalDateTime coso = now2.minusDays(rnd.nextInt(20, 30));
             rouDao.setTrans();
-            rouDao.setTravel();
+            rouDao.setTravel(rouDao.getRandomRoute(), new Travel(coso,
+                    coso.plus(randomMinutes, ChronoUnit.valueOf("MINUTES")),
+                    rouDao.getRandomRoute(),
+                    transDao.getRandomTransport()));
         }
     }
 

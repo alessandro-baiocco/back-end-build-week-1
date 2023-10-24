@@ -13,7 +13,7 @@ public class Travel {
     private LocalDateTime startDate;
     private LocalDateTime endDate;
     @ManyToOne
-    @JoinColumn
+    @JoinColumn(name = "route_id")
     private Route route;
 
     @ManyToOne

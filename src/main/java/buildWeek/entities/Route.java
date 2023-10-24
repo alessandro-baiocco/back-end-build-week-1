@@ -3,6 +3,7 @@ package buildWeek.entities;
 import com.sun.istack.Nullable;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "Routes")
@@ -19,8 +20,8 @@ public class Route {
     private Transport transportId;
 
     @Nullable
-    @ManyToOne
-    private Travel travel;
+    @OneToMany
+    private List<Travel> travel;
 
     public Route() {
     }
@@ -33,7 +34,7 @@ public class Route {
         this.travel = null;
     }
 
-    public Route(String startRoutePlace, String endRoutePlace, int duration, Transport transportId, Travel travel) {
+    public Route(String startRoutePlace, String endRoutePlace, int duration, Transport transportId, List<Travel> travel) {
         this.startRoutePlace = startRoutePlace;
         this.endRoutePlace = endRoutePlace;
         this.duration = duration;
@@ -78,11 +79,11 @@ public class Route {
         this.transportId = transportId;
     }
 
-    public Travel getTravel() {
+    public List<Travel> getTravel() {
         return travel;
     }
 
-    public void setTravel(Travel travel) {
+    public void setTravel(List<Travel> travel) {
         this.travel = travel;
     }
 

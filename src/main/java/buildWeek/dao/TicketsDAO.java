@@ -7,6 +7,8 @@ import buildWeek.entities.Validation;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
+import java.time.LocalDate;
+import java.util.List;
 
 public class TicketsDAO {
     private final EntityManager em;
@@ -50,21 +52,30 @@ public class TicketsDAO {
         TypedQuery<Validation> query = em.createQuery("SELECT v FROM Validation v WHERE v.transport = :transport", Validation.class);
         query.setParameter("transport", transport);
         if (!query.getResultList().isEmpty()) {
-            query.getResultList().forEach(System.out::println);
-            System.out.println("numero ticket vidimati su questo mezzo : " + query.getResultList().size());
+            query.getResultList().forEach(v -> {
+                System.out.println("Validation : " + v.getId());
+                System.out.println("Transport : " + v.getTransport().getId());
+                System.out.println("Ticket : " + v.getTicket().getID());
+            });
+            System.out.println("numero ticket vidimati sul mezzo  " + transport.getId() + " :" + query.getResultList().size());
         } else {
             System.out.println("Non ci sono tickets vidimati su questo mezzo");
         }
     }
 
-    public void getValidatedTicketByDate() {
-        TypedQuery<Validation> query = em.createQuery("SELECT v FROM Validation v", Validation.class);
-        if (!query.getResultList().isEmpty()) {
-            query.getResultList().forEach(System.out::println);
-            System.out.println("numero ticket vidimati su questo mezzo : " + query.getResultList().size());
-        } else {
-            System.out.println("Non ci sono tickets vidimati su questo mezzo");
-        }
+    public void getValidatedTicketByDate(LocalDate date1, LocalDate date2) {
+        TypedQuery<Ticket> query = em.createQuery("SELECT t FROM Ticket t WHERE t.validation IS NOT NULL " +
+                "AND t.validation.validationDate BETWEEN :date1 AND :date2", Ticket.class);
+        query.setParameter("date1", date1);
+        query.setParameter("date2", date2);
+        List<Ticket> tickets = query.getResultList();
+        tickets.forEach(t ->
+                {
+                    System.out.println(t);
+                    System.out.println("Data di validazione: " + t.getValidation().getValidationDate());
+                }
+        );
+
     }
 
 }

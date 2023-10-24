@@ -38,8 +38,8 @@ public class Ticket extends TicketsItem {
     }
 
 
-    @Override
+    /*@Override
     public String toString() {
         return " validato? " + validation;
-    }
+    }*/
 }
