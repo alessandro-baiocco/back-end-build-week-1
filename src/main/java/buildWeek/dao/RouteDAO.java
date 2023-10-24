@@ -92,4 +92,13 @@ public class RouteDAO {
     }
 
 
+    public Route findTravelForThis(String start, String destination) {
+        TypedQuery<Route> query = em.createQuery("SELECT r FROM Route t WHERE LOWER(t.startRoutePlace) LIKE LOWER(CONCAT(:start, '%')) AND LOWER(t.endRoutePlace) LIKE LOWER(CONCAT(:destination , '%'))", Route.class);
+        query.setParameter("destination", destination);
+        query.setParameter("start", start);
+        query.setMaxResults(1);
+        return query.getSingleResult();
+    }
+
+
 }
