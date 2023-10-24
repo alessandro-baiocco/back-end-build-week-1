@@ -1,9 +1,15 @@
 package buildWeek.dao;
 
+import buildWeek.entities.Seller;
 import buildWeek.entities.Ticket;
+import buildWeek.entities.TicketsItem;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.TypedQuery;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Objects;
 
 public class TicketsDAO {
     private final EntityManager em;
@@ -25,17 +31,56 @@ public class TicketsDAO {
     }
 
 
-    public Ticket getById(int id) {
+    public TicketsItem getById(int id) {
         return em.find(Ticket.class, id);
     }
 
     public void delete(Ticket ticket) {
-                EntityTransaction transaction = em.getTransaction();
-                transaction.begin();
-                em.remove(ticket);
-                transaction.commit();
-                System.out.println("l'abbonamento è stato cancellato correttamente");
+        EntityTransaction transaction = em.getTransaction();
+        transaction.begin();
+        em.remove(ticket);
+        transaction.commit();
+        System.out.println("l'abbonamento è stato cancellato correttamente");
+    }
+
+    public List<TicketsItem> getAllSoldTicket(LocalDate selectedDate, String userInput) {
+
+        LocalDate finalDate = selectedDate;
+        if (Objects.equals(userInput, "1")) finalDate = selectedDate.plusDays(1);
+        else if (Objects.equals(userInput, "2")) finalDate = selectedDate.plusWeeks(1);
+        else if (Objects.equals(userInput, "3")) finalDate = selectedDate.plusMonths(1);
+
+        TypedQuery<TicketsItem> query = em.createQuery("SELECT z FROM TicketsItem z WHERE z.createdDate BETWEEN :selectedDate AND :secondDate", TicketsItem.class);
+        query.setParameter("selectedDate", selectedDate);
+        query.setParameter("secondDate", finalDate);
+        return query.getResultList();
+    }
+
+    public List<TicketsItem> getAllSoldTicket(LocalDate selectedDate, Seller seller, String userInput) {
+
+        LocalDate finalDate = selectedDate;
+        if (Objects.equals(userInput, "1")) finalDate = selectedDate.plusDays(1);
+        else if (Objects.equals(userInput, "2")) finalDate = selectedDate.plusWeeks(1);
+        else if (Objects.equals(userInput, "3")) finalDate = selectedDate.plusMonths(1);
+
+        TypedQuery<TicketsItem> query = em.createQuery("SELECT z FROM TicketsItem z WHERE (z.createdDate BETWEEN :selectedDate AND :secondDate) AND z.seller = :seller", TicketsItem.class);
+        query.setParameter("selectedDate", selectedDate);
+        query.setParameter("secondDate", finalDate);
+        query.setParameter("seller", seller);
+        return query.getResultList();
+    }
+
+    public List<TicketsItem> getAllSoldTicket(LocalDate selectedDate, LocalDate secondDate) {
+
+        TypedQuery<TicketsItem> query = em.createQuery("SELECT z FROM TicketsItem z WHERE z.createdDate BETWEEN :selectedDate AND :secondDate", TicketsItem.class);
+        query.setParameter("selectedDate", selectedDate);
+        query.setParameter("secondDate", secondDate);
+        return query.getResultList();
+
+
     }
 
 
 }
+
+

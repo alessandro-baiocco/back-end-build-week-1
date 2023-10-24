@@ -48,7 +48,7 @@ public abstract class TicketsItem {
     @Override
     public String toString() {
         return "biglietto N." + ID +
-                " creato il " + createdDate +
-                " venduto da " + seller;
+                " creato il " + createdDate
+                + " venduto da " + seller;
     }
 }

@@ -37,9 +37,9 @@ public class Ticket extends TicketsItem {
         this.validation = validation;
     }
 
-
     @Override
     public String toString() {
-        return " validato? " + validation;
+        return "validato ? " + validation
+                + " " + super.toString();
     }
 }

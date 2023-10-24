@@ -57,8 +57,8 @@ public class Subscription extends TicketsItem {
     @Override
     public String toString() {
         return "abbonamento di tipo " + type +
-                " attivo da " + activationDate +
-                " numero utente" + userId + super.toString();
+                " attivo da " + activationDate
+                + super.toString();
     }
 
 
