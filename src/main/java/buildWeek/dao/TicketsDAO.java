@@ -1,6 +1,8 @@
 package buildWeek.dao;
 
 import buildWeek.entities.Ticket;
+import buildWeek.entities.Transport;
+import buildWeek.entities.Validation;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
@@ -42,6 +44,27 @@ public class TicketsDAO {
         TypedQuery<Ticket> query = em.createQuery("SELECT t FROM Ticket t ORDER BY RAND()", Ticket.class);
         query.setMaxResults(1);
         return query.getSingleResult();
+    }
+
+    public void getValidatedTicketsOnTransport(Transport transport) {
+        TypedQuery<Validation> query = em.createQuery("SELECT v FROM Validation v WHERE v.transport = :transport", Validation.class);
+        query.setParameter("transport", transport);
+        if (!query.getResultList().isEmpty()) {
+            query.getResultList().forEach(System.out::println);
+            System.out.println("numero ticket vidimati su questo mezzo : " + query.getResultList().size());
+        } else {
+            System.out.println("Non ci sono tickets vidimati su questo mezzo");
+        }
+    }
+
+    public void getValidatedTicketByDate() {
+        TypedQuery<Validation> query = em.createQuery("SELECT v FROM Validation v", Validation.class);
+        if (!query.getResultList().isEmpty()) {
+            query.getResultList().forEach(System.out::println);
+            System.out.println("numero ticket vidimati su questo mezzo : " + query.getResultList().size());
+        } else {
+            System.out.println("Non ci sono tickets vidimati su questo mezzo");
+        }
     }
 
 }

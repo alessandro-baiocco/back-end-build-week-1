@@ -22,7 +22,10 @@ public class ValidationDao {
         if (validation.getTicket().getValidation() == null) {
             EntityTransaction tx = em.getTransaction();
             tx.begin();
+            Ticket ticket = validation.getTicket();
+            ticket.setValidation(validation);
             em.persist(validation);
+            em.persist(ticket);
             tx.commit();
             System.out.println("Il biglietto " + validation.getTicket().getID() + " è stato timbrato");
         } else {

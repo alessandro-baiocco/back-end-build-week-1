@@ -22,11 +22,11 @@ public class Subscription extends TicketsItem {
     }
 
 
-    public Subscription(LocalDate createdDate, Seller seller, TicketDuration type, LocalDate activationDate, UserBadge user) {
+    public Subscription(LocalDate createdDate, Seller seller, TicketDuration type, LocalDate activationDate, UserBadge userBadge) {
         super(createdDate, seller);
         this.type = type;
         this.activationDate = activationDate;
-        this.user = user;
+        this.userBadge = userBadge;
     }
 
     public TicketDuration getType() {

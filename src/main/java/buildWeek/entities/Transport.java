@@ -20,6 +20,7 @@ public class Transport {
     private int Id;
 
     private String name;
+    @Enumerated(EnumType.STRING)
     private TransportType type;
     private int capacity;
     private boolean active;
@@ -93,4 +94,6 @@ public class Transport {
     public void setValidations(List<Validation> validations) {
         this.validations = validations;
     }
+
+
 }

@@ -28,20 +28,33 @@ public class Application {
     private static TransportDao transDao = new TransportDao(em);
     private static ServiceDao servDao = new ServiceDao(em);
     private static RouteDAO rouDao = new RouteDAO(em);
+    private static TicketsDAO tickDao = new TicketsDAO(em);
+    private static TravelDao travDao = new TravelDao(em);
+    private static ValidationDao valDao = new ValidationDao(em);
     private static Random rnd = new Random();
     private static LocalDate now = LocalDate.now();
     private static Faker faker = new Faker();
-    private TravelDao travDao = new TravelDao(em);
     private LocalDateTime now2 = LocalDateTime.now();
     private int randomMinutes = 20 + rnd.nextInt(21);
     private LocalDateTime randomDateTime = now2.plus(randomMinutes, ChronoUnit.MINUTES);
-    private TicketsDAO tickDao = new TicketsDAO(em);
-    private ValidationDao valDao = new ValidationDao(em);
     private Supplier<Seller> SellerSupplier = () -> {
         return new Seller(true, SellerType.AUTO);
     };
 
     public static void main(String[] args) {
+
+        Application application = new Application();
+
+       /* application.createUsers();
+        application.createSellers();
+        application.createSubscriptions();
+        application.createTransport();
+        application.createServiceAndRoutes();
+        application.createTravelAndSetRouTransAndTravel();
+        application.createTicket();
+        application.createValidation();
+*/
+
 
         em.close();
         emf.close();
@@ -82,11 +95,11 @@ public class Application {
     private void createTransport() {
         for (int e = 0; e < 20; e++) {
             if (e <= 5) {
-                transDao.save(new Transport(faker.name().title(), TransportType.BUS, 80, true));
+                transDao.save(new Transport(faker.name().title(), TransportType.BUS, 20, true));
             } else if (e > 5 && e <= 10) {
                 transDao.save(new Transport(faker.name().title(), TransportType.TRAM, 80, true));
             } else if (e > 10 && e <= 15) {
-                transDao.save(new Transport(faker.name().title(), TransportType.BUS, 80, false));
+                transDao.save(new Transport(faker.name().title(), TransportType.BUS, 20, false));
             } else {
                 transDao.save(new Transport(faker.name().title(), TransportType.TRAM, 80, false));
 
@@ -96,7 +109,7 @@ public class Application {
 
     private void createServiceAndRoutes() {
         for (int o = 0; o < 10; o++) {
-            servDao.save(new Service(transDao.getById(rnd.nextInt(96, 115)), now.minusDays(rnd.nextInt(20, 30))));
+            servDao.save(new Service(transDao.getRandomTransport(), now));
         }
         for (int u = 0; u < 10; u++) {
             rouDao.save(new Route(faker.futurama().location(), faker.futurama().location(), rnd.nextInt(20, 40)));
