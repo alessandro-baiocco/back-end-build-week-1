@@ -22,24 +22,20 @@ public class Application {
     private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("cosotransport");
 
     private static final EntityManager em = emf.createEntityManager();
-    private static SubscriptionDAO subDao = new SubscriptionDAO(em);
-    private static SellerDao sellDao = new SellerDao(em);
-    private static UserBadgeDao userDAO = new UserBadgeDao(em);
-    private static TransportDao transDao = new TransportDao(em);
-    private static ServiceDao servDao = new ServiceDao(em);
-    private static RouteDAO rouDao = new RouteDAO(em);
-    private static Random rnd = new Random();
-    private static LocalDate now = LocalDate.now();
-    private static Faker faker = new Faker();
-    private TravelDao travDao = new TravelDao(em);
-    private LocalDateTime now2 = LocalDateTime.now();
-    private int randomMinutes = 20 + rnd.nextInt(21);
-    private LocalDateTime randomDateTime = now2.plus(randomMinutes, ChronoUnit.MINUTES);
-    private TicketsDAO tickDao = new TicketsDAO(em);
-    private ValidationDao valDao = new ValidationDao(em);
-    private Supplier<Seller> SellerSupplier = () -> {
-        return new Seller(true, SellerType.AUTO);
-    };
+    private static final SubscriptionDAO subDao = new SubscriptionDAO(em);
+    private static final SellerDao sellDao = new SellerDao(em);
+    private static final UserBadgeDao userDAO = new UserBadgeDao(em);
+    private static final TransportDao transDao = new TransportDao(em);
+    private static final ServiceDao servDao = new ServiceDao(em);
+    private static final RouteDAO rouDao = new RouteDAO(em);
+    private static final Random rnd = new Random();
+    private static final LocalDate now = LocalDate.now();
+    private static final Faker faker = new Faker();
+    private final TravelDao travDao = new TravelDao(em);
+    private final TicketsDAO tickDao = new TicketsDAO(em);
+    private final ValidationDao valDao = new ValidationDao(em);
+    private final LocalDateTime nowTime = LocalDateTime.now();
+
 
     public static void main(String[] args) {
 
@@ -111,8 +107,9 @@ public class Application {
     }
 
     private void createTravelAndSetRouTransAndTravel() {
+        int randomMinutes = 20 + rnd.nextInt(21);
         for (int c = 0; c < 10; c++) {
-            LocalDateTime coso = now2.minusDays(rnd.nextInt(20, 30));
+            LocalDateTime coso = nowTime.minusDays(rnd.nextInt(20, 30));
             travDao.save(new Travel(coso,
                     coso.plus(randomMinutes, ChronoUnit.valueOf("MINUTES")),
                     rouDao.getById(rnd.nextInt(72, 82)),
