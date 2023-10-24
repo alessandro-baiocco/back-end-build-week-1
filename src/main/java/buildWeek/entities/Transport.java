@@ -20,6 +20,7 @@ public class Transport {
     private int Id;
 
     private String name;
+    @Enumerated(EnumType.STRING)
     private TransportType type;
     private int capacity;
     private boolean active;
