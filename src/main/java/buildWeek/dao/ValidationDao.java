@@ -19,11 +19,15 @@ public class ValidationDao {
     }
 
     public void save(Validation validation) {
-        EntityTransaction tx = em.getTransaction();
-        tx.begin();
-        em.persist(validation);
-        tx.commit();
-        System.out.println("Validation " + validation.getId() + " saved");
+        if (validation.getTicket().getValidation() == null) {
+            EntityTransaction tx = em.getTransaction();
+            tx.begin();
+            em.persist(validation);
+            tx.commit();
+            System.out.println("Il biglietto " + validation.getTicket().getID() + " è stato timbrato");
+        } else {
+            System.out.println("Il biglietto " + validation.getTicket().getID() + " è stato già validato!");
+        }
     }
 
 
@@ -49,7 +53,7 @@ public class ValidationDao {
 
     public void validate(Ticket ticket, Transport transport, Travel travel) {
 
-        Validation validation = new Validation(LocalDate.now(), transport, travel,ticket);
+        Validation validation = new Validation(LocalDate.now(), transport, travel, ticket);
         ticket.setValidation(validation);
         EntityTransaction tx = em.getTransaction();
         tx.begin();

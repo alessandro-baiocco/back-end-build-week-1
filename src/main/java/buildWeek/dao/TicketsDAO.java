@@ -11,6 +11,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 
+
 public class TicketsDAO {
     private final EntityManager em;
 
@@ -36,12 +37,13 @@ public class TicketsDAO {
     }
 
     public void delete(Ticket ticket) {
-                EntityTransaction transaction = em.getTransaction();
-                transaction.begin();
-                em.remove(ticket);
-                transaction.commit();
-                System.out.println("Il ticket è stato cancellato correttamente");
+        EntityTransaction transaction = em.getTransaction();
+        transaction.begin();
+        em.remove(ticket);
+        transaction.commit();
+        System.out.println("Il ticket è stato cancellato correttamente");
     }
+
 
     public List<TicketsItem> getAllSoldTicket(LocalDate selectedDate, String userInput) {
 
@@ -80,7 +82,13 @@ public class TicketsDAO {
 
     }
 
-
+    public Ticket getRandomTicket() {
+        TypedQuery<Ticket> query = em.createQuery("SELECT t FROM Ticket t ORDER BY RAND()", Ticket.class);
+        query.setMaxResults(1);
+        return query.getSingleResult();
+    }
 }
+
+
 
 
