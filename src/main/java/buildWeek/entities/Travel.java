@@ -72,7 +72,6 @@ public class Travel {
                 "id=" + id +
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +
-                ", route=" + route +
                 ", transport=" + transport +
                 '}';
     }

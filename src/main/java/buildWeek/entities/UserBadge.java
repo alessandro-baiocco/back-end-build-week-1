@@ -3,7 +3,7 @@ package buildWeek.entities;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.time.temporal.TemporalAmount;
+import java.util.List;
 
 @Entity
 @Table(name = "user_badges")
@@ -23,6 +23,9 @@ public class UserBadge {
     private LocalDate birthDate;
     @Column(name = "activation_date")
     private LocalDate activationDate;
+
+    @OneToMany(mappedBy = "userBadge")
+    private List<Subscription> subscriptions;
 
     //costruttore di default e costruttore con parametri
     public UserBadge() {
@@ -73,6 +76,13 @@ public class UserBadge {
         this.activationDate = activationDate;
     }
 
+    public List<Subscription> getSubscriptions() {
+        return subscriptions;
+    }
+
+    public void setSubscriptions(List<Subscription> subscriptions) {
+        this.subscriptions = subscriptions;
+    }
 
     @Override
     public String toString() {

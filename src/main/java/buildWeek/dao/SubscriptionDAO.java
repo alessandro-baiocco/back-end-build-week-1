@@ -49,21 +49,26 @@ public class SubscriptionDAO {
     }
 
 
-    public void reNew(int id) {
-        Subscription found = em.find(Subscription.class, id);
-        try {
-            if (found != null) {
-                found.setActivationDate(found.getActivationDate().plusYears(1));
-                EntityTransaction transaction = em.getTransaction();
-                transaction.begin();
-                em.persist(found);
-                transaction.commit();
-                System.out.println("l'abbonamento è rinnovato correttamente");
+    public void reNew(Subscription subscription, TicketDuration ticketDuration) {
+        UserBadgeDao userBadgeDao = new UserBadgeDao(em);
+        if (userBadgeDao.isActive(subscription.getUser())) {
+            if (isActive(subscription)) {
+                if (ticketDuration == TicketDuration.WEEKLY) {
+                    subscription.setActivationDate(subscription.getActivationDate().plusDays(7));
+                } else {
+                    subscription.setActivationDate(subscription.getActivationDate().plusDays(30));
+                }
             } else {
-                System.err.println("l'abbonamento non è stato trovato");
+                subscription.setActivationDate(LocalDate.now());
             }
-        } catch (Exception ex) {
-            System.err.println(ex.getMessage());
+            subscription.setType(ticketDuration);
+            EntityTransaction transaction = em.getTransaction();
+            transaction.begin();
+            em.persist(subscription);
+            transaction.commit();
+            System.out.println("l'abbonamento è rinnovato correttamente");
+        } else {
+            System.out.println("Devi rinnovare prima la tessera utente.");
         }
     }
 
@@ -90,7 +95,6 @@ public class SubscriptionDAO {
     }
 
     public boolean isActive(Subscription subscription) {
-
         if (subscription.getType() == TicketDuration.WEEKLY) {
             return ChronoUnit.DAYS.between(subscription.getActivationDate(), LocalDate.now()) < 8;
         } else if (subscription.getType() == TicketDuration.MONTHLY) {
@@ -99,6 +103,11 @@ public class SubscriptionDAO {
             System.err.println("not found");
             return false;
         }
+    }
+
+    public boolean isBadgeActive(Subscription subscription) {
+        UserBadgeDao userBadgeDao = new UserBadgeDao(em);
+        return userBadgeDao.isActive(subscription.getUser());
     }
 
 }

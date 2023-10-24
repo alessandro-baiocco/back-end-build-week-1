@@ -4,6 +4,7 @@ import buildWeek.entities.Ticket;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.TypedQuery;
 
 public class TicketsDAO {
     private final EntityManager em;
@@ -30,12 +31,17 @@ public class TicketsDAO {
     }
 
     public void delete(Ticket ticket) {
-                EntityTransaction transaction = em.getTransaction();
-                transaction.begin();
-                em.remove(ticket);
-                transaction.commit();
-                System.out.println("Il ticket è stato cancellato correttamente");
+        EntityTransaction transaction = em.getTransaction();
+        transaction.begin();
+        em.remove(ticket);
+        transaction.commit();
+        System.out.println("Il ticket è stato cancellato correttamente");
     }
 
+    public Ticket getRandomTicket() {
+        TypedQuery<Ticket> query = em.createQuery("SELECT t FROM Ticket t ORDER BY RAND()", Ticket.class);
+        query.setMaxResults(1);
+        return query.getSingleResult();
+    }
 
 }
