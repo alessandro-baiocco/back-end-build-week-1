@@ -8,6 +8,7 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 
 public class SubscriptionDAO {
     private final EntityManager em;
@@ -108,6 +109,29 @@ public class SubscriptionDAO {
     public boolean isBadgeActive(Subscription subscription) {
         UserBadgeDao userBadgeDao = new UserBadgeDao(em);
         return userBadgeDao.isActive(subscription.getUser());
+    }
+
+    public List<Subscription> getAll() {
+        TypedQuery<Subscription> query = em.createQuery("SELECT s FROM Subscription s", Subscription.class);
+        return query.getResultList();
+    }
+
+    public List<Subscription> getAllAuto() {
+        TypedQuery<Subscription> query = em.createQuery("SELECT s FROM Subscription s.seller_type = 'AUTO'", Subscription.class);
+        return query.getResultList();
+    }
+
+    public int soldSubscription(LocalDate date) {
+        TypedQuery<Subscription> query = em.createQuery("SELECT s FROM Subscription s WHERE s.createdDate = :date", Subscription.class);
+        query.setParameter("date", date);
+        return query.getResultList().size();
+    }
+
+    public int soldSubscription(LocalDate date1, LocalDate date2) {
+        TypedQuery<Subscription> query = em.createQuery("SELECT s FROM Subscription s WHERE s.createdDate BETWEEN :date1 AND :date2", Subscription.class);
+        query.setParameter("date1", date1);
+        query.setParameter("date2", date2);
+        return query.getResultList().size();
     }
 
 }

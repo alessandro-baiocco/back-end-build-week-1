@@ -39,15 +39,11 @@ public class Application {
     private static final LocalDateTime nowTime = LocalDateTime.now();
 
     private static LocalDateTime now2 = LocalDateTime.now();
-    private int randomMinutes = 20 + rnd.nextInt(21);
-    private LocalDateTime randomDateTime = now2.plus(randomMinutes, ChronoUnit.MINUTES);
-    private Supplier<Seller> SellerSupplier = () -> {
-        return new Seller(true, SellerType.AUTO);
-    };
+    private final int randomMinutes = 20 + rnd.nextInt(21);
+
 
     public static void main(String[] args) {
         menu();
-
 
         em.close();
         emf.close();
@@ -169,6 +165,94 @@ public class Application {
     }
 
     private static void soldServices() {
+        int menu01 = -1;
+        while (menu01 < 0) {
+            System.out.println();
+            System.out.println("Statistiche di viaggio");
+            System.out.println();
+            System.out.println("1 - abbonamenti venduti");
+            System.out.println("2 - abbonamenti venduti per venditore");
+            System.out.println("3 - abbonamenti venduti per data e venditore");
+            System.out.println("4 - abbonamenti venduti tra due date da un venditore");
+            System.out.println("5 - abbonamenti venduti in un giorno");
+            System.out.println("6 - abbonamenti venduti tra due date");
+            System.out.println("0 - indietro");
+            menu01 = scanInt();
+            switch (menu01) {
+                case 1:
+                    System.out.println("\nsono stati venduti " + subDao.getAll().size() + " abbonamenti in totale\n");
+                    pauseReturn();
+                    menu01 = -1;
+                    break;
+                case 2:
+                    soldServicesBySeller();
+                    pauseReturn();
+                    menu01 = -1;
+                    break;
+                case 3:
+                    soldServicesByDateAndSeller();
+                    pauseReturn();
+                    menu01 = -1;
+                    break;
+                case 4:
+                    soldServicesBy2DateAndSeller();
+                    pauseReturn();
+                    menu01 = -1;
+                    break;
+                case 5:
+                    soldServicesByDate();
+                    pauseReturn();
+                    menu01 = -1;
+                    break;
+                case 6:
+                    soldServicesBy2Date();
+                    pauseReturn();
+                    menu01 = -1;
+                    break;
+                case 0:
+                    System.out.println("indietro");
+                    break;
+                default:
+                    System.out.println("Opzione non valida");
+                    menu01 = -1;
+            }
+        }
+    }
+
+    private static void soldServicesBy2Date() {
+        System.out.println("\ninserisci la prima data\n");
+        LocalDate date1 = getDate();
+        System.out.println("\ninserisci la seconda data\n");
+        LocalDate date2 = getDate();
+        System.out.println("\nsono stati venduti " + subDao.soldSubscription(date1, date2) + " abbonamenti tra il " + date1 + " e il " + date2);
+    }
+
+    private static void soldServicesByDate() {
+        LocalDate date = getDate();
+        System.out.println("il giorno " + date + " sono stati venduti " + subDao.soldSubscription(date) + " abbonamenti");
+    }
+
+    private static void soldServicesBy2DateAndSeller() {
+        sellDao.getAll().forEach(System.out::println);
+        Seller seller = getSeller();
+        System.out.println("\ninserisci la prima data\n");
+        LocalDate date1 = getDate();
+        System.out.println("\ninserisci la seconda data\n");
+        LocalDate date2 = getDate();
+        System.out.println("\nIl punto vendita n. " + seller.getId() + " ha venduto " + sellDao.soldSubscriptions(seller, date1, date2) + " abbonamenti tra il " + date1 + " e il " + date2);
+    }
+
+    private static void soldServicesByDateAndSeller() {
+        sellDao.getAll().forEach(System.out::println);
+        Seller seller = getSeller();
+        LocalDate date = getDate();
+        System.out.println("Il punto vendita n. " + seller.getId() + " ha venduto " + sellDao.soldSubscriptions(seller, date) + " abbonamenti in data " + date);
+    }
+
+    private static void soldServicesBySeller() {
+        sellDao.getAll().forEach(System.out::println);
+        Seller seller = getSeller();
+        System.out.println("Il punto vendita n. " + seller.getId() + " ha venduto " + sellDao.soldSubscriptions(seller) + " abbonamenti");
     }
 
     private static void soldTickets() {
@@ -489,7 +573,7 @@ public class Application {
             }
         }
     }
-    
+
     private static Seller getSeller() {
         Seller seller = null;
         while (true) {
