@@ -60,10 +60,12 @@ public class ServiceDao {
         List<Service> services = new ArrayList<>();
         services = transport.getServices();
         if (services.isEmpty()) {
-            System.out.println("Non è stato trovato nessun servizio in corso per questo mezzo.");
+            System.out.println("Il mezzo non è mai stato in manutenzione.");
         } else {
+            AtomicBoolean transportHasNotServiceToEnd = new AtomicBoolean(true);
             services.forEach(service1 -> {
                 if (service1.getEnd_date() == null) {
+                    transportHasNotServiceToEnd.set(false);
                     EntityTransaction tx = em.getTransaction();
                     tx.begin();
                     service1.setEnd_date(LocalDate.now());
@@ -72,6 +74,8 @@ public class ServiceDao {
                     em.persist(service1);
                     tx.commit();
                     System.out.println("Il mezzo " + transport.getId() + " è di nuovo disponibile.");
+                } else if (transportHasNotServiceToEnd.get()) {
+                    System.out.println("Non è stato trovato nessun servizio in corso per questo mezzo.");
                 }
             });
         }
