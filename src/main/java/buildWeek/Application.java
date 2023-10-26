@@ -48,19 +48,6 @@ public class Application {
     public static void main(String[] args) {
         menu();
 
-
-        Application application = new Application();
-
-        //application.createUsers();
-        //application.createSellers();
-        //application.createSubscriptions();
-        //application.createTransport();
-        //application.createServiceAndRoutes();
-        // application.createTravelAndSetRouTransAndTravel();
-        //  application.createTicket();
-        //application.createValidation();
-
-
         em.close();
         emf.close();
     }
