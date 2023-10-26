@@ -22,33 +22,38 @@ public class ServiceDao {
 
 
     public void save(Service service) {
-        TransportDao transportDao = new TransportDao(em);
-        List<Service> services = new ArrayList<>();
-        TypedQuery<Service> query = em.createNamedQuery("getAllServices", Service.class);
-        services = query.getResultList();
-        AtomicBoolean transportHasAlreadyService = new AtomicBoolean(false);
-        services.forEach(service1 -> {
-            if (service1.getTransport().getId() == service.getTransport().getId()) {
-                if (service1.getEnd_date() == null) {
-                    transportHasAlreadyService.set(true);
+        if (service.getTransport() != null) {
+            TransportDao transportDao = new TransportDao(em);
+            List<Service> services = new ArrayList<>();
+            TypedQuery<Service> query = em.createNamedQuery("getAllServices", Service.class);
+            services = query.getResultList();
+            AtomicBoolean transportHasAlreadyService = new AtomicBoolean(false);
+            services.forEach(service1 -> {
+                if (service1.getTransport().getId() == service.getTransport().getId()) {
+                    if (service1.getEnd_date() == null) {
+                        transportHasAlreadyService.set(true);
+                    }
                 }
+            });
+            if (!transportHasAlreadyService.get()) {
+                EntityTransaction tx = em.getTransaction();
+                tx.begin();
+                em.persist(service);
+
+                System.out.println("Service " + service.getId() + " saved");
+
+                Transport transport = transportDao.getById(service.getTransport().getId());
+                transport.setActive(false);
+                em.persist(transport);
+                System.out.println("Il mezzo " + service.getTransport().getId() + " è stato messo in manutenzione.");
+                tx.commit();
+            } else {
+                System.out.println("C'è già un servizio attivo per il mezzo " + service.getTransport().getId());
             }
-        });
-        if (!transportHasAlreadyService.get()) {
-            EntityTransaction tx = em.getTransaction();
-            tx.begin();
-            em.persist(service);
-
-            System.out.println("Service " + service.getId() + " saved");
-
-            Transport transport = transportDao.getById(service.getTransport().getId());
-            transport.setActive(false);
-            em.persist(transport);
-            System.out.println("Il mezzo " + service.getTransport().getId() + " è in manutenzione.");
-            tx.commit();
         } else {
-            System.out.println("C'è già un servizio attivo per il mezzo " + service.getTransport().getId());
+            System.out.println("Il transporto che hai inserito nel servizio non esiste.");
         }
+
     }
 
     public void endService(Transport transport) {

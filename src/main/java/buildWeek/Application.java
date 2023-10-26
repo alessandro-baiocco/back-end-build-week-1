@@ -165,6 +165,10 @@ public class Application {
                     servDao.getAllServices(getTransport()).forEach(System.out::println);
                     menu01 = -1;
                     break;
+                case 3:
+                    chooseATransport();
+                    menu01 = -1;
+                    break;
                 case 0:
                     System.out.println("Arrivederci");
                     break;
@@ -173,6 +177,20 @@ public class Application {
                     menu01 = -1;
             }
         }
+    }
+
+    //Metti un mezzo in manutenzione lato amministrazione
+    private static void chooseATransport() {
+        System.out.println("Scegli un mezzo da mettere in manutenzione.");
+        Transport transport = transDao.getById(scanInt());
+        if (transport != null) {
+            Service service = new Service(transport, now);
+            servDao.save(service);
+        } else {
+            System.out.println("Il mezzo non esiste. Riprova.");
+            chooseATransport();
+        }
+        manageTransports();
     }
 
     private static Transport getTransport() {
