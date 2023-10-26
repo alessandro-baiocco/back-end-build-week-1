@@ -26,7 +26,7 @@ public class SubscriptionDAO {
                 transaction.begin();
                 em.persist(subS);
                 transaction.commit();
-                System.out.println("nuovo abbonamento creato correttamente");
+                System.out.println("abbonamento n " + subS.getID() + "creato correttamente");
             } catch (Exception ex) {
                 System.err.println(ex.getMessage());
             }
