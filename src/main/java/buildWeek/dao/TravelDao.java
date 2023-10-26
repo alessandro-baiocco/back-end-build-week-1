@@ -6,8 +6,10 @@ import buildWeek.entities.Travel;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.RollbackException;
 import javax.persistence.TypedQuery;
 import java.time.LocalDate;
+import java.util.List;
 
 public class TravelDao {
     private final EntityManager em;
@@ -17,11 +19,28 @@ public class TravelDao {
     }
 
     public void save(Travel travel) {
-        EntityTransaction transaction = em.getTransaction();
-        transaction.begin();
-        em.persist(travel);
-        transaction.commit();
-        System.out.println("Il viaggio è stato correttamente inserito");
+        try {
+            EntityTransaction transaction = em.getTransaction();
+            Transport newTran = travel.getTransport();
+            newTran.setRoute(travel.getRoute());
+            Route newRoute = travel.getRoute();
+            List<Transport> nuoviTrasporti = newRoute.getTransports();
+            nuoviTrasporti.add(newTran);
+            newRoute.setTransports(nuoviTrasporti);
+            transaction.begin();
+            em.persist(travel);
+            em.persist(newTran);
+            em.persist(newRoute);
+            transaction.commit();
+            System.out.println("Il viaggio è stato correttamente inserito");
+        } catch (RollbackException ex) {
+            System.err.println("errore di creazione");
+
+        } catch (Exception ex) {
+            System.err.println("errore generico");
+            System.err.println(ex.getMessage());
+        }
+
     }
 
     public Travel getById(int id) {

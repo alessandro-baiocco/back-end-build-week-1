@@ -17,7 +17,6 @@ public class Travel {
     private Route route;
 
     @ManyToOne
-    @JoinColumn(name = "transport_id")
     private Transport transport;
 
     public Travel() {

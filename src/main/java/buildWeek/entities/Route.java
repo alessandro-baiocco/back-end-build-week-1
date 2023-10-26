@@ -15,13 +15,12 @@ public class Route {
     private String endRoutePlace;
     private int duration;
     @Nullable
-    @OneToOne
-    @JoinColumn(name = "transport_id")
-    private Transport transport;
+    @OneToMany
+    private List<Transport> transports;
 
     @Nullable
     @OneToMany(mappedBy = "route")
-    private List<Travel> travel;
+    private List<Travel> travels;
 
     public Route() {
     }
@@ -30,16 +29,16 @@ public class Route {
         this.startRoutePlace = startRoutePlace;
         this.endRoutePlace = endRoutePlace;
         this.duration = duration;
-        this.transport = null;
-        this.travel = null;
+        this.transports = null;
+        this.travels = null;
     }
 
-    public Route(String startRoutePlace, String endRoutePlace, int duration, Transport transport, List<Travel> travel) {
+    public Route(String startRoutePlace, String endRoutePlace, int duration, List<Transport> transports, List<Travel> travel) {
         this.startRoutePlace = startRoutePlace;
         this.endRoutePlace = endRoutePlace;
         this.duration = duration;
-        this.transport = transport;
-        this.travel = travel;
+        this.transports = transports;
+        this.travels = travel;
     }
 
     public int getId() {
@@ -71,20 +70,20 @@ public class Route {
         this.duration = duration;
     }
 
-    public Transport getMeansOfTransport() {
-        return transport;
+    public List<Transport> getTransports() {
+        return transports;
     }
 
-    public void setMeansOfTransport(Transport transportId) {
-        this.transport = transport;
+    public void setTransports(List<Transport> transports) {
+        this.transports = transports;
     }
 
     public List<Travel> getTravel() {
-        return travel;
+        return travels;
     }
 
     public void setTravel(List<Travel> travel) {
-        this.travel = travel;
+        this.travels = travel;
     }
 
 
@@ -95,8 +94,6 @@ public class Route {
                 ", startRoutePlace='" + startRoutePlace + '\'' +
                 ", endRoutePlace='" + endRoutePlace + '\'' +
                 ", duration=" + duration +
-                ", transport=" + transport +
-                ", travel=" + travel +
                 '}';
     }
 }
