@@ -42,6 +42,11 @@ public class TicketsDAO {
         System.out.println("Il ticket è stato cancellato correttamente");
     }
 
+    public List<Ticket> getAllSoldTicket(Seller seller) {
+        TypedQuery<Ticket> query = em.createQuery("SELECT z FROM TicketsItem z WHERE z.seller = :seller", Ticket.class);
+        query.setParameter("seller", seller);
+        return query.getResultList();
+    }
 
     public List<TicketsItem> getAllSoldTicket(LocalDate selectedDate, String userInput) {
 
@@ -57,7 +62,7 @@ public class TicketsDAO {
     }
 
     public List<TicketsItem> getAllSoldTicket(LocalDate selectedDate, Seller seller, String userInput) {
-
+// brividi
         LocalDate finalDate = selectedDate;
         if (Objects.equals(userInput, "1")) finalDate = selectedDate.plusDays(1);
         else if (Objects.equals(userInput, "2")) finalDate = selectedDate.plusWeeks(1);
@@ -70,8 +75,8 @@ public class TicketsDAO {
         return query.getResultList();
     }
 
-    public List<TicketsItem> getAll() {
-        TypedQuery<TicketsItem> query = em.createQuery("SELECT z FROM TicketsItem z", TicketsItem.class);
+    public List<Ticket> getAll() {
+        TypedQuery<Ticket> query = em.createQuery("SELECT z FROM TicketsItem z", Ticket.class);
         return query.getResultList();
     }
 
@@ -81,8 +86,21 @@ public class TicketsDAO {
         query.setParameter("selectedDate", selectedDate);
         query.setParameter("secondDate", secondDate);
         return query.getResultList();
+    }
 
+    public List<Ticket> getAllSoldTicket(Seller seller, LocalDate date) {
+        TypedQuery<Ticket> query = em.createQuery("SELECT z FROM Tickets z WHERE z.createdDate = :date AND z.seller = :seller", Ticket.class);
+        query.setParameter("date", date);
+        query.setParameter("seller", seller);
+        return query.getResultList();
+    }
 
+    public List<Ticket> getAllSoldTicket(Seller seller, LocalDate date1, LocalDate date2) {
+        TypedQuery<Ticket> query = em.createQuery("SELECT t FROM Ticket t WHERE t.createdDate BETWEEN :date1 AND :date2 AND t.seller = :seller", Ticket.class);
+        query.setParameter("date1", date1);
+        query.setParameter("date2", date2);
+        query.setParameter("seller", seller);
+        return query.getResultList();
     }
 
     public Ticket getRandomTicket() {
