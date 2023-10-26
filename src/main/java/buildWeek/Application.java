@@ -38,9 +38,27 @@ public class Application {
     private static final Faker faker = new Faker();
     private static final LocalDateTime nowTime = LocalDateTime.now();
 
+    private LocalDateTime now2 = LocalDateTime.now();
+    private int randomMinutes = 20 + rnd.nextInt(21);
+    private LocalDateTime randomDateTime = now2.plus(randomMinutes, ChronoUnit.MINUTES);
+    private Supplier<Seller> SellerSupplier = () -> {
+        return new Seller(true, SellerType.AUTO);
+    };
 
     public static void main(String[] args) {
         menu();
+
+
+        Application application = new Application();
+
+        //application.createUsers();
+        //application.createSellers();
+        //application.createSubscriptions();
+        //application.createTransport();
+        //application.createServiceAndRoutes();
+        // application.createTravelAndSetRouTransAndTravel();
+        //  application.createTicket();
+        //application.createValidation();
 
 
         em.close();
@@ -437,35 +455,6 @@ public class Application {
         }
     }
 
-    private static void createTransport() {
-        for (int e = 0; e < 20; e++) {
-            if (e <= 5) {
-                transDao.save(new Transport(faker.name().title(), TransportType.BUS, 80, true));
-            } else if (e <= 10) {
-                transDao.save(new Transport(faker.name().title(), TransportType.TRAM, 80, true));
-            } else if (e <= 15) {
-                transDao.save(new Transport(faker.name().title(), TransportType.BUS, 80, false));
-            } else {
-                transDao.save(new Transport(faker.name().title(), TransportType.TRAM, 80, false));
-
-            }
-        }
-    }
-
-    private static void createServiceAndRoutes() {
-        for (int o = 0; o < 10; o++) {
-            servDao.save(new Service(transDao.getById(rnd.nextInt(96, 115)), now.minusDays(rnd.nextInt(20, 30))));
-        }
-        for (int u = 0; u < 10; u++) {
-            rouDao.save(new Route(faker.futurama().location(), faker.futurama().location(), rnd.nextInt(20, 40)));
-        }
-        for (int u = 0; u < 10; u++) {
-            rouDao.save(new Route(faker.futurama().location(), faker.futurama().location(), rnd.nextInt(20, 40)));
-        }
-        for (int e = 0; e < 5; e++) {
-            transDao.save(new Transport(faker.name().title(), TransportType.TRAM, 80, true));
-        }
-    }
 
     public void createSellers() {
         for (int i = 0; i < 10; i++) {
@@ -490,19 +479,54 @@ public class Application {
         }
     }
 
+
+    private void createTransport() {
+        for (int e = 0; e < 20; e++) {
+            if (e <= 5) {
+                transDao.save(new Transport(faker.name().title(), TransportType.BUS, 20, true));
+            } else if (e > 5 && e <= 10) {
+                transDao.save(new Transport(faker.name().title(), TransportType.TRAM, 80, true));
+            } else if (e > 10 && e <= 15) {
+                transDao.save(new Transport(faker.name().title(), TransportType.BUS, 20, false));
+            } else {
+                transDao.save(new Transport(faker.name().title(), TransportType.TRAM, 80, false));
+
+            }
+        }
+    }
+
+    private void createServiceAndRoutes() {
+        for (int o = 0; o < 10; o++) {
+            servDao.save(new Service(transDao.getRandomTransport(), now));
+        }
+        for (int u = 0; u < 10; u++) {
+            rouDao.save(new Route(faker.futurama().location(), faker.futurama().location(), rnd.nextInt(20, 40)));
+        }
+        for (int u = 0; u < 10; u++) {
+            rouDao.save(new Route(faker.futurama().location(), faker.futurama().location(), rnd.nextInt(20, 40)));
+        }
+        for (int e = 0; e < 5; e++) {
+            transDao.save(new Transport(faker.name().title(), TransportType.TRAM, 80, true));
+        }
+    }
+
     private void createTravelAndSetRouTransAndTravel() {
-        int randomMinutes = 20 + rnd.nextInt(21);
+
         for (int c = 0; c < 10; c++) {
             LocalDateTime coso = nowTime.minusDays(rnd.nextInt(20, 30));
             travDao.save(new Travel(coso,
                     coso.plus(randomMinutes, ChronoUnit.valueOf("MINUTES")),
-                    rouDao.getById(rnd.nextInt(72, 82)),
-                    transDao.getById(rnd.nextInt(57, 102))));
+                    rouDao.getRandomRoute(),
+                    transDao.getRandomTransport()));
         }
 
         for (int w = 0; w < 10; w++) {
+            LocalDateTime coso = now2.minusDays(rnd.nextInt(20, 30));
             rouDao.setTrans();
-            rouDao.setTravel();
+            rouDao.setTravel(rouDao.getRandomRoute(), new Travel(coso,
+                    coso.plus(randomMinutes, ChronoUnit.valueOf("MINUTES")),
+                    rouDao.getRandomRoute(),
+                    transDao.getRandomTransport()));
         }
     }
 

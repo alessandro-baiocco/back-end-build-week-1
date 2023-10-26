@@ -6,6 +6,7 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "services")
+@NamedQueries(@NamedQuery(name = "getAllServices", query = "SELECT s FROM Service s"))
 public class Service {
 
     @Id
@@ -15,7 +16,6 @@ public class Service {
     @ManyToOne
     @JoinColumn(name = "transport_id")
     private Transport transport;
-
     private LocalDate start_date;
     private LocalDate end_date;
 
@@ -61,6 +61,7 @@ public class Service {
     public String toString() {
         return "Service{" +
                 "id=" + id +
+                ", transport_id=" + transport.getId() +
                 ", start_date=" + start_date +
                 ", end_date=" + end_date +
                 '}';

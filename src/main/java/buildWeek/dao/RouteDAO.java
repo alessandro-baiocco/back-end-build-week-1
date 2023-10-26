@@ -7,6 +7,7 @@ import buildWeek.entities.Travel;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
+import java.util.ArrayList;
 import java.util.List;
 
 public class RouteDAO {
@@ -55,16 +56,26 @@ public class RouteDAO {
     }
 
 
-    public void setTravel() {
+    public void setTravel(Route route, Travel travel) {
         EntityTransaction transaction = em.getTransaction();
         transaction.begin();
-        TypedQuery<Route> getAllRoute = em.createQuery("SELECT t FROM Route t", Route.class); // Query JPQL
-        List<Route> routeList = getAllRoute.getResultList();
-        routeList.forEach(t -> t.setTravel(getRandomTravel()));
-        // 2. Eseguo la query
-        // 3. Termino la transazione col salvataggio effettivo di una nuova riga nella tabella students
-        transaction.commit();
-
+        List<Travel> travelList = new ArrayList<>();
+        if (route.getTravel() != null) {
+            travelList.addAll(route.getTravel());
+        }
+        travelList.add(travel);
+        try {
+            if (travelList != null) {
+                route.setTravel(travelList);
+                em.persist(route);
+                System.out.println("Viaggo aggiunto correttamente alla rotta : " + route.getId());
+                transaction.commit();
+            } else {
+                System.out.println("E' successo qualcosa per cui non possiamo inserire il viaggio alla rotta.");
+            }
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
     }
 
     public void setTrans() {

@@ -54,7 +54,7 @@ public class TransportDao {
         System.out.println("Transport " + transport.getName() + " status changed in " + transport.isActive());
     }
 
-public List<Transport> getAllAvailable() {
+    public List<Transport> getAllAvailable() {
         TypedQuery<Transport> query = em.createQuery("SELECT t FROM Transport t WHERE t.active = true", Transport.class);
         return query.getResultList();
     }
@@ -74,6 +74,5 @@ public List<Transport> getAllAvailable() {
         query.setMaxResults(1);
         return query.getSingleResult();
     }
-
 
 }

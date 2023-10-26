@@ -95,6 +95,7 @@ public class Transport {
         this.validations = validations;
     }
 
+
     @Override
     public String toString() {
         return "Transport {" +
@@ -105,4 +106,5 @@ public class Transport {
                 ", active=" + active +
                 '}';
     }
+    
 }
