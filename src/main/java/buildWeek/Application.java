@@ -210,7 +210,11 @@ public class Application {
                     menu01 = -1;
                     break;
                 case 4:
-                    chooseATransport();
+                    putTransportInService();
+                    menu01 = -1;
+                    break;
+                case 5:
+                    setTransportActive();
                     menu01 = -1;
                     break;
                 case 0:
@@ -224,7 +228,7 @@ public class Application {
     }
 
     //Metti un mezzo in manutenzione lato amministrazione
-    private static void chooseATransport() {
+    private static void putTransportInService() {
         System.out.println("Scegli un mezzo da mettere in manutenzione.");
         Transport transport = transDao.getById(scanInt());
         if (transport != null) {
@@ -232,7 +236,19 @@ public class Application {
             servDao.save(service);
         } else {
             System.out.println("Il mezzo non esiste. Riprova.");
-            chooseATransport();
+            putTransportInService();
+        }
+        manageTransports();
+    }
+
+    private static void setTransportActive() {
+        System.out.println("Scegli un mezzo da mettere in circolazione.");
+        Transport transport = transDao.getById(scanInt());
+        if (transport != null) {
+            servDao.endService(transport);
+        } else {
+            System.out.println("Il mezzo non esiste. Riprova.");
+            setTransportActive();
         }
         manageTransports();
     }
