@@ -41,9 +41,7 @@ public class Application {
 
     public static void main(String[] args) {
         menu();
-createTransport();
-createServiceAndRoutes();
-createSub
+
         em.close();
         emf.close();
     }
