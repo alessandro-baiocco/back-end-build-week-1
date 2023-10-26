@@ -356,7 +356,7 @@ public class Application {
             menu01 = scanInt();
             Ticket userTick = tickDao.getById(menu01);
             if (userTick != null && tickDao.tickIsNotValidated(userTick)) {
-                Travel userTrav = useRoute.getTravel();
+                Travel userTrav = useRoute.getTravel().get(0);
                 Transport userTrans = useRoute.getMeansOfTransport();
                 valDao.validate(userTick, userTrans, userTrav);
                 System.out.println("biglietto convalidato correttamente puoi procedere");
