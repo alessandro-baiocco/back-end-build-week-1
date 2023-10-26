@@ -483,6 +483,8 @@ public class Application {
             ) {
                 String ritorno = testTicket(userRoute);
                 if (ritorno.equals("0")) break;
+            } else if (userRoute != null) {
+                if (userRoute.getTravel().isEmpty()) System.out.println("non ci sono viaggi disponibili");
             } else {
                 System.out.println("rotta non disponibile ci scusiamo per il disagio");
             }

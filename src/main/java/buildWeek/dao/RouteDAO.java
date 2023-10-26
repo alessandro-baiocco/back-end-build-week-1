@@ -119,11 +119,12 @@ public class RouteDAO {
 
 
     public Boolean transportIsActive(Route route) {
-        if (route.getMeansOfTransport() != null) {
-            Boolean work = route.getMeansOfTransport().isActive();
+        if (!route.getTravel().isEmpty()) {
+            Boolean work = route.getTravel().get(0).getTransport().isActive();
             if (!work) System.out.println("mezzo in manutenzione");
             return work;
         } else {
+            System.out.println("non ci sono mezzi disponibili");
             return false;
         }
     }
@@ -138,4 +139,5 @@ public class RouteDAO {
         query.setParameter("transport", transport);
         return query.getResultList();
     }
+
 }
