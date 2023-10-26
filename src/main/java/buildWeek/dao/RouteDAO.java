@@ -79,17 +79,17 @@ public class RouteDAO {
         }
     }
 
-    public void setTrans() {
-        EntityTransaction transaction = em.getTransaction();
-        transaction.begin();
-        TypedQuery<Route> getAllRoute = em.createQuery("SELECT t FROM Route t", Route.class); // Query JPQL
-
-        List<Route> routeList = getAllRoute.getResultList();
-        routeList.forEach(t -> t.setMeansOfTransport(getRandomTrans()));
-
-        transaction.commit();
-
-    }
+//    public void setTrans() {
+//        EntityTransaction transaction = em.getTransaction();
+//        transaction.begin();
+//        TypedQuery<Route> getAllRoute = em.createQuery("SELECT t FROM Route t", Route.class); // Query JPQL
+//
+//        List<Route> routeList = getAllRoute.getResultList();
+//        routeList.forEach(t -> t.setMeansOfTransport(getRandomTrans()));
+//
+//        transaction.commit();
+//
+//    }
 
     public int timesTraveled(Transport transport) {
         TypedQuery<Transport> query = em.createQuery("SELECT r FROM Route r WHERE r.transport = :transport", Transport.class);

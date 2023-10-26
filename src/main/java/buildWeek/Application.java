@@ -47,7 +47,8 @@ public class Application {
 
     public static void main(String[] args) {
         menu();
-//        createTravelAndSetRouTransAndTravel();
+
+
         em.close();
         emf.close();
     }
@@ -597,7 +598,7 @@ public class Application {
             Ticket userTick = tickDao.getById(menu01);
             if (userTick != null && tickDao.tickIsNotValidated(userTick)) {
                 Travel userTrav = useRoute.getTravel().get(0);
-                Transport userTrans = useRoute.getMeansOfTransport();
+                Transport userTrans = useRoute.getTransports().get(0);
                 valDao.validate(userTick, userTrans, userTrav);
                 System.out.println("biglietto convalidato correttamente puoi procedere");
                 menu01 = 0;
@@ -867,7 +868,6 @@ public class Application {
 
     private static void createTravelAndSetRouTransAndTravel() {
         int randomMinutes = 20 + rnd.nextInt(21);
-
         for (int c = 0; c < 10; c++) {
             LocalDateTime coso = nowTime.minusDays(rnd.nextInt(20, 30));
             travDao.save(new Travel(coso,
@@ -876,14 +876,14 @@ public class Application {
                     transDao.getRandomTransport()));
         }
 
-        for (int w = 0; w < 10; w++) {
-            LocalDateTime coso = now2.minusDays(rnd.nextInt(20, 30));
-            rouDao.setTrans();
-            rouDao.setTravel(rouDao.getRandomRoute(), new Travel(coso,
-                    coso.plus(randomMinutes, ChronoUnit.valueOf("MINUTES")),
-                    rouDao.getRandomRoute(),
-                    transDao.getRandomTransport()));
-        }
+//        for (int w = 0; w < 10; w++) {
+//            LocalDateTime coso = now2.minusDays(rnd.nextInt(20, 30));
+//            rouDao.setTrans();
+//            rouDao.setTravel(rouDao.getRandomRoute(), new Travel(coso,
+//                    coso.plus(randomMinutes, ChronoUnit.valueOf("MINUTES")),
+//                    rouDao.getRandomRoute(),
+//                    transDao.getRandomTransport()));
+//        }
     }
 
 

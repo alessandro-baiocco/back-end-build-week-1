@@ -1,6 +1,7 @@
 package buildWeek.entities;
 
 import buildWeek.enums.TransportType;
+import com.sun.istack.Nullable;
 
 import javax.persistence.*;
 import java.util.List;
@@ -25,6 +26,11 @@ public class Transport {
     private int capacity;
     private boolean active;
 
+
+    @Nullable
+    @ManyToOne
+    private Route route;
+
     public Transport() {
     }
 
@@ -33,6 +39,14 @@ public class Transport {
         this.type = type;
         this.capacity = capacity;
         this.active = active;
+    }
+
+    public Route getRoute() {
+        return route;
+    }
+
+    public void setRoute(Route route) {
+        this.route = route;
     }
 
     public String getName() {
@@ -106,5 +120,5 @@ public class Transport {
                 ", active=" + active +
                 '}';
     }
-    
+
 }
