@@ -156,7 +156,7 @@ public class Application {
                     servDao.getAllServices(getTransport()).forEach(System.out::println);
                     menu01 = -1;
                     break;
-                case 3:
+                case 4:
                     chooseATransport();
                     menu01 = -1;
                     break;
