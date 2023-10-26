@@ -571,7 +571,7 @@ public class Application {
             System.out.println("Gestione trasporti");
             System.out.println();
             System.out.println("1 - visualizza tutti i trasporti");
-            System.out.println("2 - visualizza tutti i trasporti in manutenzioni");
+            System.out.println("2 - visualizza tutti i trasporti in manutenzione");
             System.out.println("3 - visualizza manutenzioni trasporto");
             System.out.println("4 - metti mezzo in manutenzione");
             System.out.println("5 - metti mezzo in servizio");
@@ -745,7 +745,6 @@ public class Application {
     private static void userMenuLogin() {
         int menu01 = -1;
         while (menu01 < 0) {
-            System.out.println();
             System.out.println("Area utenti");
             System.out.println();
             System.out.println("inserisci il tuo id");
@@ -772,7 +771,7 @@ public class Application {
             System.out.println("benvenuto " + userBadge.getName());
             System.out.println();
             System.out.println("seleziona un'opzione");
-            System.out.println("1 - Acquista biglietto");
+            System.out.println("1 - Acquista biglietto o abbonamento");
             System.out.println("2 - gestisci tessera personale");
             System.out.println("3 - gestisci abbonamento");
             System.out.println("0 - indietro");
@@ -882,6 +881,42 @@ public class Application {
 
     }
 
+
+    public static void subScriptionMenu(Subscription subscription) {
+        int menu01 = -1;
+        while (menu01 < 0) {
+            System.out.println("cosa vuoi fare");
+            System.out.println("1 - vedi scadenza");
+            System.out.println("2 - rinnova abbonamento");
+            System.out.println("0 - indietro");
+            System.out.println();
+            menu01 = scanInt();
+            switch (menu01) {
+                case 1:
+                    boolean tipoMensile = subscription.getType() == TicketDuration.MONTHLY;
+                    if (tipoMensile) {
+                        LocalDate scadenza = subscription.getActivationDate().plusMonths(1);
+                        if (scadenza.isAfter(LocalDate.now()))
+                            System.out.println("l'abbonamento è scaduto il " + scadenza);
+                        else System.out.println("l'abbonamento scadrà il " + scadenza);
+                    } else {
+                        LocalDate scadenza = subscription.getActivationDate().plusWeeks(1);
+                        if (scadenza.isAfter(LocalDate.now()))
+                            System.out.println("l'abbonamento è scaduto il " + scadenza);
+                        else System.out.println("l'abbonamento scadrà il " + scadenza);
+                    }
+                    break;
+                case 2:
+                    subDao.reNew(subscription, subscription.getType());
+                    break;
+                case 0:
+                    System.out.println("indietro");
+                default:
+                    System.out.println("opzione non valida");
+            }
+        }
+    }
+
     private static void userBadgeMenu(UserBadge userBadge) {
         int menu01 = -1;
         while (menu01 < 0) {
@@ -894,7 +929,12 @@ public class Application {
             menu01 = scanInt();
             switch (menu01) {
                 case 1:
-                    System.out.println("la tessera scadrà il : " + userBadge.getActivationDate().plusYears(1));
+                    LocalDate scadenza = userBadge.getActivationDate().plusYears(1);
+                    if (scadenza.isAfter(LocalDate.now())) {
+                        System.out.println("la tessera è scaduta il " + scadenza);
+                    } else {
+                        System.out.println("la tessera scadrà il " + scadenza);
+                    }
                     menu01 = -1;
                     break;
                 case 2:
