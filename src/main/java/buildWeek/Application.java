@@ -41,12 +41,11 @@ public class Application {
 
     public static void main(String[] args) {
         menu();
-
         em.close();
         emf.close();
     }
 
-    public static void menu() {
+    private static void menu() {
         int menu01 = -1;
         while (menu01 < 0) {
             System.out.println();
@@ -429,7 +428,7 @@ public class Application {
 
     private static void createUsers() {
         Supplier<UserBadge> userSupplier = () -> {
-            return new UserBadge(faker.name().firstName(), faker.name().lastName(), now.minusYears(rnd.nextInt(20, 50)), now.minusYears(rnd.nextInt(2, 5)));
+            return new UserBadge(faker.name().firstName(), faker.name().lastName(), now.minusYears(rnd.nextInt(20, 50)), now.minusYears(rnd.nextInt(0, 5)));
         };
         for (int d = 0; d < 10; d++) {
             userDAO.save(userSupplier.get());
@@ -524,6 +523,16 @@ public class Application {
         }
     }
 
+    private static void createAll() {
+        createUsers();
+        createTransport();
+        createServiceAndRoutes();
+        createSellers();
+        createSubscriptions();
+        createTravelAndSetRouTransAndTravel();
+        createTicket();
+        createValidation();
+    }
 }
 
 
