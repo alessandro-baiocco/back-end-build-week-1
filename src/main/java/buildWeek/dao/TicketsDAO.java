@@ -43,7 +43,7 @@ public class TicketsDAO {
     }
 
     public List<Ticket> getAllSoldTicket(Seller seller) {
-        TypedQuery<Ticket> query = em.createQuery("SELECT z FROM TicketsItem z WHERE z.seller = :seller", Ticket.class);
+        TypedQuery<Ticket> query = em.createQuery("SELECT z FROM Ticket z WHERE z.seller = :seller", Ticket.class);
         query.setParameter("seller", seller);
         return query.getResultList();
     }
@@ -76,7 +76,7 @@ public class TicketsDAO {
     }
 
     public List<Ticket> getAll() {
-        TypedQuery<Ticket> query = em.createQuery("SELECT z FROM TicketsItem z", Ticket.class);
+        TypedQuery<Ticket> query = em.createQuery("SELECT z FROM Ticket z", Ticket.class);
         return query.getResultList();
     }
 
@@ -89,7 +89,7 @@ public class TicketsDAO {
     }
 
     public List<Ticket> getAllSoldTicket(Seller seller, LocalDate date) {
-        TypedQuery<Ticket> query = em.createQuery("SELECT z FROM Tickets z WHERE z.createdDate = :date AND z.seller = :seller", Ticket.class);
+        TypedQuery<Ticket> query = em.createQuery("SELECT z FROM Ticket z WHERE z.createdDate = :date AND z.seller = :seller", Ticket.class);
         query.setParameter("date", date);
         query.setParameter("seller", seller);
         return query.getResultList();
