@@ -1,6 +1,7 @@
 package buildWeek.dao;
 
 import buildWeek.entities.Seller;
+import buildWeek.entities.Subscription;
 import buildWeek.entities.Ticket;
 
 import javax.persistence.EntityManager;
@@ -71,20 +72,20 @@ public class SellerDao {
     }
 
     public int soldSubscriptions(Seller seller) {
-        TypedQuery<Ticket> query = em.createQuery("SELECT s FROM Subscription s WHERE s.seller = :seller", Ticket.class);
+        TypedQuery<Subscription> query = em.createQuery("SELECT s FROM Subscription s WHERE s.seller = :seller", Subscription.class);
         query.setParameter("seller", seller);
         return query.getResultList().size();
     }
 
-    public int soldSubscriptionsDay(Seller seller, LocalDate date) {
-        TypedQuery<Ticket> query = em.createQuery("SELECT s FROM Subscription s WHERE s.seller = :seller AND s.createdDate = :date", Ticket.class);
+    public int soldSubscriptions(Seller seller, LocalDate date) {
+        TypedQuery<Subscription> query = em.createQuery("SELECT s FROM Subscription s WHERE s.seller = :seller AND s.createdDate = :date", Subscription.class);
         query.setParameter("seller", seller);
         query.setParameter("date", date);
         return query.getResultList().size();
     }
 
-    public int soldSubscriptionsPeriod(Seller seller, LocalDate date1, LocalDate date2) {
-        TypedQuery<Ticket> query = em.createQuery("SELECT s FROM Subscription s WHERE s.seller = :seller AND s.createdDate BETWEEN :date1 AND :date2", Ticket.class);
+    public int soldSubscriptions(Seller seller, LocalDate date1, LocalDate date2) {
+        TypedQuery<Subscription> query = em.createQuery("SELECT s FROM Subscription s WHERE s.seller = :seller AND s.createdDate BETWEEN :date1 AND :date2", Subscription.class);
         query.setParameter("seller", seller);
         query.setParameter("date1", date1);
         query.setParameter("date2", date2);
@@ -107,4 +108,10 @@ public class SellerDao {
         TypedQuery<Seller> query = em.createQuery("SELECT s FROM Seller s", Seller.class);
         return query.getResultList();
     }
+
+    public List<Seller> getAllAuto() {
+        TypedQuery<Seller> query = em.createQuery("SELECT s FROM Seller s WHERE s.", Seller.class);
+        return query.getResultList();
+    }
+
 }
