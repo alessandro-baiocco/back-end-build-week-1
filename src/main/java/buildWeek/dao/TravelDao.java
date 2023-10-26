@@ -23,14 +23,9 @@ public class TravelDao {
             EntityTransaction transaction = em.getTransaction();
             Transport newTran = travel.getTransport();
             newTran.setRoute(travel.getRoute());
-            Route newRoute = travel.getRoute();
-            List<Transport> nuoviTrasporti = newRoute.getTransports();
-            nuoviTrasporti.add(newTran);
-            newRoute.setTransports(nuoviTrasporti);
             transaction.begin();
             em.persist(travel);
             em.persist(newTran);
-            em.persist(newRoute);
             transaction.commit();
             System.out.println("Il viaggio è stato correttamente inserito");
         } catch (RollbackException ex) {
