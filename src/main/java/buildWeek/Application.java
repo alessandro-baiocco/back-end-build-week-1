@@ -180,7 +180,64 @@ public class Application {
     }
 
     private static void manageRoutes() {
+        int menu01 = -1;
+        while (menu01 < 0) {
+            System.out.println();
+            System.out.println("Gestione tratte");
+            System.out.println();
+            System.out.println("1 - visualizza il numero di volte che un mezzo percorre una tappa");
+            System.out.println("2 - visualizza il tempo effettivo di percorrenza di ogni tratta");
+            System.out.println("3 - inserisci una corsa");
+            System.out.println("4 - crea una tratta");
+            System.out.println("0 - indietro");
+            menu01 = scanInt();
+            switch (menu01) {
+
+                case 1:
+                    travelNumber();
+                    menu01 = -1;
+                    break;
+                case 2:
+                    servDao.getAllServices().forEach(System.out::println);
+                    menu01 = -1;
+                case 3:
+                    servDao.getAllServices(getTransport()).forEach(System.out::println);
+                    menu01 = -1;
+                    break;
+                case 4:
+                    putTransportInService();
+                    menu01 = -1;
+                    break;
+                case 5:
+                    setTransportActive();
+                    menu01 = -1;
+                    break;
+                case 6:
+                    getTransportRoute();
+                    menu01 = -1;
+                    break;
+                case 0:
+                    System.out.println("Arrivederci");
+                    break;
+                default:
+                    System.out.println("Opzione non valida");
+                    menu01 = -1;
+            }
+        }
     }
+
+    //Prendiamo il numero di volte che un mezzo percorre una tappa
+    private static void travelNumber() {
+        transDao.getAll().forEach(System.out::println);
+        Transport transport = getTransport();
+        rouDao.getAll(transport).forEach(System.out::println);
+        Route route = getRoute();
+        int number = travDao.timesTraveled(route, transport);
+        System.out.println("Il mezzo " + transport.getName() + "ha percorso la tratta "
+                + route.getStartRoutePlace() + " - " + route.getEndRoutePlace() + " " + number +
+                (number == 1 ? " volta" : " volte"));
+    }
+
 
     private static void manageTransports() {
         int menu01 = -1;
@@ -217,6 +274,10 @@ public class Application {
                     setTransportActive();
                     menu01 = -1;
                     break;
+                case 6:
+                    getTransportRoute();
+                    menu01 = -1;
+                    break;
                 case 0:
                     System.out.println("Arrivederci");
                     break;
@@ -227,30 +288,92 @@ public class Application {
         }
     }
 
-    //Metti un mezzo in manutenzione lato amministrazione
-    private static void putTransportInService() {
-        System.out.println("Scegli un mezzo da mettere in manutenzione.");
-        Transport transport = transDao.getById(scanInt());
-        if (transport != null) {
-            Service service = new Service(transport, now);
-            servDao.save(service);
-        } else {
-            System.out.println("Il mezzo non esiste. Riprova.");
-            putTransportInService();
+    //Visualizza tratta trasporto
+    private static void getTransportRoute() {
+        int menu01 = -1;
+        while (menu01 < 0) {
+            System.out.println();
+            System.out.println("Scegli un mezzo.");
+            System.out.println("0 - indietro");
+            System.out.println();
+            menu01 = scanInt();
+            if (menu01 == 0) {
+                System.out.println("indietro");
+            } else {
+                Transport transport = transDao.getById(menu01);
+                if (transport != null) {
+                    List<Travel> travelList = transport.getTravels();
+                    if (!travelList.isEmpty()) {
+                        System.out.println("Le rotte per il mezzo " + transport.getId() + " sono : ");
+                        travelList.forEach(travel -> {
+                            System.out.println(travDao.getById(travel.getId()).getRoute());
+                        });
+
+                    } else {
+                        System.out.println("Non ci sono rotte per questo mezzo");
+                    }
+                    menu01 = 0;
+                } else {
+                    System.out.println("Il mezzo non esiste. Riprova.");
+                }
+                if (menu01 != 0) {
+                    menu01 = -1;
+                }
+            }
         }
-        manageTransports();
     }
 
-    private static void setTransportActive() {
-        System.out.println("Scegli un mezzo da mettere in circolazione.");
-        Transport transport = transDao.getById(scanInt());
-        if (transport != null) {
-            servDao.endService(transport);
-        } else {
-            System.out.println("Il mezzo non esiste. Riprova.");
-            setTransportActive();
+    //Metti un mezzo in manutenzione lato amministrazione
+    private static void putTransportInService() {
+        int menu01 = -1;
+        while (menu01 < 0) {
+            System.out.println();
+            System.out.println("Scegli un mezzo da mettere in manutenzione.");
+            System.out.println("0 - indietro");
+            System.out.println();
+            menu01 = scanInt();
+            if (menu01 == 0) {
+                System.out.println("indietro");
+            } else {
+                Transport transport = transDao.getById(menu01);
+                if (transport != null) {
+                    Service service = new Service(transport, now);
+                    servDao.save(service);
+                    menu01 = 0;
+                } else {
+                    System.out.println("Il mezzo non esiste. Riprova.");
+                }
+                if (menu01 != 0) {
+                    menu01 = -1;
+                }
+            }
         }
-        manageTransports();
+    }
+
+    //Metti un mezzo in servizio lato amministrazione
+    private static void setTransportActive() {
+        int menu01 = -1;
+        while (menu01 < 0) {
+            System.out.println();
+            System.out.println("Scegli un mezzo da mettere in circolazione.");
+            System.out.println("0 - indietro");
+            System.out.println();
+            menu01 = scanInt();
+            if (menu01 == 0) {
+                System.out.println("indietro");
+            } else {
+                Transport transport = transDao.getById(menu01);
+                if (transport != null) {
+                    servDao.endService(transport);
+                    menu01 = 0;
+                } else {
+                    System.out.println("Il mezzo non esiste. Riprova.");
+                }
+                if (menu01 != 0) {
+                    menu01 = -1;
+                }
+            }
+        }
     }
 
     private static Transport getTransport() {
@@ -263,6 +386,21 @@ public class Application {
                 return transport;
             } else {
                 System.out.println("trasporto non trovato");
+            }
+        }
+    }
+
+    // get Route
+    private static Route getRoute() {
+        Route route = null;
+        while (true) {
+            System.out.println("inserisci l'id della tratta percorsa");
+            System.out.println("0 - indietro");
+            route = rouDao.getById(scanInt());
+            if (route != null) {
+                return route;
+            } else {
+                System.out.println("Tratta non trovata");
             }
         }
     }

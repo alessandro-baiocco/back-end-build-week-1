@@ -111,5 +111,14 @@ public class RouteDAO {
         return query.getSingleResult();
     }
 
+    public List<Route> getAll() {
+        TypedQuery<Route> query = em.createQuery("SELECT r FROM Route r", Route.class);
+        return query.getResultList();
+    }
 
+    public List<Route> getAll(Transport transport) {
+        TypedQuery<Route> query = em.createQuery("SELECT r FROM Route r WHERE r.transport = :transport", Route.class);
+        query.setParameter("transport", transport);
+        return query.getResultList();
+    }
 }
