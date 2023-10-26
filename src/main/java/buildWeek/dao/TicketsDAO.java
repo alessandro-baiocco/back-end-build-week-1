@@ -26,13 +26,14 @@ public class TicketsDAO {
             em.persist(tick);
             transaction.commit();
             System.out.println("nuovo ticket creato correttamente");
+            System.out.println(tick.getID());
         } catch (Exception ex) {
             System.err.println(ex.getMessage());
         }
     }
 
 
-    public TicketsItem getById(int id) {
+    public Ticket getById(int id) {
         return em.find(Ticket.class, id);
     }
 
@@ -87,6 +88,11 @@ public class TicketsDAO {
         query.setMaxResults(1);
         return query.getSingleResult();
     }
+
+    public boolean tickIsNotValidated(Ticket tick) {
+        return tick.getValidation() == null;
+    }
+
 }
 
 

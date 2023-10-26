@@ -36,6 +36,7 @@ public class Ticket extends TicketsItem {
     public void setValidation(Validation validation) {
         this.validation = validation;
     }
+    
 
     @Override
     public String toString() {

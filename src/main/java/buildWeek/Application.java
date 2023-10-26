@@ -56,7 +56,7 @@ public class Application {
             System.out.println("seleziona un'opzione");
             System.out.println("1 - Area utenti");
             System.out.println("2 - Area amministrativa");
-            System.out.println("3 - compra biglietto / tessera");
+            System.out.println("3 - area ospiti");
             System.out.println("0 - Esci");
             System.out.println();
 
@@ -204,7 +204,6 @@ public class Application {
             System.out.println("1 - Acquista biglietto");
             System.out.println("2 - gestisci tessera personale");
             System.out.println("3 - gestisci abbonamento");
-            System.out.println("4 - prendi un mezzo");
             System.out.println("0 - indietro");
             menu01 = scanInt();
             switch (menu01) {
@@ -220,10 +219,6 @@ public class Application {
                     subscriptionMenu(userBadge);
                     menu01 = -1;
                     break;
-                case 4:
-                    takeTransport(userBadge);
-                    menu01 = -1;
-                    break;
                 case 0:
                     System.out.println("indietro");
                     break;
@@ -234,21 +229,59 @@ public class Application {
         }
     }
 
-    private static void takeTransport(UserBadge userBadge) {
-        Scanner input = new Scanner(System.in);
-        System.out.println("inserire punto di partenza");
-        String startPlace = input.nextLine();
-        System.out.println("inserire punto di arrivo");
-        String endPlace = input.nextLine();
-        Route userRoute = rouDao.findTravelForThis(startPlace, endPlace);
-        if (userRoute != null) {
-            //qua c'e da proseguire--------------------
-        } else {
-            System.out.println("rotta non trovata");
-        }
+    private static void takeTransport() {
+        while (true) {
+            Scanner input = new Scanner(System.in);
+            System.out.println("inserire punto di partenza - 0 per tornare indietro");
+            String startPlace = input.nextLine().toLowerCase().trim();
 
+            if (startPlace.equals("0")) break;
+
+            System.out.println("inserire punto di arrivo - 0 per tornare indietro");
+            String endPlace = input.nextLine().toLowerCase().trim();
+
+            if (endPlace.equals("0")) break;
+
+            Route userRoute = rouDao.findTravelForThis(startPlace, endPlace);
+            if (userRoute != null && userRoute.getTravel() != null && rouDao.transportIsActive(userRoute)) {
+                String ritorno = testTicket(userRoute);
+                if (ritorno.equals("0")) break;
+            } else {
+                System.out.println("rotta non disponibile");
+                takeTransport();
+            }
+        }
+    }
+
+    private static String testTicket(Route useRoute) {
+        int menu01 = -1;
+        while (menu01 < 0) {
+            System.out.println("inserire numero biglietto - 0 per tornare indietro");
+            menu01 = scanInt();
+            Ticket userTick = tickDao.getById(menu01);
+            if (userTick != null && tickDao.tickIsNotValidated(userTick)) {
+                Travel userTrav = useRoute.getTravel();
+                Transport userTrans = useRoute.getMeansOfTransport();
+                valDao.validate(userTick, userTrans, userTrav);
+                System.out.println("biglietto convalidato correttamente puoi procedere");
+                menu01 = 0;
+            } else if (userTick != null && !tickDao.tickIsNotValidated(userTick)) {
+                System.err.println("il biglietto è gia convalidato , c'hai provato");
+                menu01 = -1;
+            } else if (menu01 == 0) {
+                System.out.println("indietro");
+            } else {
+                System.out.println("biglietto non trovato");
+                menu01 = -1;
+            }
+        }
+        return "0";
+    }
+
+    private static void testValidation(Route useRoute, Ticket userTick) {
 
     }
+
 
     private static void subscriptionMenu(UserBadge userBadge) {
         int menu01 = -1;
@@ -376,15 +409,15 @@ public class Application {
         Scanner input = new Scanner(System.in);
         int menu01 = -1;
         while (menu01 < 0) {
-            System.out.println("cosa vuoi fare ? ?");
+            System.out.println("cosa vuoi fare ?");
             System.out.println("1 - compra biglietto");
             System.out.println("2 - fai tessera");
+            System.out.println("3 - prendi un mezzo");
             System.out.println("0 - indietro");
             menu01 = scanInt();
             switch (menu01) {
                 case 1:
                     Ticket newTicket = new Ticket(LocalDate.now(), sellDao.getRandomSeller());
-                    System.out.println("biglietto creato il nuovo biglietto è : " + newTicket);
                     tickDao.save(newTicket);
                     menu01 = -1;
                     break;
@@ -401,6 +434,10 @@ public class Application {
                         System.err.println("data non valida");
                         ;
                     }
+                    menu01 = -1;
+                    break;
+                case 3:
+                    takeTransport();
                     menu01 = -1;
                     break;
                 case 0:
@@ -427,6 +464,7 @@ public class Application {
         }
         return num;
     }
+
 
     public static void createUsers() {
         Supplier<UserBadge> userSupplier = () -> {
