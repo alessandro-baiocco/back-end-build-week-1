@@ -367,22 +367,15 @@ public class Application {
                     menu01 = -1;
                     break;
                 case 2:
-                    servDao.getAllServices().forEach(System.out::println);
+                    travelTime();
                     menu01 = -1;
+                    break;
                 case 3:
-                    servDao.getAllServices(getTransport()).forEach(System.out::println);
+                    travelSave();
                     menu01 = -1;
                     break;
                 case 4:
                     putTransportInService();
-                    menu01 = -1;
-                    break;
-                case 5:
-                    setTransportActive();
-                    menu01 = -1;
-                    break;
-                case 6:
-                    getTransportRoute();
                     menu01 = -1;
                     break;
                 case 0:
@@ -393,6 +386,41 @@ public class Application {
                     menu01 = -1;
             }
         }
+    }
+
+    //salviamo un viaggio
+    private static void travelSave() {
+        int menu01 = -1;
+        while (menu01 < 0) {
+            System.out.println();
+            System.out.println("Inserisci il tempo effettivo della corsa, tipo : 20 .(La data viene calcolata in base al tempo effettivo.)");
+            System.out.println("0 - indietro");
+            System.out.println();
+            menu01 = scanInt();
+            if (menu01 == 0) {
+                System.out.println("indietro");
+            } else {
+                Route route = getRoute();
+                Transport transport = getTransport();
+                LocalDateTime localDateTime = LocalDateTime.now();
+                travDao.save(new Travel(localDateTime.minusMinutes(menu01), localDateTime, route, transport));
+            }
+            if (menu01 != 0) {
+                menu01 = -1;
+            }
+        }
+    }
+
+    //Visualizza il tempo effettivo di ogni tratta
+    private static void travelTime() {
+        List<Travel> travels = travDao.getAll();
+        travels.forEach(travel ->
+                System.out.println(
+                        "Tempo percorrenza tratta " + travel.getId() + " : " +
+                                ChronoUnit.MINUTES.between(travel.getStartDate(), travel.getEndDate()) + " minuti"
+                )
+        );
+
     }
 
     //Prendiamo il numero di volte che un mezzo percorre una tappa
@@ -406,7 +434,6 @@ public class Application {
                 + route.getStartRoutePlace() + " - " + route.getEndRoutePlace() + " " + number +
                 (number == 1 ? " volta" : " volte"));
     }
-
 
     private static void manageTransports() {
         int menu01 = -1;
@@ -703,7 +730,6 @@ public class Application {
 
     }
 
-
     private static void subscriptionMenu(UserBadge userBadge) {
         int menu01 = -1;
         while (menu01 < 0) {
@@ -871,7 +897,6 @@ public class Application {
         }
     }
 
-
     private static int scanInt() {
         int num = -1;
         Scanner scanner = new Scanner(System.in);
@@ -895,7 +920,6 @@ public class Application {
         }
     }
 
-
     private static void createSellers() {
         for (int i = 0; i < 10; i++) {
             if (i % 2 == 0) {
@@ -918,7 +942,6 @@ public class Application {
                     , userDAO.getRandomUserBadge()));
         }
     }
-
 
     private static void createTransport() {
         for (int e = 0; e < 20; e++) {
@@ -970,7 +993,6 @@ public class Application {
 //        }
     }
 
-
     private static void createTicket() {
         for (int i = 0; i <= 30; i++) {
             tickDao.save(new Ticket(now.minusDays(rnd.nextInt(1, 30)), sellDao.getRandomSeller()));
@@ -998,6 +1020,22 @@ public class Application {
         createTravelAndSetRouTransAndTravel();
         createTicket();
         createValidation();
+    }
+
+    private LocalDateTime scanLocalDateTime() {
+        int num = -1;
+        LocalDateTime localDateTime = null;
+        Scanner scanner = new Scanner(System.in);
+        while (num < 0) {
+            try {
+                localDateTime = LocalDateTime.parse(scanner.nextLine());
+                num = 0;
+            } catch (Exception e) {
+                System.err.println("Inserisci una data nel seguente formato : 2000/01/31 12.00.00");
+                scanner.nextLine();
+            }
+        }
+        return localDateTime;
     }
 }
 

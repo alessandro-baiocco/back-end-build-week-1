@@ -95,5 +95,10 @@ public class TravelDao {
         return query.getSingleResult();
     }
 
+    public List<Travel> getAll() {
+        TypedQuery<Travel> query = em.createQuery("SELECT t FROM Travel t", Travel.class);
+        return query.getResultList();
+    }
+
 }
 
