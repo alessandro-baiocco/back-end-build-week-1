@@ -47,7 +47,7 @@ public class Application {
 
     public static void main(String[] args) {
         menu();
-
+//        createTravelAndSetRouTransAndTravel();
         em.close();
         emf.close();
     }
@@ -339,12 +339,14 @@ public class Application {
             if (endPlace.equals("0")) break;
 
             Route userRoute = rouDao.findTravelForThis(startPlace, endPlace);
-            if (userRoute != null && userRoute.getTravel() != null && rouDao.transportIsActive(userRoute)) {
+            if (userRoute != null
+                    && !userRoute.getTravel().isEmpty()
+                    && rouDao.transportIsActive(userRoute)
+            ) {
                 String ritorno = testTicket(userRoute);
                 if (ritorno.equals("0")) break;
             } else {
-                System.out.println("rotta non disponibile");
-                takeTransport();
+                System.out.println("rotta non disponibile ci scusiamo per il disagio");
             }
         }
     }

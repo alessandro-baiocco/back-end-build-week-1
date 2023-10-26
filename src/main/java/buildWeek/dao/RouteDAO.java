@@ -120,7 +120,9 @@ public class RouteDAO {
 
     public Boolean transportIsActive(Route route) {
         if (route.getMeansOfTransport() != null) {
-            return route.getMeansOfTransport().isActive();
+            Boolean work = route.getMeansOfTransport().isActive();
+            if (!work) System.out.println("mezzo in manutenzione");
+            return work;
         } else {
             return false;
         }

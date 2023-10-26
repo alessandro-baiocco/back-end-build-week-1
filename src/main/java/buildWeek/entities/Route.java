@@ -20,7 +20,7 @@ public class Route {
     private Transport transportId;
 
     @Nullable
-    @OneToMany
+    @OneToMany(mappedBy = "route")
     private List<Travel> travel;
 
     public Route() {
