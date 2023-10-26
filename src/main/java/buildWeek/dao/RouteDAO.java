@@ -6,6 +6,7 @@ import buildWeek.entities.Travel;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import java.util.ArrayList;
 import java.util.List;
@@ -104,11 +105,25 @@ public class RouteDAO {
 
 
     public Route findTravelForThis(String start, String destination) {
-        TypedQuery<Route> query = em.createQuery("SELECT r FROM Route t WHERE LOWER(t.startRoutePlace) LIKE LOWER(CONCAT(:start, '%')) AND LOWER(t.endRoutePlace) LIKE LOWER(CONCAT(:destination , '%'))", Route.class);
-        query.setParameter("destination", destination);
-        query.setParameter("start", start);
-        query.setMaxResults(1);
-        return query.getSingleResult();
+        try {
+            TypedQuery<Route> query = em.createQuery("SELECT t FROM Route t WHERE LOWER(t.startRoutePlace) LIKE LOWER(CONCAT(:start, '%')) AND LOWER(t.endRoutePlace) LIKE LOWER(CONCAT(:destination , '%'))", Route.class);
+            query.setParameter("destination", destination);
+            query.setParameter("start", start);
+            query.setMaxResults(1);
+            return query.getSingleResult();
+        } catch (NoResultException ex) {
+            System.err.println("rotta non trovata");
+            return null;
+        }
+    }
+
+
+    public Boolean transportIsActive(Route route) {
+        if (route.getMeansOfTransport() != null) {
+            return route.getMeansOfTransport().isActive();
+        } else {
+            return false;
+        }
     }
 
 
