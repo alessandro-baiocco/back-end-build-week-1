@@ -41,8 +41,9 @@ public class Application {
 
     public static void main(String[] args) {
         menu();
-
-
+createTransport();
+createServiceAndRoutes();
+createSub
         em.close();
         emf.close();
     }
@@ -372,7 +373,7 @@ public class Application {
 
     }
 
-    public static void noIdMenu() {
+    private static void noIdMenu() {
         Scanner input = new Scanner(System.in);
         int menu01 = -1;
         while (menu01 < 0) {
@@ -414,7 +415,7 @@ public class Application {
     }
 
 
-    public static int scanInt() {
+    private static int scanInt() {
         int num = -1;
         Scanner scanner = new Scanner(System.in);
         while (num < 0) {
@@ -428,7 +429,7 @@ public class Application {
         return num;
     }
 
-    public static void createUsers() {
+    private static void createUsers() {
         Supplier<UserBadge> userSupplier = () -> {
             return new UserBadge(faker.name().firstName(), faker.name().lastName(), now.minusYears(rnd.nextInt(20, 50)), now.minusYears(rnd.nextInt(2, 5)));
         };
@@ -467,7 +468,7 @@ public class Application {
         }
     }
 
-    public void createSellers() {
+    private static void createSellers() {
         for (int i = 0; i < 10; i++) {
             if (i % 2 == 0) {
                 sellDao.save(new Seller(true, SellerType.AUTO));
@@ -478,7 +479,7 @@ public class Application {
         }
     }
 
-    private void createSubscriptions() {
+    private static void createSubscriptions() {
         List<TicketDuration> lista = new ArrayList<>();
         lista.add(TicketDuration.WEEKLY);
         lista.add(TicketDuration.MONTHLY);
@@ -490,7 +491,7 @@ public class Application {
         }
     }
 
-    private void createTravelAndSetRouTransAndTravel() {
+    private static void createTravelAndSetRouTransAndTravel() {
         int randomMinutes = 20 + rnd.nextInt(21);
         for (int c = 0; c < 10; c++) {
             LocalDateTime coso = nowTime.minusDays(rnd.nextInt(20, 30));
@@ -507,13 +508,13 @@ public class Application {
     }
 
 
-    private void createTicket() {
+    private static void createTicket() {
         for (int i = 0; i <= 30; i++) {
             tickDao.save(new Ticket(now.minusDays(rnd.nextInt(1, 30)), sellDao.getRandomSeller()));
         }
     }
 
-    private void createValidation() {
+    private static void createValidation() {
         for (int i = 0; i < 10; i++) {
             valDao.save(new Validation(now.minusDays(rnd.nextInt(1, 50)),
                     transDao.getRandomTransport(),
