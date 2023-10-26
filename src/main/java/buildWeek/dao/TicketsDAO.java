@@ -70,6 +70,11 @@ public class TicketsDAO {
         return query.getResultList();
     }
 
+    public List<TicketsItem> getAll() {
+        TypedQuery<TicketsItem> query = em.createQuery("SELECT z FROM TicketsItem z", TicketsItem.class);
+        return query.getResultList();
+    }
+
     public List<TicketsItem> getAllSoldTicket(LocalDate selectedDate, LocalDate secondDate) {
 
         TypedQuery<TicketsItem> query = em.createQuery("SELECT z FROM TicketsItem z WHERE z.createdDate BETWEEN :selectedDate AND :secondDate", TicketsItem.class);

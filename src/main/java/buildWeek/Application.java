@@ -124,6 +124,59 @@ public class Application {
     }
 
     private static void statistic() {
+        int menu01 = -1;
+        while (menu01 < 0) {
+            System.out.println();
+            System.out.println("Statistiche di viaggio");
+            System.out.println();
+            System.out.println("1 - biglietti venduti");
+            System.out.println("2 - abbonamenti venduti");
+            System.out.println("3 - biglietti vidimati");
+            System.out.println("4 - percorrenze tratte");
+            menu01 = scanInt();
+            switch (menu01) {
+                case 1:
+                    soldTickets();
+                    menu01 = -1;
+                    break;
+                case 2:
+                    soldServices();
+                    menu01 = -1;
+                    break;
+                case 3:
+                    validatedTickets();
+                    menu01 = -1;
+                    break;
+                case 4:
+                    routesStat();
+                    menu01 = -1;
+                    break;
+                case 0:
+                    System.out.println("indietro");
+                    break;
+                default:
+                    System.out.println("Opzione non valida");
+                    menu01 = -1;
+            }
+        }
+    }
+
+    private static void routesStat() {
+    }
+
+    private static void validatedTickets() {
+    }
+
+    private static void soldServices() {
+    }
+
+    private static void soldTickets() {
+    }
+
+    private static void pauseReturn() {
+        System.out.println("premi invio per tornare al menu");
+        Scanner input = new Scanner(System.in);
+        input.nextLine();
     }
 
     private static void manageRoutes() {
