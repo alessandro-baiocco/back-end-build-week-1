@@ -19,11 +19,17 @@ public class RouteDAO {
     }
 
     public void save(Route route) {
-        EntityTransaction transaction = em.getTransaction();
-        transaction.begin();
-        em.persist(route);
-        transaction.commit();
-        System.out.println("La tratta è stata correttamente inserita");
+        try {
+            EntityTransaction transaction = em.getTransaction();
+            transaction.begin();
+            em.persist(route);
+            transaction.commit();
+            System.out.println("La tratta è stata correttamente inserita");
+        } catch (Exception ex) {
+            System.err.println("errore :\n");
+            System.err.println(ex.getMessage());
+        }
+
     }
 
     public Route getById(int id) {
@@ -134,9 +140,4 @@ public class RouteDAO {
         return query.getResultList();
     }
 
-    public List<Route> getAll(Transport transport) {
-        TypedQuery<Route> query = em.createQuery("SELECT r FROM Route r WHERE r.transports = :transport", Route.class);
-        query.setParameter("transport", transport);
-        return query.getResultList();
-    }
 }

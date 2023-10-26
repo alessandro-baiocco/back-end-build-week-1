@@ -1,6 +1,7 @@
 package buildWeek.dao;
 
 import buildWeek.entities.Subscription;
+import buildWeek.entities.UserBadge;
 import buildWeek.enums.TicketDuration;
 
 import javax.persistence.EntityManager;
@@ -133,5 +134,12 @@ public class SubscriptionDAO {
         query.setParameter("date2", date2);
         return query.getResultList().size();
     }
+
+    public List<Subscription> getUserSubscriptions(UserBadge userBadge) {
+        TypedQuery<Subscription> subscriptionQuery = em.createQuery("SELECT s FROM Subscription s WHERE s.userBadge = :user", Subscription.class);
+        subscriptionQuery.setParameter("user", userBadge);
+        return subscriptionQuery.getResultList();
+    }
+
 
 }

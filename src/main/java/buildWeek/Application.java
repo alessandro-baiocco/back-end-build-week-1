@@ -487,6 +487,7 @@ public class Application {
             System.out.println("2 - visualizza il tempo effettivo di percorrenza di ogni tratta");
             System.out.println("3 - inserisci una corsa");
             System.out.println("4 - crea una tratta");
+            System.out.println("5 - vedi tutte le tratte");
             System.out.println("0 - indietro");
             menu01 = scanInt();
             switch (menu01) {
@@ -504,7 +505,11 @@ public class Application {
                     menu01 = -1;
                     break;
                 case 4:
-                    putTransportInService();
+                    saveARoute();
+                    menu01 = -1;
+                    break;
+                case 5:
+                    rouDao.getAll().forEach(System.out::println);
                     menu01 = -1;
                     break;
                 case 0:
@@ -516,6 +521,21 @@ public class Application {
             }
         }
     }
+
+    //crea una tratta
+    public static void saveARoute() {
+        Scanner input = new Scanner(System.in);
+        System.out.println("\ninserisci punto di partenza\n");
+        String startPlace = input.nextLine();
+        System.out.println("\ninserisci punto di partenza\n");
+        String endPlace = input.nextLine();
+        System.out.println("\ninserisci durata in M\n");
+        int duration = scanInt();
+        rouDao.save(new Route(startPlace, endPlace, duration));
+
+
+    }
+
 
     //salviamo un viaggio
     private static void travelSave() {
@@ -857,18 +877,17 @@ public class Application {
     }
 
     private static void subscriptionMenu(UserBadge userBadge) {
+        System.out.println("questi sono i tuoi abbonamenti");
+        subDao.getUserSubscriptions(userBadge).forEach(System.out::println);
         int menu01 = -1;
         while (menu01 < 0) {
-            System.out.println();
-            System.out.println("Area abbonamenti");
-            System.out.println();
             System.out.println("inserisci il id dell'abbonamento da gestire");
             System.out.println("0 - indietro");
             System.out.println();
             menu01 = scanInt();
             Subscription userSubscription = subDao.getById(menu01);
             if (userSubscription != null) {
-                subDao.reNew(userSubscription, userSubscription.getType());
+                manageSubscriptionMenu(userSubscription);
             } else {
                 if (menu01 == 0) {
                     System.out.println("indietro");
@@ -882,7 +901,7 @@ public class Application {
     }
 
 
-    public static void subScriptionMenu(Subscription subscription) {
+    public static void manageSubscriptionMenu(Subscription subscription) {
         int menu01 = -1;
         while (menu01 < 0) {
             System.out.println("cosa vuoi fare");
@@ -896,12 +915,12 @@ public class Application {
                     boolean tipoMensile = subscription.getType() == TicketDuration.MONTHLY;
                     if (tipoMensile) {
                         LocalDate scadenza = subscription.getActivationDate().plusMonths(1);
-                        if (scadenza.isAfter(LocalDate.now()))
+                        if (scadenza.isBefore(LocalDate.now()))
                             System.out.println("l'abbonamento è scaduto il " + scadenza);
                         else System.out.println("l'abbonamento scadrà il " + scadenza);
                     } else {
                         LocalDate scadenza = subscription.getActivationDate().plusWeeks(1);
-                        if (scadenza.isAfter(LocalDate.now()))
+                        if (scadenza.isBefore(LocalDate.now()))
                             System.out.println("l'abbonamento è scaduto il " + scadenza);
                         else System.out.println("l'abbonamento scadrà il " + scadenza);
                     }
@@ -930,7 +949,7 @@ public class Application {
             switch (menu01) {
                 case 1:
                     LocalDate scadenza = userBadge.getActivationDate().plusYears(1);
-                    if (scadenza.isAfter(LocalDate.now())) {
+                    if (scadenza.isBefore(LocalDate.now())) {
                         System.out.println("la tessera è scaduta il " + scadenza);
                     } else {
                         System.out.println("la tessera scadrà il " + scadenza);
@@ -945,8 +964,9 @@ public class Application {
                     System.out.println("indietro");
                     break;
                 default:
-                    System.out.println("Opzione non valida");
+                    System.out.println("non trovato");
                     menu01 = -1;
+                    break;
             }
         }
     }
