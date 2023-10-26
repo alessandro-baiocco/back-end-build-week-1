@@ -46,14 +46,14 @@ public class TravelDao {
     }
 
     public int timesTraveled(Route route, Transport transport) {
-        TypedQuery<Transport> query = em.createQuery("SELECT t FROM Travel t WHERE r.route = :route AND t.transport = : transport", Transport.class);
+        TypedQuery<Travel> query = em.createQuery("SELECT t FROM Travel t WHERE t.route = :route AND t.transport = : transport", Travel.class);
         query.setParameter("transport", transport);
         query.setParameter("route", route);
         return query.getResultList().size();
     }
 
     public int timesTraveledDay(Route route, Transport transport, LocalDate date) {
-        TypedQuery<Transport> query = em.createQuery("SELECT t FROM Travel t WHERE r.route = :route AND t.transport = : transport AND t.date = :date", Transport.class);
+        TypedQuery<Transport> query = em.createQuery("SELECT t FROM Travel t WHERE t.route = :route AND t.transport = : transport AND t.date = :date", Transport.class);
         query.setParameter("transport", transport);
         query.setParameter("date", date);
         query.setParameter("route", route);
@@ -61,7 +61,7 @@ public class TravelDao {
     }
 
     public int timesTraveledPeriod(Route route, Transport transport, LocalDate date1, LocalDate date2) {
-        TypedQuery<Transport> query = em.createQuery("SELECT t FROM Travel t WHERE r.route = :route AND t.transport = : transport AND t.date BETWEEN :date1 AND :date2", Transport.class);
+        TypedQuery<Transport> query = em.createQuery("SELECT t FROM Travel t WHERE t.route = :route AND t.transport = : transport AND t.date BETWEEN :date1 AND :date2", Transport.class);
         query.setParameter("route", route);
         query.setParameter("transport", transport);
         query.setParameter("date1", date1);
