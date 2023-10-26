@@ -92,6 +92,11 @@ public class ServiceDao {
         System.out.println("Service " + service.getId() + " refreshed");
     }
 
+    public List<Service> getAllServices() {
+        TypedQuery<Service> query = em.createQuery("SELECT s FROM Service s", Service.class);
+        return query.getResultList();
+    }
+
     public List<Service> getAllServices(Transport transport) {
         TypedQuery<Service> query = em.createQuery("SELECT s FROM Service s WHERE s.transport = :transport", Service.class);
         query.setParameter("transport", transport);

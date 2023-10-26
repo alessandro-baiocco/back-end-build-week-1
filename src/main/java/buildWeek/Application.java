@@ -149,10 +149,11 @@ public class Application {
             System.out.println("Gestione trasporti");
             System.out.println();
             System.out.println("1 - visualizza tutti i trasporti");
-            System.out.println("2 - visualizza manutenzioni trasporto");
-            System.out.println("3 - metti mezzo in manutenzione");
-            System.out.println("4 - metti mezzo in servizio");
-            System.out.println("5 - visualizza tratta trasporto");
+            System.out.println("2 - visualizza tutti i trasporti in manutenzioni");
+            System.out.println("3 - visualizza manutenzioni trasporto");
+            System.out.println("4 - metti mezzo in manutenzione");
+            System.out.println("5 - metti mezzo in servizio");
+            System.out.println("6 - visualizza tratta trasporto");
             System.out.println("0 - indietro");
             menu01 = scanInt();
             switch (menu01) {
@@ -162,6 +163,9 @@ public class Application {
                     menu01 = -1;
                     break;
                 case 2:
+                    servDao.getAllServices().forEach(System.out::println);
+                    menu01 = -1;
+                case 3:
                     servDao.getAllServices(getTransport()).forEach(System.out::println);
                     menu01 = -1;
                     break;
