@@ -32,11 +32,11 @@ public class SellerDao {
 
     public void delete(Seller seller) {
 
-            EntityTransaction transaction = em.getTransaction();
-            transaction.begin();
-            em.remove(seller);
-            transaction.commit();
-            System.out.println("Il seller è stato cancellato correttamente");
+        EntityTransaction transaction = em.getTransaction();
+        transaction.begin();
+        em.remove(seller);
+        transaction.commit();
+        System.out.println("Il seller è stato cancellato correttamente");
     }
 
     public Seller getRandomSeller() {
@@ -103,4 +103,8 @@ public class SellerDao {
     }
 
 
+    public List<Seller> getAll() {
+        TypedQuery<Seller> query = em.createQuery("SELECT s FROM Seller s", Seller.class);
+        return query.getResultList();
+    }
 }

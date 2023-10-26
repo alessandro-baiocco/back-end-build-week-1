@@ -171,7 +171,91 @@ public class Application {
     }
 
     private static void soldTickets() {
+        int menu01 = -1;
+        while (menu01 < 0) {
+            System.out.println();
+            System.out.println("Statistiche di viaggio");
+            System.out.println();
+            System.out.println("1 - biglietti venduti");
+            System.out.println("2 - biglietti venduti per venditore");
+            System.out.println("3 - biglietti venduti per data e venditore");
+            System.out.println("4 - biglietti venduti tra due date da un venditore");
+            System.out.println("0 - indietro");
+            menu01 = scanInt();
+            switch (menu01) {
+                case 1:
+                    System.out.println("\nsono stati venduti " + tickDao.getAll().size() + " in totale\n");
+                    pauseReturn();
+                    menu01 = -1;
+                    break;
+                case 2:
+                    soldTicketsBySeller();
+                    pauseReturn();
+                    menu01 = -1;
+                    break;
+                case 3:
+                    soldTicketsByDateAndSeller();
+                    pauseReturn();
+                    menu01 = -1;
+                    break;
+                case 4:
+                    soldTicketsBy2DateAndSeller();
+                    pauseReturn();
+                    menu01 = -1;
+                    break;
+                case 0:
+                    System.out.println("indietro");
+                    break;
+                default:
+                    System.out.println("Opzione non valida");
+                    menu01 = -1;
+            }
+        }
     }
+
+    private static void soldTicketsBy2DateAndSeller() {
+        sellDao.getAll().forEach(System.out::println);
+        Seller seller = getSeller();
+        System.out.println("\ninserisci la prima data\n");
+        LocalDate date1 = getDate();
+        System.out.println("\ninserisci la seconda data\n");
+        LocalDate date2 = getDate();
+        System.out.println("\nIl punto vendita n. " + seller.getId() + " ha venduto " + tickDao.getAllSoldTicket(seller, date1, date2).size() + " biglietti tra il " + date1 + " e il " + date2);
+    }
+
+    private static void soldTicketsByDateAndSeller() {
+        sellDao.getAll().forEach(System.out::println);
+        Seller seller = getSeller();
+        LocalDate date = getDate();
+        System.out.println("Il punto vendita n. " + seller.getId() + " ha venduto " + tickDao.getAllSoldTicket(seller, date).size() + " biglietti in data " + date);
+    }
+
+    private static LocalDate getDate() {
+        LocalDate date = null;
+        int menu01 = -1;
+        while (menu01 < 0) {
+            System.out.println("inserisci il giorno");
+            int day = scanInt();
+            System.out.println("inserisci il mese");
+            int month = scanInt();
+            System.out.println("inserisci l'anno");
+            int year = scanInt();
+            if (1 <= day && day <= 31 && 1 <= month && month <= 12 && 1900 <= year && year <= 2100) {
+                date = LocalDate.of(year, month, day);
+                menu01 = 0;
+            } else {
+                System.out.println("data non valida");
+            }
+        }
+        return date;
+    }
+
+    private static void soldTicketsBySeller() {
+        sellDao.getAll().forEach(System.out::println);
+        Seller seller = getSeller();
+        System.out.println("Il punto vendita n. " + seller.getId() + " ha venduto " + tickDao.getAllSoldTicket(seller).size() + " biglietti");
+    }
+
 
     private static void pauseReturn() {
         System.out.println("premi invio per tornare al menu");
@@ -401,6 +485,20 @@ public class Application {
                 return route;
             } else {
                 System.out.println("Tratta non trovata");
+            }
+        }
+    }
+    
+    private static Seller getSeller() {
+        Seller seller = null;
+        while (true) {
+            System.out.println("inserisci l'id del venditore");
+            System.out.println("0 - indietro");
+            seller = sellDao.getById(scanInt());
+            if (seller != null) {
+                return seller;
+            } else {
+                System.out.println("venditore non trovato");
             }
         }
     }
