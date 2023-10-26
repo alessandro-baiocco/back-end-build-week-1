@@ -95,5 +95,13 @@ public class TravelDao {
         return query.getSingleResult();
     }
 
+    public List<Travel> getAllSpecifyTravels(Route route, Transport transport) {
+        TypedQuery<Travel> query = em.createQuery("SELECT t FROM Travel t WHERE t.route = :route AND t.transport = :transport ", Travel.class);
+        query.setParameter("route", route);
+        query.setParameter("transport", transport);
+        return query.getResultList();
+    }
+
+
 }
 

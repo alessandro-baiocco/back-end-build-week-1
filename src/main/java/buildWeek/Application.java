@@ -114,6 +114,7 @@ public class Application {
                 case 3:
                     statistic();
                     menu01 = -1;
+                    break;
                 case 0:
                     System.out.println("Arrivederci");
                     break;
@@ -285,6 +286,7 @@ public class Application {
                 case 2:
                     servDao.getAllServices().forEach(System.out::println);
                     menu01 = -1;
+                    break;
                 case 3:
                     servDao.getAllServices(getTransport()).forEach(System.out::println);
                     menu01 = -1;
@@ -315,8 +317,8 @@ public class Application {
     private static void travelNumber() {
         transDao.getAll().forEach(System.out::println);
         Transport transport = getTransport();
-        rouDao.getAll(transport).forEach(System.out::println);
         Route route = getRoute();
+        travDao.getAllSpecifyTravels(route, transport).forEach(System.out::println);
         int number = travDao.timesTraveled(route, transport);
         System.out.println("Il mezzo " + transport.getName() + "ha percorso la tratta "
                 + route.getStartRoutePlace() + " - " + route.getEndRoutePlace() + " " + number +
@@ -347,6 +349,7 @@ public class Application {
                 case 2:
                     servDao.getAllServices().forEach(System.out::println);
                     menu01 = -1;
+                    break;
                 case 3:
                     servDao.getAllServices(getTransport()).forEach(System.out::println);
                     menu01 = -1;
@@ -489,7 +492,7 @@ public class Application {
             }
         }
     }
-    
+
     private static Seller getSeller() {
         Seller seller = null;
         while (true) {
@@ -686,7 +689,6 @@ public class Application {
             switch (menu01) {
                 case 1: {
                     Ticket newTicket = new Ticket(LocalDate.now(), sellDao.getRandomSeller());
-                    System.out.println("biglietto creato il nuovo biglietto è : " + newTicket);
                     tickDao.save(newTicket);
                     break;
                 }
@@ -702,14 +704,12 @@ public class Application {
                             case 1: {
                                 Subscription newSub = new Subscription(LocalDate.now(), sellDao.getRandomSeller(),
                                         TicketDuration.WEEKLY, LocalDate.now(), userBadge);
-                                System.out.println("abbonamento creato il nuovo abbonamento è : " + newSub);
                                 subDao.save(newSub);
                                 break;
                             }
                             case 2: {
                                 Subscription newSub = new Subscription(LocalDate.now(), sellDao.getRandomSeller(),
                                         TicketDuration.MONTHLY, LocalDate.now(), userBadge);
-                                System.out.println("abbonamento creato il nuovo abbonamento è : " + newSub);
                                 subDao.save(newSub);
                                 break;
                             }
