@@ -38,7 +38,7 @@ public class Application {
     private static final Faker faker = new Faker();
     private static final LocalDateTime nowTime = LocalDateTime.now();
 
-    private LocalDateTime now2 = LocalDateTime.now();
+    private static LocalDateTime now2 = LocalDateTime.now();
     private int randomMinutes = 20 + rnd.nextInt(21);
     private LocalDateTime randomDateTime = now2.plus(randomMinutes, ChronoUnit.MINUTES);
     private Supplier<Seller> SellerSupplier = () -> {
@@ -65,7 +65,7 @@ public class Application {
         emf.close();
     }
 
-    public static void menu() {
+    private static void menu() {
         int menu01 = -1;
         while (menu01 < 0) {
             System.out.println();
@@ -390,7 +390,7 @@ public class Application {
 
     }
 
-    public static void noIdMenu() {
+    private static void noIdMenu() {
         Scanner input = new Scanner(System.in);
         int menu01 = -1;
         while (menu01 < 0) {
@@ -432,7 +432,7 @@ public class Application {
     }
 
 
-    public static int scanInt() {
+    private static int scanInt() {
         int num = -1;
         Scanner scanner = new Scanner(System.in);
         while (num < 0) {
@@ -446,9 +446,9 @@ public class Application {
         return num;
     }
 
-    public static void createUsers() {
+    private static void createUsers() {
         Supplier<UserBadge> userSupplier = () -> {
-            return new UserBadge(faker.name().firstName(), faker.name().lastName(), now.minusYears(rnd.nextInt(20, 50)), now.minusYears(rnd.nextInt(2, 5)));
+            return new UserBadge(faker.name().firstName(), faker.name().lastName(), now.minusYears(rnd.nextInt(20, 50)), now.minusYears(rnd.nextInt(0, 5)));
         };
         for (int d = 0; d < 10; d++) {
             userDAO.save(userSupplier.get());
@@ -456,7 +456,7 @@ public class Application {
     }
 
 
-    public void createSellers() {
+    private static void createSellers() {
         for (int i = 0; i < 10; i++) {
             if (i % 2 == 0) {
                 sellDao.save(new Seller(true, SellerType.AUTO));
@@ -467,7 +467,7 @@ public class Application {
         }
     }
 
-    private void createSubscriptions() {
+    private static void createSubscriptions() {
         List<TicketDuration> lista = new ArrayList<>();
         lista.add(TicketDuration.WEEKLY);
         lista.add(TicketDuration.MONTHLY);
@@ -480,7 +480,7 @@ public class Application {
     }
 
 
-    private void createTransport() {
+    private static void createTransport() {
         for (int e = 0; e < 20; e++) {
             if (e <= 5) {
                 transDao.save(new Transport(faker.name().title(), TransportType.BUS, 20, true));
@@ -495,7 +495,7 @@ public class Application {
         }
     }
 
-    private void createServiceAndRoutes() {
+    private static void createServiceAndRoutes() {
         for (int o = 0; o < 10; o++) {
             servDao.save(new Service(transDao.getRandomTransport(), now));
         }
@@ -510,7 +510,8 @@ public class Application {
         }
     }
 
-    private void createTravelAndSetRouTransAndTravel() {
+    private static void createTravelAndSetRouTransAndTravel() {
+        int randomMinutes = 20 + rnd.nextInt(21);
 
         for (int c = 0; c < 10; c++) {
             LocalDateTime coso = nowTime.minusDays(rnd.nextInt(20, 30));
@@ -531,13 +532,13 @@ public class Application {
     }
 
 
-    private void createTicket() {
+    private static void createTicket() {
         for (int i = 0; i <= 30; i++) {
             tickDao.save(new Ticket(now.minusDays(rnd.nextInt(1, 30)), sellDao.getRandomSeller()));
         }
     }
 
-    private void createValidation() {
+    private static void createValidation() {
         for (int i = 0; i < 10; i++) {
             valDao.save(new Validation(now.minusDays(rnd.nextInt(1, 50)),
                     transDao.getRandomTransport(),
@@ -549,6 +550,16 @@ public class Application {
         }
     }
 
+    private static void createAll() {
+        createUsers();
+        createTransport();
+        createServiceAndRoutes();
+        createSellers();
+        createSubscriptions();
+        createTravelAndSetRouTransAndTravel();
+        createTicket();
+        createValidation();
+    }
 }
 
 
