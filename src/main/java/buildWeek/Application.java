@@ -163,6 +163,134 @@ public class Application {
     }
 
     private static void validatedTickets() {
+        int menu01 = -1;
+        while (menu01 < 0) {
+            System.out.println();
+            System.out.println("Statistiche di viaggio");
+            System.out.println();
+            System.out.println("1 - biglietti vidimati");
+            System.out.println("2 - biglietti vidimati in un giorno");
+            System.out.println("3 - biglietti vidimati tra due date");
+            System.out.println("4 - biglietti vidimati su un trasporto");
+            System.out.println("5 - biglietti vidimati su un trasporto in un giorno");
+            System.out.println("6 - biglietti vidimati su un trasporto tra due date");
+            System.out.println("7 - biglietti vidimati su una tratta");
+            System.out.println("8 - biglietti vidimati su una tratta in un giorno");
+            System.out.println("9 - biglietti vidimati su una tratta tra due date");
+            System.out.println("0 - indietro");
+            menu01 = scanInt();
+            switch (menu01) {
+                case 1:
+                    System.out.println("\nsono stati vidimati " + valDao.getAll().size() + " biglietti in totale\n");
+                    pauseReturn();
+                    menu01 = -1;
+                    break;
+                case 2:
+                    validatedTicketsByDate();
+                    pauseReturn();
+                    menu01 = -1;
+                    break;
+                case 3:
+                    validatedTicketsBy2Date();
+                    pauseReturn();
+                    menu01 = -1;
+                    break;
+                case 4:
+                    validatedTicketsByTransport();
+                    pauseReturn();
+                    menu01 = -1;
+                    break;
+                case 5:
+                    validatedTicketsByTransportAndDate();
+                    pauseReturn();
+                    menu01 = -1;
+                    break;
+                case 6:
+                    validatedTicketsByTransportAnd2Date();
+                    pauseReturn();
+                    menu01 = -1;
+                    break;
+                case 7:
+                    validatedTicketsByRoute();
+                    pauseReturn();
+                    menu01 = -1;
+                    break;
+                case 8:
+                    validatedTicketsByRouteAndDate();
+                    pauseReturn();
+                    menu01 = -1;
+                    break;
+                case 9:
+                    validatedTicketsByRouteAnd2Date();
+                    pauseReturn();
+                    menu01 = -1;
+                    break;
+                case 0:
+                    System.out.println("indietro");
+                    break;
+                default:
+                    System.out.println("Opzione non valida");
+                    menu01 = -1;
+            }
+        }
+    }
+
+    private static void validatedTicketsByRouteAnd2Date() {
+        rouDao.getAll().forEach(System.out::println);
+        Route route = getRoute();
+        System.out.println("\ninserisci la prima data\n");
+        LocalDate date1 = getDate();
+        System.out.println("\ninserisci la seconda data\n");
+        LocalDate date2 = getDate();
+        System.out.println("sono stati vidimati " + valDao.getAll(route, date1, date2).size() + " biglietti sulla tratta " + route.getStartRoutePlace() + " - " + route.getEndRoutePlace() + " tra il " + date1 + " e il " + date2);
+    }
+
+    private static void validatedTicketsByRouteAndDate() {
+        rouDao.getAll().forEach(System.out::println);
+        Route route = getRoute();
+        System.out.println("\ninserisci una data\n");
+        LocalDate date = getDate();
+        System.out.println("il giorno " + date + " sono stati vidimati " + valDao.getAll(route, date).size() + " biglietti sulla tratta " + route.getStartRoutePlace() + " - " + route.getEndRoutePlace());
+    }
+
+    private static void validatedTicketsByRoute() {
+        rouDao.getAll().forEach(System.out::println);
+        Route route = getRoute();
+        System.out.println("sono stati vidimati " + valDao.getAll(route).size() + " biglietti sulla tratta " + route.getStartRoutePlace() + " - " + route.getEndRoutePlace());
+    }
+
+    private static void validatedTicketsByTransportAnd2Date() {
+        Transport transport = getTransport();
+        System.out.println("\ninserisci la prima data\n");
+        LocalDate date1 = getDate();
+        System.out.println("\ninserisci la seconda data\n");
+        LocalDate date2 = getDate();
+        System.out.println("sono stati vidimati " + valDao.getAll(transport, date1, date2).size() + " biglietti sul trasporto " + transport.getName() + " tra il " + date1 + " e il " + date2);
+    }
+
+    private static void validatedTicketsByTransportAndDate() {
+        Transport transport = getTransport();
+        System.out.println("\ninserisci una data\n");
+        LocalDate date = getDate();
+        System.out.println("il giorno " + date + " sono stati vidimati " + valDao.getAll(transport, date).size() + " biglietti sul trasporto " + transport.getName());
+    }
+
+    private static void validatedTicketsByTransport() {
+        Transport transport = getTransport();
+        System.out.println("sono stati vidimati " + valDao.getAll(transport).size() + " biglietti sul trasporto " + transport.getName());
+    }
+
+    private static void validatedTicketsBy2Date() {
+        System.out.println("\ninserisci la prima data\n");
+        LocalDate date1 = getDate();
+        System.out.println("\ninserisci la seconda data\n");
+        LocalDate date2 = getDate();
+        System.out.println("\nsono stati vidimati " + valDao.getAll(date1, date2).size() + " biglietti tra il " + date1 + " e il " + date2);
+    }
+
+    private static void validatedTicketsByDate() {
+        LocalDate date = getDate();
+        System.out.println("il giorno " + date + " sono stati vidimati " + valDao.getAll(date).size() + " biglietti");
     }
 
     private static void soldServices() {
@@ -490,8 +618,7 @@ public class Application {
     private static void getTransportRoute() {
         int menu01 = -1;
         while (menu01 < 0) {
-            System.out.println();
-            System.out.println("Scegli un mezzo.");
+            System.out.println("\nScegli un mezzo.");
             System.out.println("0 - indietro");
             System.out.println();
             menu01 = scanInt();
@@ -525,8 +652,7 @@ public class Application {
     private static void putTransportInService() {
         int menu01 = -1;
         while (menu01 < 0) {
-            System.out.println();
-            System.out.println("Scegli un mezzo da mettere in manutenzione.");
+            System.out.println("\nScegli un mezzo da mettere in manutenzione.");
             System.out.println("0 - indietro");
             System.out.println();
             menu01 = scanInt();
@@ -552,8 +678,7 @@ public class Application {
     private static void setTransportActive() {
         int menu01 = -1;
         while (menu01 < 0) {
-            System.out.println();
-            System.out.println("Scegli un mezzo da mettere in circolazione.");
+            System.out.println("\nScegli un mezzo da mettere in circolazione.");
             System.out.println("0 - indietro");
             System.out.println();
             menu01 = scanInt();
@@ -577,7 +702,7 @@ public class Application {
     private static Transport getTransport() {
         Transport transport = null;
         while (true) {
-            System.out.println("inserisci l'id del trasporto");
+            System.out.println("\ninserisci l'id del trasporto");
             System.out.println("0 - indietro");
             transport = transDao.getById(scanInt());
             if (transport != null) {
@@ -592,7 +717,7 @@ public class Application {
     private static Route getRoute() {
         Route route = null;
         while (true) {
-            System.out.println("inserisci l'id della tratta percorsa");
+            System.out.println("\ninserisci l'id della tratta percorsa");
             System.out.println("0 - indietro");
             route = rouDao.getById(scanInt());
             if (route != null) {
@@ -606,7 +731,7 @@ public class Application {
     private static Seller getSeller() {
         Seller seller = null;
         while (true) {
-            System.out.println("inserisci l'id del venditore");
+            System.out.println("\ninserisci l'id del venditore");
             System.out.println("0 - indietro");
             seller = sellDao.getById(scanInt());
             if (seller != null) {
