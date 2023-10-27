@@ -714,11 +714,12 @@ public class Application {
                     menu01 = -1;
                     break;
                 case 3:
-                    if (servDao.getAllServices(getTransport()).isEmpty()) {
+                    List<Service> serviceOnOneTransport = new ArrayList<>();
+                    Transport transport = getTransport();
+                    if (transport != null) serviceOnOneTransport.addAll(transport.getServices());
+                    if (serviceOnOneTransport.isEmpty()) {
                         System.out.println("Non ci sono manutenzioni per questo mezzo");
-                    } else {
-                        servDao.getAllServices(getTransport()).forEach(System.out::println);
-                    }
+                    } else serviceOnOneTransport.forEach(System.out::println);
                     menu01 = -1;
                     break;
                 case 4:
@@ -827,7 +828,6 @@ public class Application {
 
     private static Transport getTransport() {
         int menu01 = -1;
-        Transport transport;
         while (menu01 < 0) {
             System.out.println("\ninserisci l'id del trasporto\n");
             System.out.println("0 - indietro\n");
@@ -835,11 +835,12 @@ public class Application {
             if (menu01 == 0) {
                 System.out.println("\nindietro\n");
             } else {
-                transport = transDao.getById(menu01);
+                Transport transport = transDao.getById(menu01);
                 if (transport != null) {
                     return transport;
                 } else {
                     System.out.println("trasporto non trovato");
+                    menu01 = -1;
                 }
             }
         }
