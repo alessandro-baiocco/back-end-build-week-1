@@ -118,10 +118,11 @@ public class Application {
         int menu01 = -1;
         while (menu01 < 0) {
             System.out.println("\nStatistiche di viaggio\n");
-            System.out.println("1 - biglietti venduti");
-            System.out.println("2 - abbonamenti venduti");
-            System.out.println("3 - biglietti vidimati");
-            System.out.println("4 - percorrenze tratte");
+            System.out.println("1 - statistiche biglietti venduti");
+            System.out.println("2 - statistiche abbonamenti venduti");
+            System.out.println("3 - statistiche biglietti vidimati");
+            System.out.println("4 - statistiche percorrenze tratte");
+            System.out.println("0 - indietro\n");
             menu01 = scanInt();
             switch (menu01) {
                 case 1:
