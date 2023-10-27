@@ -700,16 +700,18 @@ public class Application {
         int menu01 = -1;
         Transport transport;
         while (menu01 < 0) {
-            System.out.println("\n inserisci l'id del trasporto \n");
+            System.out.println("\ninserisci l'id del trasporto\n");
             System.out.println("0 - indietro");
             menu01 = scanInt();
-            if (menu01 == 0) break;
-            transport = transDao.getById(menu01);
-            if (transport != null) {
-                return transport;
+            if (menu01 == 0) {
+                System.out.println("\nindietro\n");
             } else {
-                System.out.println("trasporto non trovato");
-                menu01 = -1;
+                transport = transDao.getById(menu01);
+                if (transport != null) {
+                    return transport;
+                } else {
+                    System.out.println("trasporto non trovato");
+                }
             }
         }
         return null;
@@ -717,34 +719,45 @@ public class Application {
 
     // get Route
     private static Route getRoute() {
+        int menu01 = -1;
         Route route;
-        while (true) {
-            System.out.println("\n inserisci l'id della tratta percorsa \n");
+        while (menu01 < 0) {
+            System.out.println("\ninserisci l'id della tratta percorsa\n");
             System.out.println("0 - indietro");
-            int menu01 = scanInt();
-            if (menu01 == 0) break;
-            route = rouDao.getById(menu01);
-            if (route != null) {
-                return route;
+            menu01 = scanInt();
+            if (menu01 == 0) {
+                System.out.println("indietro");
             } else {
-                System.out.println("Tratta non trovata riprova");
+                route = rouDao.getById(menu01);
+                if (route != null) {
+                    return route;
+                } else {
+                    System.out.println("Tratta non trovata");
+                }
             }
         }
         return null;
     }
 
     private static Seller getSeller() {
+        int menu01 = -1;
         Seller seller;
-        while (true) {
+        while (menu01 < 0) {
             System.out.println("\ninserisci l'id del venditore \n");
             System.out.println("0 - indietro");
-            seller = sellDao.getById(scanInt());
-            if (seller != null) {
-                return seller;
+            menu01 = scanInt();
+            if (menu01 == 0) {
+                System.out.println("indietro");
             } else {
-                System.out.println("venditore non trovato");
+                seller = sellDao.getById(menu01);
+                if (seller != null) {
+                    return seller;
+                } else {
+                    System.out.println("venditore non trovato");
+                }
             }
         }
+        return null;
     }
 
     private static void userMenuLogin() {
