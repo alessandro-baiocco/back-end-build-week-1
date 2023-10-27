@@ -717,12 +717,11 @@ public class Application {
 
     // get Route
     private static Route getRoute() {
-        int menu01 = -1;
         Route route;
-        while (menu01 < 0) {
+        while (true) {
             System.out.println("\n inserisci l'id della tratta percorsa \n");
             System.out.println("0 - indietro");
-            menu01 = scanInt();
+            int menu01 = scanInt();
             if (menu01 == 0) break;
             route = rouDao.getById(menu01);
             if (route != null) {
