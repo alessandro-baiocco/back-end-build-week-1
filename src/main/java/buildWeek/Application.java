@@ -702,12 +702,11 @@ public class Application {
         int menu01 = -1;
         Transport transport;
         while (menu01 < 0) {
-            System.out.println("\n inserisci l'id del trasporto \n");
+            System.out.println("\ninserisci l'id del trasporto\n");
             System.out.println("0 - indietro");
             menu01 = scanInt();
             if (menu01 == 0) {
                 System.out.println("\nindietro\n");
-                return null
             } else {
                 transport = transDao.getById(menu01);
                 if (transport != null) {
@@ -717,6 +716,7 @@ public class Application {
                 }
             }
         }
+        return null;
     }
 
     // get Route
@@ -724,10 +724,9 @@ public class Application {
         int menu01 = -1;
         Route route;
         while (menu01 < 0) {
-            System.out.println("\n inserisci l'id della tratta percorsa \n");
+            System.out.println("\ninserisci l'id della tratta percorsa\n");
             System.out.println("0 - indietro");
             menu01 = scanInt();
-
             if (menu01 == 0) {
                 System.out.println("indietro");
             } else {
@@ -739,20 +738,28 @@ public class Application {
                 }
             }
         }
+        return null;
     }
 
     private static Seller getSeller() {
+        int menu01 = -1;
         Seller seller;
-        while (true) {
+        while (menu01 < 0) {
             System.out.println("\ninserisci l'id del venditore \n");
             System.out.println("0 - indietro");
-            seller = sellDao.getById(scanInt());
-            if (seller != null) {
-                return seller;
+            menu01 = scanInt();
+            if (menu01 == 0) {
+                System.out.println("indietro");
             } else {
-                System.out.println("venditore non trovato");
+                seller = sellDao.getById(menu01);
+                if (seller != null) {
+                    return seller;
+                } else {
+                    System.out.println("venditore non trovato");
+                }
             }
         }
+        return null;
     }
 
     private static void userMenuLogin() {
