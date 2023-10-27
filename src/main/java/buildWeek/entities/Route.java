@@ -89,7 +89,7 @@ public class Route {
 
     @Override
     public String toString() {
-        return "Route{" +
+        return "Route {" +
                 "id=" + id +
                 ", startRoutePlace='" + startRoutePlace + '\'' +
                 ", endRoutePlace='" + endRoutePlace + '\'' +
