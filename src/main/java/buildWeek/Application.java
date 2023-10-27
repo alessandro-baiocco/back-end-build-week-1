@@ -874,11 +874,11 @@ public class Application {
     }
 
     private static void takeTransport() {
-        int munu01 = -1;
+        int menu01 = -1;
         while (true) {
             Scanner input = new Scanner(System.in);
             System.out.println("inserisci id rotta");
-            int menu01 = scanInt();
+            menu01 = scanInt();
             Route userRoute = rouDao.getById(menu01);
             if (userRoute != null) {
                 if (rouDao.transportIsActive(userRoute)
