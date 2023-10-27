@@ -80,4 +80,19 @@ public class UserBadgeDao {
             }
         }
     }
+
+    public void refresh(UserBadge userBadge) {
+        try {
+            EntityTransaction tx = em.getTransaction();
+            tx.begin();
+            em.refresh(userBadge);
+            tx.commit();
+        } catch (Exception ex) {
+            System.err.println(ex.getMessage());
+        }
+
+
+    }
+
+
 }

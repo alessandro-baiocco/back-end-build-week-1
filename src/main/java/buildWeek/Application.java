@@ -862,6 +862,7 @@ public class Application {
 
 
     private static void subscriptionMenu(UserBadge userBadge) {
+        userDAO.refresh(userBadge);
         System.out.println("questi sono i tuoi abbonamenti");
         userBadge.getSubscriptions().forEach(System.out::println);
         int menu01 = -1;
