@@ -1,11 +1,14 @@
 package buildWeek.dao;
 
 import buildWeek.entities.Route;
+import buildWeek.entities.Transport;
+import buildWeek.entities.Travel;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
+import java.util.ArrayList;
 import java.util.List;
 
 public class RouteDAO {
@@ -32,8 +35,7 @@ public class RouteDAO {
         return em.find(Route.class, id);
     }
 
-<<<<<<< Updated upstream
-=======
+
     public void delete(int id) {
         Route routeToBeDeleted = em.find(Route.class, id);
         if (routeToBeDeleted != null) {
@@ -104,7 +106,6 @@ public class RouteDAO {
         return query.getResultList().size();
     }
 
->>>>>>> Stashed changes
     public Route getRandomRoute() {
         TypedQuery<Route> query = em.createQuery("SELECT r FROM Route r ORDER BY RAND()", Route.class);
         query.setMaxResults(1);
@@ -123,15 +124,10 @@ public class RouteDAO {
             return null;
         }
     }
-    
+
     public Boolean transportIsActive(Route route) {
-<<<<<<< Updated upstream
         if (!route.getTransports().isEmpty()) {
             Boolean work = route.getTransports().get(0).isActive();
-=======
-        if (!route.getTravels().isEmpty()) {
-            Boolean work = route.getTravels().get(0).getTransport().isActive();
->>>>>>> Stashed changes
             if (!work) System.out.println("mezzo in manutenzione");
             return work;
         } else {

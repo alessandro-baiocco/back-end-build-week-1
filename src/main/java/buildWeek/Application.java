@@ -41,12 +41,7 @@ public class Application {
     public static void main(String[] args) {
 //        createSubscriptions();
         menu();
-<<<<<<< Updated upstream
 
-
-=======
-        // createAll();
->>>>>>> Stashed changes
         em.close();
         emf.close();
     }
@@ -163,6 +158,7 @@ public class Application {
 
     private static void routesStat() {
     }
+
 
     private static void validatedTickets() {
         int menu01 = -1;
@@ -817,7 +813,6 @@ public class Application {
         int munu01 = -1;
         while (true) {
             Scanner input = new Scanner(System.in);
-<<<<<<< Updated upstream
             System.out.println("inserisci id rotta");
             int menu01 = scanInt();
             Route userRoute = rouDao.getById(menu01);
@@ -825,38 +820,39 @@ public class Application {
                 if (rouDao.transportIsActive(userRoute)
                 ) {
                     System.out.println(userRoute);
-                    userRoute.getTravel().add(new Travel(LocalDateTime.now(), LocalDateTime.now().plusMinutes(userRoute.getDuration()), userRoute, userRoute.getTransports().get(0)));
+                    userRoute.getTravels().add(new Travel(LocalDateTime.now(), LocalDateTime.now().plusMinutes(userRoute.getDuration()), userRoute, userRoute.getTransports().get(0)));
                     String ritorno = testTicket(userRoute);
                     if (ritorno.equals("0")) break;
                 } else {
                     System.out.println("rotta non disponibile ci scusiamo per il disagio");
                 }
-=======
-            System.out.println("inserire punto di partenza - 0 per tornare indietro");
-            String startPlace = input.nextLine().toLowerCase().trim();
 
-            if (startPlace.equals("0")) break;
 
-            System.out.println("inserire punto di arrivo - 0 per tornare indietro");
-            String endPlace = input.nextLine().toLowerCase().trim();
+                System.out.println("inserire punto di partenza - 0 per tornare indietro");
+                String startPlace = input.nextLine().toLowerCase().trim();
 
-            if (endPlace.equals("0")) break;
+                if (startPlace.equals("0")) break;
 
-            Route userRoute = rouDao.findTravelForThis(startPlace, endPlace);
-            if (userRoute != null
-                    && !userRoute.getTravels().isEmpty()
-                    && rouDao.transportIsActive(userRoute)
-            ) {
-                String ritorno = testTicket(userRoute);
-                if (ritorno.equals("0")) break;
-            } else if (userRoute != null) {
-                if (userRoute.getTravels().isEmpty()) System.out.println("non ci sono viaggi disponibili");
->>>>>>> Stashed changes
-            } else {
-                System.out.println("rotta non trovata riprova");
-                menu01 = -1;
+                System.out.println("inserire punto di arrivo - 0 per tornare indietro");
+                String endPlace = input.nextLine().toLowerCase().trim();
+
+                if (endPlace.equals("0")) break;
+
+                userRoute = rouDao.findTravelForThis(startPlace, endPlace);
+                if (userRoute != null
+                        && !userRoute.getTravels().isEmpty()
+                        && rouDao.transportIsActive(userRoute)
+                ) {
+                    String ritorno = testTicket(userRoute);
+                    if (ritorno.equals("0")) break;
+                } else if (userRoute != null) {
+                    if (userRoute.getTravels().isEmpty()) System.out.println("non ci sono viaggi disponibili");
+                } else {
+                    System.out.println("rotta non trovata riprova");
+                    menu01 = -1;
+                }
+
             }
-
         }
     }
 
@@ -1205,6 +1201,7 @@ public class Application {
     }
 
 }
+
 
 
 
