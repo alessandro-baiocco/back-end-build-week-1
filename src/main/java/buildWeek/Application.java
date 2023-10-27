@@ -822,6 +822,7 @@ public class Application {
                     System.out.println(userRoute);
                     userRoute.getTravels().add(new Travel(LocalDateTime.now(), LocalDateTime.now().plusMinutes(userRoute.getDuration()), userRoute, userRoute.getTransports().get(0)));
                     String ritorno = testTicket(userRoute);
+                    if (ritorno.equals("0")) break;
                 } else {
                     System.out.println("rotta non disponibile ci scusiamo per il disagio");
                 }
