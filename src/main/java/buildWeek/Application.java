@@ -48,7 +48,7 @@ public class Application {
     private static void menu() {
         int menu01 = -1;
         while (menu01 < 0) {
-            System.out.println("\nBenvenuto nel sistema di coso trasporti/n");
+            System.out.println("\nBenvenuto nel sistema di coso trasporti\n");
             System.out.println("\nseleziona un'opzione\n");
             System.out.println("1 - Area utenti");
             System.out.println("2 - Area amministrativa");
