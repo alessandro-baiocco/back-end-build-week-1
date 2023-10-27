@@ -22,7 +22,7 @@ public class SellerDao {
             transaction.begin();
             em.persist(s);
             transaction.commit();
-            System.out.println("Nuovo seller salvato correttamente");
+            System.out.println("Nuovo venditore " + s.getId() + " salvato correttamente");
         } catch (Exception ex) {
             System.err.println("errore : \n" + ex.getMessage());
         }
@@ -63,6 +63,32 @@ public class SellerDao {
     public List<Seller> getAll() {
         TypedQuery<Seller> query = em.createQuery("SELECT s FROM Seller s", Seller.class);
         return query.getResultList();
+    }
+
+    public void setLicenceActiveAgain (Seller seller) {
+        seller.setLicensed(true);
+        try{
+            EntityTransaction transaction = em.getTransaction();
+            transaction.begin();
+            em.persist(seller);
+            transaction.commit();
+            System.out.println("Il venditore " + seller.getId() + " ha di nuovo la licenza");
+        } catch (Exception ex) {
+            System.err.println(ex.getMessage());
+        }
+    }
+
+    public void revokeLicence (Seller seller) {
+        seller.setLicensed(false);
+        try{
+            EntityTransaction transaction = em.getTransaction();
+            transaction.begin();
+            em.persist(seller);
+            transaction.commit();
+            System.out.println("La licenza del venditore " + seller.getId() +  "è stata revocata");
+        } catch (Exception ex){
+            System.err.println(ex.getMessage());
+        }
     }
 
 }

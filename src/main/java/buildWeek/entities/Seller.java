@@ -45,8 +45,8 @@ public class Seller {
         this.licensed = licensed;
     }
 
-    public SellerType getSellerType() {
-        return sellerType;
+    public SellerType getSellerType(String sellerType) {
+        return this.sellerType;
     }
 
     public void setSellerType(SellerType sellerType) {

@@ -89,6 +89,8 @@ public class Application {
             System.out.println("1 - gestisci mezzi");
             System.out.println("2 - gestisci tratte");
             System.out.println("3 - visualizza statistiche viaggi");
+            System.out.println("4 - Crea un nuovo venditore");
+            System.out.println("5 - Gestisci la licenza del venditore");
             System.out.println("0 - indietro\n");
             menu01 = scanInt();
             switch (menu01) {
@@ -104,6 +106,15 @@ public class Application {
                     statistic();
                     menu01 = -1;
                     break;
+                case 4:
+                    saveASeller();
+                    pauseReturn();
+                    menu01 = -1;
+                    break;
+                case 5:
+                    licenceManager();
+                    menu01 = -1;
+                    break;
                 case 0:
                     System.out.println("Arrivederci");
                     break;
@@ -113,6 +124,94 @@ public class Application {
             }
         }
     }
+
+    public static void saveASeller() {
+        int menu01= -1;
+        System.out.println("\nScegli la tipologia di venditore\n");
+        System.out.println("1 - REAL");
+        System.out.println("2 - AUTO");
+        menu01 = scanInt();
+        switch (menu01) {
+            case 1:
+                sellDao.save(new Seller(true, SellerType.REAL));
+                menu01 = -1;
+                break;
+            case 2:
+                sellDao.save(new Seller(true, SellerType.AUTO));
+                menu01 = -1;
+                break;
+            default:
+                System.out.println("Scelta errata. Riprova!");
+    }
+    }
+
+    private static void licenceManager() {
+        int menu01 = -1;
+        while (menu01 < 0) {
+            System.out.println("\nGestisci la licenza del venditore\n");
+            System.out.println("1 - Riattiva la licenza");
+            System.out.println("2 - Revoca la licenza");
+            System.out.println("0 - indietro\n");
+            menu01 = scanInt();
+            switch (menu01) {
+                case 1:
+                    licenceIsActiveAgain();
+                    menu01 = -1;
+                    break;
+                case 2:
+                    licenceRevoked();
+                    menu01 = -1;
+                    break;
+                case 0:
+                    System.out.println("indietro");
+                    break;
+                default:
+                    System.out.println("Opzione non valida");
+                    menu01 = -1;
+            }
+        }
+    }
+
+    private static void licenceIsActiveAgain() {
+        int menu01 = -1;
+        while (menu01 < 0) {
+            System.out.println("\nScegli un venditore a cui riattivare la licenza.");
+            System.out.println("0 - indietro\n");
+            System.out.println();
+            Seller seller = getSeller();
+            if (seller != null) {
+                    sellDao.setLicenceActiveAgain(seller);
+                    menu01 = 0;
+                } else {
+                    System.out.println("Il venditore non esiste. Riprova.");
+                }
+                if (menu01 != 0) {
+                    menu01 = -1;
+                }
+            }
+        }
+
+
+    private static void licenceRevoked() {
+        int menu01 = -1;
+        while (menu01 < 0) {
+            System.out.println("\nScegli un venditore a cui revocare la licenza.");
+            System.out.println("0 - indietro\n");
+            System.out.println();
+           Seller seller = getSeller();
+                if (seller != null) {
+                    sellDao.revokeLicence(seller);
+                    menu01 = 0;
+                } else {
+                    System.out.println("Il venditore non esiste. Riprova.");
+                }
+                if (menu01 != 0) {
+                    menu01 = -1;
+                }
+            }
+        }
+
+
 
     private static void statistic() {
         int menu01 = -1;
