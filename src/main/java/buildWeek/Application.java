@@ -89,7 +89,7 @@ public class Application {
             System.out.println("1 - gestisci mezzi");
             System.out.println("2 - gestisci tratte");
             System.out.println("3 - visualizza statistiche viaggi");
-            System.out.println("0 - indietro");
+            System.out.println("0 - indietro\n");
             menu01 = scanInt();
             switch (menu01) {
                 case 1:
@@ -169,7 +169,7 @@ public class Application {
             System.out.println("7 - biglietti vidimati su una tratta");
             System.out.println("8 - biglietti vidimati su una tratta in un giorno");
             System.out.println("9 - biglietti vidimati su una tratta tra due date");
-            System.out.println("0 - indietro");
+            System.out.println("0 - indietro\n");
             menu01 = scanInt();
             switch (menu01) {
                 case 1:
@@ -325,7 +325,7 @@ public class Application {
             System.out.println("4 - abbonamenti venduti tra due date da un venditore");
             System.out.println("5 - abbonamenti venduti in un giorno");
             System.out.println("6 - abbonamenti venduti tra due date");
-            System.out.println("0 - indietro");
+            System.out.println("0 - indietro\n");
             menu01 = scanInt();
             switch (menu01) {
                 case 1:
@@ -430,11 +430,11 @@ public class Application {
             System.out.println("2 - biglietti venduti per venditore");
             System.out.println("3 - biglietti venduti per data e venditore");
             System.out.println("4 - biglietti venduti tra due date da un venditore");
-            System.out.println("0 - indietro");
+            System.out.println("0 - indietro\n");
             menu01 = scanInt();
             switch (menu01) {
                 case 1:
-                    System.out.println("\nsono stati venduti " + tickDao.getAll().size() + " in totale\n");
+                    System.out.println("\nsono stati venduti " + tickDao.getAll().size() + " biglietti in totale\n");
                     pauseReturn();
                     menu01 = -1;
                     break;
@@ -534,7 +534,7 @@ public class Application {
             System.out.println("3 - inserisci una corsa");
             System.out.println("4 - crea una tratta");
             System.out.println("5 - vedi tutte le tratte");
-            System.out.println("0 - indietro");
+            System.out.println("0 - indietro\n");
             menu01 = scanInt();
             switch (menu01) {
 
@@ -588,7 +588,7 @@ public class Application {
         esterno:
         while (menu01 < 0) {
             System.out.println("\nInserisci il tempo effettivo della corsa, tipo : 20 .(La data viene calcolata in base al tempo effettivo.)\n");
-            System.out.println("0 - indietro");
+            System.out.println("0 - indietro\n");
             System.out.println();
             menu01 = scanInt();
             if (menu01 == 0) break esterno;
@@ -635,7 +635,7 @@ public class Application {
             System.out.println("4 - metti mezzo in manutenzione");
             System.out.println("5 - metti mezzo in servizio");
             System.out.println("6 - visualizza tratta trasporto");
-            System.out.println("0 - indietro");
+            System.out.println("0 - indietro\n");
             menu01 = scanInt();
             switch (menu01) {
 
@@ -678,7 +678,7 @@ public class Application {
         int menu01 = -1;
         while (menu01 < 0) {
             System.out.println("\nScegli un mezzo.");
-            System.out.println("0 - indietro");
+            System.out.println("0 - indietro\n");
             System.out.println();
             menu01 = scanInt();
             if (menu01 == 0) {
@@ -709,7 +709,7 @@ public class Application {
         int menu01 = -1;
         while (menu01 < 0) {
             System.out.println("\nScegli un mezzo da mettere in manutenzione.");
-            System.out.println("0 - indietro");
+            System.out.println("0 - indietro\n");
             System.out.println();
             menu01 = scanInt();
             if (menu01 == 0) {
@@ -735,7 +735,7 @@ public class Application {
         int menu01 = -1;
         while (menu01 < 0) {
             System.out.println("\nScegli un mezzo da mettere in circolazione. \n");
-            System.out.println("0 - indietro");
+            System.out.println("0 - indietro\n");
             System.out.println();
             menu01 = scanInt();
             if (menu01 == 0) {
@@ -760,7 +760,7 @@ public class Application {
         Transport transport;
         while (menu01 < 0) {
             System.out.println("\ninserisci l'id del trasporto\n");
-            System.out.println("0 - indietro");
+            System.out.println("0 - indietro\n");
             menu01 = scanInt();
             if (menu01 == 0) {
                 System.out.println("\nindietro\n");
@@ -782,7 +782,7 @@ public class Application {
         Route route;
         while (menu01 < 0) {
             System.out.println("\ninserisci l'id della tratta percorsa\n");
-            System.out.println("0 - indietro");
+            System.out.println("0 - indietro\n");
             menu01 = scanInt();
             if (menu01 == 0) {
                 System.out.println("indietro");
@@ -803,7 +803,7 @@ public class Application {
         Seller seller;
         while (menu01 < 0) {
             System.out.println("\ninserisci l'id del venditore \n");
-            System.out.println("0 - indietro");
+            System.out.println("0 - indietro\n");
             menu01 = scanInt();
             if (menu01 == 0) {
                 System.out.println("indietro");
@@ -848,7 +848,7 @@ public class Application {
             System.out.println("1 - Acquista biglietto o abbonamento");
             System.out.println("2 - gestisci tessera personale");
             System.out.println("3 - gestisci abbonamento");
-            System.out.println("0 - indietro");
+            System.out.println("0 - indietro\n");
             menu01 = scanInt();
             switch (menu01) {
                 case 1:
@@ -932,7 +932,7 @@ public class Application {
         int menu01 = -1;
         while (menu01 < 0) {
             System.out.println("\n inserisci l'id dell'abbonamento da gestire \n");
-            System.out.println("0 - indietro");
+            System.out.println("0 - indietro\n");
             menu01 = scanInt();
             Subscription userSubscription = subDao.getById(menu01);
             if (userSubscription != null) {
@@ -956,7 +956,7 @@ public class Application {
             System.out.println("cosa vuoi fare");
             System.out.println("1 - vedi scadenza");
             System.out.println("2 - rinnova abbonamento");
-            System.out.println("0 - indietro");
+            System.out.println("0 - indietro\n");
             System.out.println();
             menu01 = scanInt();
             switch (menu01) {
@@ -994,7 +994,7 @@ public class Application {
             System.out.println();
             System.out.println("1 - vedi scadenza");
             System.out.println("2 - rinnova tessera personale");
-            System.out.println("0 - indietro");
+            System.out.println("0 - indietro\n");
             menu01 = scanInt();
             switch (menu01) {
                 case 1:
@@ -1040,7 +1040,7 @@ public class Application {
                         System.out.println("che tipo ?");
                         System.out.println("1 - settimanale");
                         System.out.println("2 - mensile");
-                        System.out.println("0 - indietro");
+                        System.out.println("0 - indietro\n");
                         menu02 = scanInt();
                         switch (menu02) {
                             case 1: {
@@ -1092,7 +1092,7 @@ public class Application {
             System.out.println("1 - compra biglietto");
             System.out.println("2 - fai tessera");
             System.out.println("3 - prendi un mezzo");
-            System.out.println("0 - indietro");
+            System.out.println("0 - indietro\n");
             menu01 = scanInt();
             switch (menu01) {
                 case 1:
