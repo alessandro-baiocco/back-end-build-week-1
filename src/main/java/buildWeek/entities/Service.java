@@ -59,7 +59,7 @@ public class Service {
 
     @Override
     public String toString() {
-        return "Service{" +
+        return "Service {" +
                 "id=" + id +
                 ", transport_id=" + transport.getId() +
                 ", start_date=" + start_date +
