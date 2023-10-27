@@ -10,6 +10,7 @@ import net.datafaker.Faker;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
@@ -540,8 +541,12 @@ public class Application {
             System.out.println("\ninserisci l'anno");
             int year = scanInt();
             if (1 <= day && day <= 31 && 1 <= month && month <= 12 && 1900 <= year && year <= 2100) {
-                date = LocalDate.of(year, month, day);
-                menu01 = 0;
+                try {
+                    date = LocalDate.of(year, month, day);
+                    menu01 = 0;
+                } catch (DateTimeException e) {
+                    System.err.println("\ndata non valida\n");
+                }
             } else {
                 System.err.println("\ndata non valida\n");
             }
