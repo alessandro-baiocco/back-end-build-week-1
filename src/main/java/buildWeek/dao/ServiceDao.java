@@ -19,15 +19,19 @@ public class ServiceDao {
 
     public void save(Service service) {
         if (service.getTransport().isActive()) {
-            EntityTransaction tx = em.getTransaction();
-            tx.begin();
-            em.persist(service);
-            System.out.println("Service " + service.getId() + " saved");
-            Transport transport = service.getTransport();
-            transport.setActive(false);
-            em.persist(transport);
-            System.out.println("Il mezzo " + transport.getId() + " è stato messo in manutenzione.");
-            tx.commit();
+            try {
+                EntityTransaction tx = em.getTransaction();
+                tx.begin();
+                em.persist(service);
+                System.out.println("Service " + service.getId() + " saved");
+                Transport transport = service.getTransport();
+                transport.setActive(false);
+                em.persist(transport);
+                tx.commit();
+                System.out.println("Il mezzo " + transport.getId() + " è stato messo in manutenzione.");
+            } catch (Exception ex) {
+                System.err.println("errore : " + ex.getMessage());
+            }
         } else {
             System.out.println("C'è già un servizio attivo per il mezzo " + service.getTransport().getId());
         }
@@ -40,13 +44,17 @@ public class ServiceDao {
             transport.getServices().forEach(service -> {
                 if (service.getEnd_date() == null) {
                     service.setEnd_date(LocalDate.now());
-                    EntityTransaction tx = em.getTransaction();
-                    tx.begin();
-                    transport.setActive(true);
-                    em.persist(transport);
-                    em.persist(service);
-                    tx.commit();
-                    System.out.println("Il mezzo " + transport.getId() + " è di nuovo disponibile.");
+                    try {
+                        EntityTransaction tx = em.getTransaction();
+                        tx.begin();
+                        transport.setActive(true);
+                        em.persist(transport);
+                        em.persist(service);
+                        tx.commit();
+                        System.out.println("Il mezzo " + transport.getId() + " è di nuovo disponibile.");
+                    } catch (Exception ex) {
+                        System.err.println("errore : " + ex.getMessage());
+                    }
                 }
             });
         }
@@ -62,5 +70,5 @@ public class ServiceDao {
         query.setParameter("transport", transport);
         return query.getResultList();
     }
-    
+
 }

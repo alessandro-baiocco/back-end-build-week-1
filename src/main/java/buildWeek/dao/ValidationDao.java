@@ -28,8 +28,7 @@ public class ValidationDao {
                 tx.commit();
                 System.out.println("Il biglietto " + validation.getTicket().getID() + " è stato timbrato");
             } catch (Exception ex) {
-                System.err.println("errore : ");
-                System.err.println(ex.getMessage());
+                System.err.println("errore : " + ex.getMessage());
             }
         } else {
             System.out.println("Il biglietto " + validation.getTicket().getID() + " è stato già validato!");
@@ -40,12 +39,16 @@ public class ValidationDao {
 
         Validation validation = new Validation(LocalDate.now(), transport, travel, ticket);
         ticket.setValidation(validation);
-        EntityTransaction tx = em.getTransaction();
-        tx.begin();
-        em.persist(validation);
-        em.persist(ticket);
-        tx.commit();
-        System.out.println("Validation " + validation.getId() + " saved");
+        try {
+            EntityTransaction tx = em.getTransaction();
+            tx.begin();
+            em.persist(validation);
+            em.persist(ticket);
+            tx.commit();
+            System.out.println("Validation " + validation.getId() + " saved");
+        } catch (Exception ex) {
+            System.err.println("errore : " + ex.getMessage());
+        }
     }
 
     public Validation getRandomValidation() {

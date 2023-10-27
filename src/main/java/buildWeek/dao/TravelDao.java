@@ -29,10 +29,8 @@ public class TravelDao {
             System.out.println("Il viaggio è stato correttamente inserito");
         } catch (RollbackException ex) {
             System.err.println("errore di creazione");
-
         } catch (Exception ex) {
-            System.err.println("errore generico");
-            System.err.println(ex.getMessage());
+            System.err.println("Errore :\n" + ex.getMessage());
         }
 
     }

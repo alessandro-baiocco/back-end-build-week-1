@@ -28,7 +28,7 @@ public class SubscriptionDAO {
                 transaction.commit();
                 System.out.println("abbonamento n " + subS.getID() + " creato correttamente");
             } catch (Exception ex) {
-                System.err.println(ex.getMessage());
+                System.err.println("Errore : \n" + ex.getMessage());
             }
         } else {
             System.out.println("Rinnova la tessera prima tirchio!");
@@ -53,11 +53,15 @@ public class SubscriptionDAO {
                 subscription.setActivationDate(LocalDate.now());
             }
             subscription.setType(ticketDuration);
-            EntityTransaction transaction = em.getTransaction();
-            transaction.begin();
-            em.persist(subscription);
-            transaction.commit();
-            System.out.println("l'abbonamento è rinnovato correttamente");
+            try {
+                EntityTransaction transaction = em.getTransaction();
+                transaction.begin();
+                em.persist(subscription);
+                transaction.commit();
+                System.out.println("l'abbonamento è stato rinnovato correttamente");
+            } catch (Exception ex) {
+                System.err.println("Errore : \n" + ex.getMessage());
+            }
         } else {
             System.out.println("Devi rinnovare prima la tessera utente.");
         }
@@ -79,11 +83,6 @@ public class SubscriptionDAO {
         return query.getResultList();
     }
 
-    public List<Subscription> getAllAuto() {
-        TypedQuery<Subscription> query = em.createQuery("SELECT s FROM Subscription s.seller_type = 'AUTO'", Subscription.class);
-        return query.getResultList();
-    }
-
     public int soldSubscription(LocalDate date) {
         TypedQuery<Subscription> query = em.createQuery("SELECT s FROM Subscription s WHERE s.createdDate = :date", Subscription.class);
         query.setParameter("date", date);
@@ -96,5 +95,5 @@ public class SubscriptionDAO {
         query.setParameter("date2", date2);
         return query.getResultList().size();
     }
-    
+
 }
