@@ -36,27 +36,6 @@ public class ValidationDao {
         }
     }
 
-
-    public Validation getById(int id) {
-        return em.find(Validation.class, id);
-    }
-
-    public void delete(Validation validation) {
-        EntityTransaction tx = em.getTransaction();
-        tx.begin();
-        em.remove(validation);
-        tx.commit();
-        System.out.println("Validation " + validation.getId() + " deleted");
-    }
-
-    public void refresh(Validation validation) {
-        EntityTransaction tx = em.getTransaction();
-        tx.begin();
-        em.refresh(validation);
-        tx.commit();
-        System.out.println("Validation " + validation.getId() + " refreshed");
-    }
-
     public void validate(Ticket ticket, Transport transport, Travel travel) {
 
         Validation validation = new Validation(LocalDate.now(), transport, travel, ticket);

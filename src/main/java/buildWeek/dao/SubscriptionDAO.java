@@ -40,16 +40,6 @@ public class SubscriptionDAO {
         return em.find(Subscription.class, id);
     }
 
-    public void delete(Subscription subscription) {
-
-        EntityTransaction transaction = em.getTransaction();
-        transaction.begin();
-        em.remove(subscription);
-        transaction.commit();
-        System.out.println("l'abbonamento è stato cancellato correttamente");
-    }
-
-
     public void reNew(Subscription subscription, TicketDuration ticketDuration) {
         UserBadgeDao userBadgeDao = new UserBadgeDao(em);
         if (userBadgeDao.isActive(subscription.getUser())) {
@@ -73,28 +63,6 @@ public class SubscriptionDAO {
         }
     }
 
-    public LocalDate getExpirationDate(int id) {
-        Subscription founded = em.find(Subscription.class, id);
-        try {
-            if (founded != null) {
-                return founded.getActivationDate();
-            } else {
-                return null;
-            }
-        } catch (Exception ex) {
-            System.err.println("l'abbonamento non è stato trovato");
-            System.err.println(ex.getMessage());
-            return null;
-        }
-    }
-
-
-    public Subscription getRandomSubscription() {
-        TypedQuery<Subscription> query = em.createQuery("SELECT s FROM Subscription s ORDER BY RAND()", Subscription.class);
-        query.setMaxResults(1);
-        return query.getSingleResult();
-    }
-
     public boolean isActive(Subscription subscription) {
         if (subscription.getType() == TicketDuration.WEEKLY) {
             return ChronoUnit.DAYS.between(subscription.getActivationDate(), LocalDate.now()) < 8;
@@ -104,11 +72,6 @@ public class SubscriptionDAO {
             System.err.println("not found");
             return false;
         }
-    }
-
-    public boolean isBadgeActive(Subscription subscription) {
-        UserBadgeDao userBadgeDao = new UserBadgeDao(em);
-        return userBadgeDao.isActive(subscription.getUser());
     }
 
     public List<Subscription> getAll() {
@@ -133,6 +96,5 @@ public class SubscriptionDAO {
         query.setParameter("date2", date2);
         return query.getResultList().size();
     }
-
-
+    
 }

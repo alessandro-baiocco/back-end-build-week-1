@@ -35,18 +35,6 @@ public class UserBadgeDao {
         return em.find(UserBadge.class, id);
     }
 
-
-    public void delete(UserBadge userBadge) {
-
-        EntityTransaction transaction = em.getTransaction();
-
-        transaction.begin();
-        em.remove(userBadge);
-        transaction.commit();
-        System.out.println("Lo user è stato cancellato correttamente");
-
-    }
-
     public UserBadge getRandomUserBadge() {
         TypedQuery<UserBadge> query = em.createQuery("SELECT u FROM UserBadge u ORDER BY RAND()", UserBadge.class);
         query.setMaxResults(1);
@@ -91,7 +79,5 @@ public class UserBadgeDao {
                 System.err.println(ex.getMessage());
             }
         }
-
     }
-
 }

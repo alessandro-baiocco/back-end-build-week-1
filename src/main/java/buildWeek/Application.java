@@ -38,10 +38,6 @@ public class Application {
     private static final Faker faker = new Faker();
     private static final LocalDateTime nowTime = LocalDateTime.now();
 
-    private static LocalDateTime now2 = LocalDateTime.now();
-    private final int randomMinutes = 20 + rnd.nextInt(21);
-
-
     public static void main(String[] args) {
         menu();
         em.close();
@@ -649,10 +645,7 @@ public class Application {
                     List<Travel> travelList = transport.getTravels();
                     if (!travelList.isEmpty()) {
                         System.out.println("Le rotte per il mezzo " + transport.getId() + " sono : ");
-                        travelList.forEach(travel -> {
-                            System.out.println(travDao.getById(travel.getId()).getRoute());
-                        });
-
+                        travelList.forEach(travel -> System.out.println(travDao.getById(travel.getId()).getRoute()));
                     } else {
                         System.out.println("Non ci sono rotte per questo mezzo");
                     }
@@ -719,7 +712,7 @@ public class Application {
     }
 
     private static Transport getTransport() {
-        Transport transport = null;
+        Transport transport;
         while (true) {
             System.out.println("\n inserisci l'id del trasporto \n");
             System.out.println("0 - indietro");
@@ -734,7 +727,7 @@ public class Application {
 
     // get Route
     private static Route getRoute() {
-        Route route = null;
+        Route route;
         while (true) {
             System.out.println("\n inserisci l'id della tratta percorsa \n");
             System.out.println("0 - indietro");
@@ -748,7 +741,7 @@ public class Application {
     }
 
     private static Seller getSeller() {
-        Seller seller = null;
+        Seller seller;
         while (true) {
             System.out.println("\ninserisci l'id del venditore \n");
             System.out.println("0 - indietro");
@@ -907,17 +900,15 @@ public class Application {
             switch (menu01) {
                 case 1:
                     boolean tipoMensile = subscription.getType() == TicketDuration.MONTHLY;
+                    LocalDate scadenza;
                     if (tipoMensile) {
-                        LocalDate scadenza = subscription.getActivationDate().plusMonths(1);
-                        if (scadenza.isBefore(LocalDate.now()))
-                            System.out.println("l'abbonamento è scaduto il " + scadenza);
-                        else System.out.println("l'abbonamento scadrà il " + scadenza);
+                        scadenza = subscription.getActivationDate().plusMonths(1);
                     } else {
-                        LocalDate scadenza = subscription.getActivationDate().plusWeeks(1);
-                        if (scadenza.isBefore(LocalDate.now()))
-                            System.out.println("l'abbonamento è scaduto il " + scadenza);
-                        else System.out.println("l'abbonamento scadrà il " + scadenza);
+                        scadenza = subscription.getActivationDate().plusWeeks(1);
                     }
+                    if (scadenza.isBefore(LocalDate.now()))
+                        System.out.println("l'abbonamento è scaduto il " + scadenza);
+                    else System.out.println("l'abbonamento scadrà il " + scadenza);
                     break;
                 case 2:
                     subDao.reNew(subscription, subscription.getType());
@@ -1090,9 +1081,11 @@ public class Application {
     }
 
     private static void createUsers() {
-        Supplier<UserBadge> userSupplier = () -> {
-            return new UserBadge(faker.name().firstName(), faker.name().lastName(), now.minusYears(rnd.nextInt(20, 50)), now.minusYears(rnd.nextInt(0, 5)));
-        };
+        Supplier<UserBadge> userSupplier = () ->
+                new UserBadge(faker.name().firstName(),
+                        faker.name().lastName(),
+                        now.minusYears(rnd.nextInt(20, 50)),
+                        now.minusYears(rnd.nextInt(0, 5)));
         for (int d = 0; d < 10; d++) {
             userDAO.save(userSupplier.get());
         }
@@ -1132,9 +1125,6 @@ public class Application {
     }
 
     private static void createServiceAndRoutes() {
-        /*for (int o = 0; o < 10; o++) {
-            servDao.save(new Service(transDao.getRandomTransport(), now));
-        }*/
         for (int u = 0; u < 10; u++) {
             rouDao.save(new Route(faker.futurama().location(), faker.futurama().location(), rnd.nextInt(20, 40)));
         }
@@ -1155,15 +1145,6 @@ public class Application {
                     rouDao.getRandomRoute(),
                     transDao.getRandomTransport()));
         }
-
-//        for (int w = 0; w < 10; w++) {
-//            LocalDateTime coso = now2.minusDays(rnd.nextInt(20, 30));
-//            rouDao.setTrans();
-//            rouDao.setTravel(rouDao.getRandomRoute(), new Travel(coso,
-//                    coso.plus(randomMinutes, ChronoUnit.valueOf("MINUTES")),
-//                    rouDao.getRandomRoute(),
-//                    transDao.getRandomTransport()));
-//        }
     }
 
     private static void createTicket() {
@@ -1195,21 +1176,6 @@ public class Application {
         createValidation();
     }
 
-    private LocalDateTime scanLocalDateTime() {
-        int num = -1;
-        LocalDateTime localDateTime = null;
-        Scanner scanner = new Scanner(System.in);
-        while (num < 0) {
-            try {
-                localDateTime = LocalDateTime.parse(scanner.nextLine());
-                num = 0;
-            } catch (Exception e) {
-                System.err.println("Inserisci una data nel seguente formato : 2000/01/31 12.00.00");
-                scanner.nextLine();
-            }
-        }
-        return localDateTime;
-    }
 }
 
 
