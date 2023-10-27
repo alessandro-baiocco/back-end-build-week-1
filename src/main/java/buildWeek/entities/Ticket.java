@@ -10,7 +10,7 @@ import java.time.LocalDate;
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class Ticket extends TicketsItem {
     @Nullable
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "validation_id")
     private Validation validation;
 
@@ -36,7 +36,6 @@ public class Ticket extends TicketsItem {
     public void setValidation(Validation validation) {
         this.validation = validation;
     }
-    
 
 
     @Override

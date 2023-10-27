@@ -33,12 +33,12 @@ public class Route {
         this.travels = null;
     }
 
-    public Route(String startRoutePlace, String endRoutePlace, int duration, List<Transport> transports, List<Travel> travel) {
+    public Route(String startRoutePlace, String endRoutePlace, int duration, List<Transport> transports, List<Travel> travels) {
         this.startRoutePlace = startRoutePlace;
         this.endRoutePlace = endRoutePlace;
         this.duration = duration;
         this.transports = transports;
-        this.travels = travel;
+        this.travels = travels;
     }
 
     public int getId() {
@@ -78,12 +78,12 @@ public class Route {
         this.transports = transports;
     }
 
-    public List<Travel> getTravel() {
+    public List<Travel> getTravels() {
         return travels;
     }
 
-    public void setTravel(List<Travel> travel) {
-        this.travels = travel;
+    public void setTravels(List<Travel> travels) {
+        this.travels = travels;
     }
 
 

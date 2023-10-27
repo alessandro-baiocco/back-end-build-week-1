@@ -32,6 +32,79 @@ public class RouteDAO {
         return em.find(Route.class, id);
     }
 
+<<<<<<< Updated upstream
+=======
+    public void delete(int id) {
+        Route routeToBeDeleted = em.find(Route.class, id);
+        if (routeToBeDeleted != null) {
+            try {
+                EntityTransaction transaction = em.getTransaction();
+                transaction.begin();
+                em.remove(routeToBeDeleted);
+                transaction.commit();
+                System.out.println("Questa tratta è stata cancellata con successo!");
+            } catch (Exception ex) {
+                System.err.println(ex.getMessage());
+            }
+        } else {
+            System.out.println("Tratta non presente nel database");
+        }
+    }
+
+    public Travel getRandomTravel() {
+        TypedQuery<Travel> query = em.createQuery("SELECT t FROM Travel t ORDER BY RAND()", Travel.class);
+        query.setMaxResults(1);
+        return query.getSingleResult();
+    }
+
+    public Transport getRandomTrans() {
+        TypedQuery<Transport> query = em.createQuery("SELECT t FROM Transport t ORDER BY RAND()", Transport.class);
+        query.setMaxResults(1);
+        return query.getSingleResult();
+    }
+
+
+    public void setTravel(Route route, Travel travel) {
+        EntityTransaction transaction = em.getTransaction();
+        transaction.begin();
+        List<Travel> travelList = new ArrayList<>();
+        if (route.getTravels() != null) {
+            travelList.addAll(route.getTravels());
+        }
+        travelList.add(travel);
+        try {
+            if (travelList != null) {
+                route.setTravels(travelList);
+                em.persist(route);
+                System.out.println("Viaggo aggiunto correttamente alla rotta : " + route.getId());
+                transaction.commit();
+            } else {
+                System.out.println("E' successo qualcosa per cui non possiamo inserire il viaggio alla rotta.");
+            }
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+    }
+
+//    public void setTrans() {
+//        EntityTransaction transaction = em.getTransaction();
+//        transaction.begin();
+//        TypedQuery<Route> getAllRoute = em.createQuery("SELECT t FROM Route t", Route.class); // Query JPQL
+//
+//        List<Route> routeList = getAllRoute.getResultList();
+//        routeList.forEach(t -> t.setMeansOfTransport(getRandomTrans()));
+//
+//        transaction.commit();
+//
+//    }
+
+    public int timesTraveled(Transport transport) {
+        TypedQuery<Transport> query = em.createQuery("SELECT r FROM Route r WHERE r.transport = :transport", Transport.class);
+        query.setParameter("transport", transport);
+        return query.getResultList().size();
+    }
+
+>>>>>>> Stashed changes
     public Route getRandomRoute() {
         TypedQuery<Route> query = em.createQuery("SELECT r FROM Route r ORDER BY RAND()", Route.class);
         query.setMaxResults(1);
@@ -52,8 +125,13 @@ public class RouteDAO {
     }
     
     public Boolean transportIsActive(Route route) {
+<<<<<<< Updated upstream
         if (!route.getTransports().isEmpty()) {
             Boolean work = route.getTransports().get(0).isActive();
+=======
+        if (!route.getTravels().isEmpty()) {
+            Boolean work = route.getTravels().get(0).getTransport().isActive();
+>>>>>>> Stashed changes
             if (!work) System.out.println("mezzo in manutenzione");
             return work;
         } else {
