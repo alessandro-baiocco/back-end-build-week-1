@@ -521,9 +521,9 @@ public class Application {
         Scanner input = new Scanner(System.in);
         System.out.println("\ninserisci punto di partenza\n");
         String startPlace = input.nextLine();
-        System.out.println("\ninserisci punto di partenza\n");
+        System.out.println("\ninserisci punto di arrivo\n");
         String endPlace = input.nextLine();
-        System.out.println("\ninserisci durata in M\n");
+        System.out.println("\ninserisci durata in minuti\n");
         int duration = scanInt();
         rouDao.save(new Route(startPlace, endPlace, duration));
 
