@@ -87,12 +87,12 @@ public class Application {
         }
     }
 
+
     private static void adminMenu() {
         int menu01 = -1;
         while (menu01 < 0) {
             System.out.println();
             System.out.println("Area amministrativa");
-            System.out.println();
             System.out.println("1 - gestisci mezzi");
             System.out.println("2 - gestisci tratte");
             System.out.println("3 - visualizza statistiche viaggi");
@@ -698,7 +698,7 @@ public class Application {
     private static void setTransportActive() {
         int menu01 = -1;
         while (menu01 < 0) {
-            System.out.println("\nScegli un mezzo da mettere in circolazione.");
+            System.out.println("\nScegli un mezzo da mettere in circolazione. \n");
             System.out.println("0 - indietro");
             System.out.println();
             menu01 = scanInt();
@@ -722,7 +722,7 @@ public class Application {
     private static Transport getTransport() {
         Transport transport = null;
         while (true) {
-            System.out.println("\ninserisci l'id del trasporto");
+            System.out.println("\n inserisci l'id del trasporto \n");
             System.out.println("0 - indietro");
             transport = transDao.getById(scanInt());
             if (transport != null) {
@@ -737,7 +737,7 @@ public class Application {
     private static Route getRoute() {
         Route route = null;
         while (true) {
-            System.out.println("\ninserisci l'id della tratta percorsa");
+            System.out.println("\n inserisci l'id della tratta percorsa \n");
             System.out.println("0 - indietro");
             route = rouDao.getById(scanInt());
             if (route != null) {
@@ -751,7 +751,7 @@ public class Application {
     private static Seller getSeller() {
         Seller seller = null;
         while (true) {
-            System.out.println("\ninserisci l'id del venditore");
+            System.out.println("\ninserisci l'id del venditore \n");
             System.out.println("0 - indietro");
             seller = sellDao.getById(scanInt());
             if (seller != null) {
@@ -788,8 +788,7 @@ public class Application {
     private static void userMenu(UserBadge userBadge) {
         int menu01 = -1;
         while (menu01 < 0) {
-            System.out.println("benvenuto " + userBadge.getName());
-            System.out.println();
+            System.out.println("benvenuto " + userBadge.getName() + "\n");
             System.out.println("seleziona un'opzione");
             System.out.println("1 - Acquista biglietto o abbonamento");
             System.out.println("2 - gestisci tessera personale");
@@ -872,18 +871,14 @@ public class Application {
         return "0";
     }
 
-    private static void testValidation(Route useRoute, Ticket userTick) {
-
-    }
 
     private static void subscriptionMenu(UserBadge userBadge) {
         System.out.println("questi sono i tuoi abbonamenti");
         userBadge.getSubscriptions().forEach(System.out::println);
         int menu01 = -1;
         while (menu01 < 0) {
-            System.out.println("inserisci il id dell'abbonamento da gestire");
+            System.out.println("\n inserisci l'id dell'abbonamento da gestire \n");
             System.out.println("0 - indietro");
-            System.out.println();
             menu01 = scanInt();
             Subscription userSubscription = subDao.getById(menu01);
             if (userSubscription != null) {
@@ -930,8 +925,11 @@ public class Application {
                     break;
                 case 0:
                     System.out.println("indietro");
+                    break;
                 default:
                     System.out.println("opzione non valida");
+                    menu01 = -1;
+                    break;
             }
         }
     }
@@ -972,9 +970,7 @@ public class Application {
     }
 
     private static void buyTicket(UserBadge userBadge) {
-        System.out.println();
-        System.out.println("Area biglietti");
-        System.out.println();
+        System.out.println("Area biglietti \n");
         System.out.println("1 - compra biglietto");
         System.out.println("2 - compra abbonamento");
         int menu01 = -1;
@@ -1060,10 +1056,9 @@ public class Application {
                         String lastname = input.nextLine();
                         System.out.println("inserire data di nascita in questo formato YYYY-MM-DD");
                         LocalDate birth = LocalDate.parse(input.nextLine());
-                        UserBadge newUser = new UserBadge(name, lastname, birth, LocalDate.now());
+                        userDAO.save(new UserBadge(name, lastname, birth, LocalDate.now()));
                     } catch (DateTimeParseException ex) {
                         System.err.println("data non valida");
-                        ;
                     }
                     menu01 = -1;
                     break;
