@@ -699,30 +699,44 @@ public class Application {
     }
 
     private static Transport getTransport() {
+        int menu01 = -1;
         Transport transport;
-        while (true) {
+        while (menu01 < 0) {
             System.out.println("\n inserisci l'id del trasporto \n");
             System.out.println("0 - indietro");
-            transport = transDao.getById(scanInt());
-            if (transport != null) {
-                return transport;
+            menu01 = scanInt();
+            if (menu01 == 0) {
+                System.out.println("\nindietro\n");
+                return null
             } else {
-                System.out.println("trasporto non trovato");
+                transport = transDao.getById(menu01);
+                if (transport != null) {
+                    return transport;
+                } else {
+                    System.out.println("trasporto non trovato");
+                }
             }
         }
     }
 
     // get Route
     private static Route getRoute() {
+        int menu01 = -1;
         Route route;
-        while (true) {
+        while (menu01 < 0) {
             System.out.println("\n inserisci l'id della tratta percorsa \n");
             System.out.println("0 - indietro");
-            route = rouDao.getById(scanInt());
-            if (route != null) {
-                return route;
+            menu01 = scanInt();
+
+            if (menu01 == 0) {
+                System.out.println("indietro");
             } else {
-                System.out.println("Tratta non trovata");
+                route = rouDao.getById(menu01);
+                if (route != null) {
+                    return route;
+                } else {
+                    System.out.println("Tratta non trovata");
+                }
             }
         }
     }
