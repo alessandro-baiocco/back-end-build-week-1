@@ -16,13 +16,19 @@ public class UserBadgeDao {
     }
 
     public void save(UserBadge u) {
-        EntityTransaction transaction = em.getTransaction();
-        transaction.begin();
+        try {
+            EntityTransaction transaction = em.getTransaction();
+            transaction.begin();
 
-        em.persist(u);
+            em.persist(u);
 
-        transaction.commit();
-        System.out.println("Nuovo user salvato correttamente");
+            transaction.commit();
+            System.out.println("Nuovo user salvato correttamente");
+        } catch (Exception ex) {
+            System.err.println("errore : ");
+            System.err.println(ex.getMessage());
+        }
+
     }
 
     public UserBadge getById(int id) {

@@ -19,11 +19,16 @@ public class RouteDAO {
     }
 
     public void save(Route route) {
-        EntityTransaction transaction = em.getTransaction();
-        transaction.begin();
-        em.persist(route);
-        transaction.commit();
-        System.out.println("La tratta è stata correttamente inserita");
+        try {
+            EntityTransaction transaction = em.getTransaction();
+            transaction.begin();
+            em.persist(route);
+            transaction.commit();
+            System.out.println("La tratta è stata correttamente inserita");
+        } catch (Exception ex) {
+            System.err.println("errore :\n" + ex.getMessage());
+        }
+
     }
 
     public Route getById(int id) {
@@ -32,13 +37,16 @@ public class RouteDAO {
 
     public void delete(int id) {
         Route routeToBeDeleted = em.find(Route.class, id);
-
         if (routeToBeDeleted != null) {
-            EntityTransaction transaction = em.getTransaction();
-            transaction.begin();
-            em.remove(routeToBeDeleted);
-            transaction.commit();
-            System.out.println("Questa tratta è stata cancellata con successo!");
+            try {
+                EntityTransaction transaction = em.getTransaction();
+                transaction.begin();
+                em.remove(routeToBeDeleted);
+                transaction.commit();
+                System.out.println("Questa tratta è stata cancellata con successo!");
+            } catch (Exception ex) {
+                System.err.println(ex.getMessage());
+            }
         } else {
             System.out.println("Tratta non presente nel database");
         }
@@ -131,12 +139,6 @@ public class RouteDAO {
 
     public List<Route> getAll() {
         TypedQuery<Route> query = em.createQuery("SELECT r FROM Route r", Route.class);
-        return query.getResultList();
-    }
-
-    public List<Route> getAll(Transport transport) {
-        TypedQuery<Route> query = em.createQuery("SELECT r FROM Route r WHERE r.transport = :transport", Route.class);
-        query.setParameter("transport", transport);
         return query.getResultList();
     }
 

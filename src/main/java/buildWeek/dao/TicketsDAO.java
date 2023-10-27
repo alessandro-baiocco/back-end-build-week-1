@@ -23,8 +23,7 @@ public class TicketsDAO {
             transaction.begin();
             em.persist(tick);
             transaction.commit();
-            System.out.println("nuovo ticket creato correttamente");
-            System.out.println(tick.getID());
+            System.out.println("ticket n " + tick.getID() + " creato correttamente");
         } catch (Exception ex) {
             System.err.println(ex.getMessage());
         }
@@ -139,6 +138,7 @@ public class TicketsDAO {
                 }
         );
     }
+
     public boolean tickIsNotValidated(Ticket tick) {
         return tick.getValidation() == null;
     }
