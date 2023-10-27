@@ -878,7 +878,7 @@ public class Application {
 
     private static void subscriptionMenu(UserBadge userBadge) {
         System.out.println("questi sono i tuoi abbonamenti");
-        subDao.getUserSubscriptions(userBadge).forEach(System.out::println);
+        userBadge.getSubscriptions().forEach(System.out::println);
         int menu01 = -1;
         while (menu01 < 0) {
             System.out.println("inserisci il id dell'abbonamento da gestire");
