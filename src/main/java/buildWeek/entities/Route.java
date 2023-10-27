@@ -15,7 +15,7 @@ public class Route {
     private String endRoutePlace;
     private int duration;
     @Nullable
-    @OneToMany
+    @OneToMany(mappedBy = "route")
     private List<Transport> transports;
 
     @Nullable

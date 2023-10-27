@@ -43,7 +43,9 @@ public class Application {
 
 
     public static void main(String[] args) {
+//        createSubscriptions();
         menu();
+
 
         em.close();
         emf.close();
@@ -165,9 +167,7 @@ public class Application {
     private static void validatedTickets() {
         int menu01 = -1;
         while (menu01 < 0) {
-            System.out.println();
-            System.out.println("Statistiche di viaggio");
-            System.out.println();
+            System.out.println("\n Statistiche di viaggio \n");
             System.out.println("1 - biglietti vidimati");
             System.out.println("2 - biglietti vidimati in un giorno");
             System.out.println("3 - biglietti vidimati tra due date");
@@ -181,7 +181,7 @@ public class Application {
             menu01 = scanInt();
             switch (menu01) {
                 case 1:
-                    System.out.println("\nsono stati vidimati " + valDao.getAll().size() + " biglietti in totale\n");
+                    System.out.println("\n sono stati vidimati " + valDao.getAll().size() + " biglietti in totale \n");
                     pauseReturn();
                     menu01 = -1;
                     break;
@@ -480,9 +480,7 @@ public class Application {
     private static void manageRoutes() {
         int menu01 = -1;
         while (menu01 < 0) {
-            System.out.println();
-            System.out.println("Gestione tratte");
-            System.out.println();
+            System.out.println("\n Gestione tratte \n");
             System.out.println("1 - visualizza il numero di volte che un mezzo percorre una tappa");
             System.out.println("2 - visualizza il tempo effettivo di percorrenza di ogni tratta");
             System.out.println("3 - inserisci una corsa");
@@ -819,30 +817,27 @@ public class Application {
     }
 
     private static void takeTransport() {
+        int munu01 = -1;
         while (true) {
             Scanner input = new Scanner(System.in);
-            System.out.println("inserire punto di partenza - 0 per tornare indietro");
-            String startPlace = input.nextLine().toLowerCase().trim();
-
-            if (startPlace.equals("0")) break;
-
-            System.out.println("inserire punto di arrivo - 0 per tornare indietro");
-            String endPlace = input.nextLine().toLowerCase().trim();
-
-            if (endPlace.equals("0")) break;
-
-            Route userRoute = rouDao.findTravelForThis(startPlace, endPlace);
-            if (userRoute != null
-                    && !userRoute.getTravel().isEmpty()
-                    && rouDao.transportIsActive(userRoute)
-            ) {
-                String ritorno = testTicket(userRoute);
-                if (ritorno.equals("0")) break;
-            } else if (userRoute != null) {
-                if (userRoute.getTravel().isEmpty()) System.out.println("non ci sono viaggi disponibili");
+            System.out.println("inserisci id rotta");
+            int menu01 = scanInt();
+            Route userRoute = rouDao.getById(menu01);
+            if (userRoute != null) {
+                if (rouDao.transportIsActive(userRoute)
+                ) {
+                    System.out.println(userRoute);
+                    userRoute.getTravel().add(new Travel(LocalDateTime.now(), LocalDateTime.now().plusMinutes(userRoute.getDuration()), userRoute, userRoute.getTransports().get(0)));
+                    String ritorno = testTicket(userRoute);
+                    if (ritorno.equals("0")) break;
+                } else {
+                    System.out.println("rotta non disponibile ci scusiamo per il disagio");
+                }
             } else {
-                System.out.println("rotta non disponibile ci scusiamo per il disagio");
+                System.out.println("rotta non trovata riprova");
+                menu01 = -1;
             }
+
         }
     }
 
@@ -1105,7 +1100,7 @@ public class Application {
                 sellDao.save(new Seller(true, SellerType.AUTO));
 
             } else {
-                sellDao.save(new Seller(false, SellerType.REAL));
+                sellDao.save(new Seller(true, SellerType.REAL));
             }
         }
     }
@@ -1126,12 +1121,12 @@ public class Application {
         for (int e = 0; e < 20; e++) {
             if (e <= 5) {
                 transDao.save(new Transport(faker.name().title(), TransportType.BUS, 20, true));
-            } else if (e > 5 && e <= 10) {
+            } else if (e <= 10) {
                 transDao.save(new Transport(faker.name().title(), TransportType.TRAM, 80, true));
-            } else if (e > 10 && e <= 15) {
-                transDao.save(new Transport(faker.name().title(), TransportType.BUS, 20, false));
+            } else if (e <= 15) {
+                transDao.save(new Transport(faker.name().title(), TransportType.BUS, 20, true));
             } else {
-                transDao.save(new Transport(faker.name().title(), TransportType.TRAM, 80, false));
+                transDao.save(new Transport(faker.name().title(), TransportType.TRAM, 80, true));
 
             }
         }

@@ -125,8 +125,8 @@ public class RouteDAO {
 
 
     public Boolean transportIsActive(Route route) {
-        if (!route.getTravel().isEmpty()) {
-            Boolean work = route.getTravel().get(0).getTransport().isActive();
+        if (!route.getTransports().isEmpty()) {
+            Boolean work = route.getTransports().get(0).isActive();
             if (!work) System.out.println("mezzo in manutenzione");
             return work;
         } else {
