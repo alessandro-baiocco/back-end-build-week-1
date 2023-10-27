@@ -3,36 +3,31 @@ package buildWeek.entities;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.List;
 
 @Entity
-@Table(name="validations")
+@Table(name = "validations")
 public class Validation {
 
+    @ManyToOne
+    @JoinColumn(name = "transport_id")
+    Transport transport;
+    @ManyToOne
+    @JoinColumn(name = "travel_id")
+    Travel travel;
+    @OneToOne
+    @JoinColumn(name = "ticket_id")
+    Ticket ticket;
     @Id
     @GeneratedValue
     private int id;
-
     @Column(name = "validation_date")
     private LocalDate validationDate;
-
-    @ManyToOne
-    @JoinColumn(name="transport_id")
-    Transport transport;
-
-    @ManyToOne
-    @JoinColumn(name="travel_id")
-    Travel travel;
-
-    @OneToOne
-    @JoinColumn(name="ticket_id")
-    Ticket ticket;
 
 
     public Validation() {
     }
 
-    public Validation(LocalDate validationDate, Transport transport, Travel travel,Ticket ticket) {
+    public Validation(LocalDate validationDate, Transport transport, Travel travel, Ticket ticket) {
         this.validationDate = validationDate;
         this.transport = transport;
         this.travel = travel;
@@ -77,7 +72,7 @@ public class Validation {
 
     @Override
     public String toString() {
-        return "Validation{" +
+        return "Validation {" +
                 "id=" + id +
                 ", validationDate=" + validationDate +
                 ", transport=" + transport +

@@ -20,14 +20,11 @@ public class SellerDao {
         try {
             EntityTransaction transaction = em.getTransaction();
             transaction.begin();
-
             em.persist(s);
-
             transaction.commit();
             System.out.println("Nuovo seller salvato correttamente");
         } catch (Exception ex) {
-            System.err.println("errore :");
-            System.err.println(ex.getMessage());
+            System.err.println("errore : \n" + ex.getMessage());
         }
 
     }
@@ -67,5 +64,5 @@ public class SellerDao {
         TypedQuery<Seller> query = em.createQuery("SELECT s FROM Seller s", Seller.class);
         return query.getResultList();
     }
-    
+
 }

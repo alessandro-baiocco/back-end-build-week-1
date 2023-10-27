@@ -67,7 +67,7 @@ public class Travel {
 
     @Override
     public String toString() {
-        return "Travel{" +
+        return "Travel {" +
                 "id=" + id +
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +

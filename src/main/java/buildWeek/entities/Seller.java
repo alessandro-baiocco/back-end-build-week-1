@@ -55,7 +55,7 @@ public class Seller {
 
     @Override
     public String toString() {
-        return "Seller{" +
+        return "Seller {" +
                 "id=" + id +
                 ", licensed=" + licensed +
                 ", sellerType=" + sellerType +

@@ -25,7 +25,7 @@ public class TicketsDAO {
             transaction.commit();
             System.out.println("ticket n " + tick.getID() + " creato correttamente");
         } catch (Exception ex) {
-            System.err.println(ex.getMessage());
+            System.err.println("Errore : \n" + ex.getMessage());
         }
     }
 
