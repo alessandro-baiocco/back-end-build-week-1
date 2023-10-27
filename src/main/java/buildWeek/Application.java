@@ -151,6 +151,8 @@ public class Application {
     }
 
     private static void routesStat() {
+        System.out.println("ecco tutti i viaggi");
+        travDao.getAll().forEach(System.out::println);
     }
 
 
