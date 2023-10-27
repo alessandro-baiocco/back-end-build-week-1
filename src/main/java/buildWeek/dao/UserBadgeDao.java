@@ -25,7 +25,7 @@ public class UserBadgeDao {
             transaction.commit();
             System.out.println("Nuovo user salvato correttamente");
         } catch (Exception ex) {
-            System.err.println("errore :");
+            System.err.println("errore : ");
             System.err.println(ex.getMessage());
         }
 
