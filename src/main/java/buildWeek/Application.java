@@ -968,6 +968,7 @@ public class Application {
         System.out.println("Area biglietti \n");
         System.out.println("1 - compra biglietto");
         System.out.println("2 - compra abbonamento");
+        System.out.println("0 - indietro");
         int menu01 = -1;
         while (menu01 < 0) {
             menu01 = scanInt();
