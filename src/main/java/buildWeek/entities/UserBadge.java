@@ -86,7 +86,7 @@ public class UserBadge {
 
     @Override
     public String toString() {
-        return "UserBadge{" +
+        return "UserBadge {" +
                 "badge_id=" + badge_id +
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +

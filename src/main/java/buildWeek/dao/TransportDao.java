@@ -22,8 +22,7 @@ public class TransportDao {
             tx.commit();
             System.out.println("Transport " + transport.getId() + " saved");
         } catch (Exception ex) {
-            System.err.println("errore : ");
-            System.err.println(ex.getMessage());
+            System.err.println("errore : " + ex.getMessage());
         }
 
     }

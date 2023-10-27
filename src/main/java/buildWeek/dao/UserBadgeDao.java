@@ -19,16 +19,13 @@ public class UserBadgeDao {
         try {
             EntityTransaction transaction = em.getTransaction();
             transaction.begin();
-
             em.persist(u);
-
             transaction.commit();
             System.out.println("Nuovo user salvato correttamente");
         } catch (Exception ex) {
             System.err.println("errore : ");
             System.err.println(ex.getMessage());
         }
-
     }
 
     public UserBadge getById(int id) {
@@ -46,7 +43,7 @@ public class UserBadgeDao {
         if (found != null) {
             return ChronoUnit.DAYS.between(found.getActivationDate(), LocalDate.now()) < 365;
         } else {
-            System.err.println("not found");
+            System.err.println("non trovato");
             return false;
         }
     }
@@ -78,6 +75,17 @@ public class UserBadgeDao {
             } catch (Exception ex) {
                 System.err.println(ex.getMessage());
             }
+        }
+    }
+
+    public void refresh(UserBadge userBadge) {
+        try {
+            EntityTransaction tx = em.getTransaction();
+            tx.begin();
+            em.refresh(userBadge);
+            tx.commit();
+        } catch (Exception ex) {
+            System.err.println("Errore : \n" + ex.getMessage());
         }
     }
 }
