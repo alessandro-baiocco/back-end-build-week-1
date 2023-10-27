@@ -18,13 +18,19 @@ public class SellerDao {
     }
 
     public void save(Seller s) {
-        EntityTransaction transaction = em.getTransaction();
-        transaction.begin();
+        try {
+            EntityTransaction transaction = em.getTransaction();
+            transaction.begin();
 
-        em.persist(s);
+            em.persist(s);
 
-        transaction.commit();
-        System.out.println("Nuovo seller salvato correttamente");
+            transaction.commit();
+            System.out.println("Nuovo seller salvato correttamente");
+        } catch (Exception ex) {
+            System.err.println("errore :");
+            System.err.println(ex.getMessage());
+        }
+
     }
 
     public Seller getById(int id) {

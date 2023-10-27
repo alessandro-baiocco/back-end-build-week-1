@@ -18,14 +18,19 @@ public class ValidationDao {
 
     public void save(Validation validation) {
         if (validation.getTicket().getValidation() == null) {
-            EntityTransaction tx = em.getTransaction();
-            tx.begin();
-            Ticket ticket = validation.getTicket();
-            ticket.setValidation(validation);
-            em.persist(validation);
-            em.persist(ticket);
-            tx.commit();
-            System.out.println("Il biglietto " + validation.getTicket().getID() + " è stato timbrato");
+            try {
+                EntityTransaction tx = em.getTransaction();
+                tx.begin();
+                Ticket ticket = validation.getTicket();
+                ticket.setValidation(validation);
+                em.persist(validation);
+                em.persist(ticket);
+                tx.commit();
+                System.out.println("Il biglietto " + validation.getTicket().getID() + " è stato timbrato");
+            } catch (Exception ex) {
+                System.err.println("errore : ");
+                System.err.println(ex.getMessage());
+            }
         } else {
             System.out.println("Il biglietto " + validation.getTicket().getID() + " è stato già validato!");
         }
