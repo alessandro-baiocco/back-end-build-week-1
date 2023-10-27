@@ -177,7 +177,11 @@ public class Application {
             menu01 = scanInt();
             switch (menu01) {
                 case 1:
-                    System.out.println("\n sono stati vidimati " + valDao.getAll().size() + " biglietti in totale \n");
+                    System.out.println(
+                            (valDao.getAll().size() == 1 ? " \n è stato vidimato " : " \n sono stati vidimati ") +
+                                    +valDao.getAll().size() +
+                                    (valDao.getAll().size() == 1 ? " biglietto " : " biglietti ")
+                                    + " in totale \n");
                     pauseReturn();
                     menu01 = -1;
                     break;
@@ -246,13 +250,21 @@ public class Application {
         Route route = getRoute();
         System.out.println("\ninserisci una data\n");
         LocalDate date = getDate();
-        System.out.println("il giorno " + date + " sono stati vidimati " + valDao.getAll(route, date).size() + " biglietti sulla tratta " + route.getStartRoutePlace() + " - " + route.getEndRoutePlace());
+        System.out.println("il giorno " + date +
+                (valDao.getAll(route, date).size() == 1 ? " \n è stato vidimato " : " \n sono stati vidimati ")
+                + valDao.getAll(route, date).size() +
+                (valDao.getAll(route, date).size() == 1 ? " \n biglietto " : " \n biglietti ")
+                + " sulla tratta " + route.getStartRoutePlace() + " - " + route.getEndRoutePlace());
     }
 
     private static void validatedTicketsByRoute() {
         rouDao.getAll().forEach(System.out::println);
         Route route = getRoute();
-        System.out.println("sono stati vidimati " + valDao.getAll(route).size() + " biglietti sulla tratta " + route.getStartRoutePlace() + " - " + route.getEndRoutePlace());
+        System.out.println(
+                (valDao.getAll(route).size() == 1 ? " \n è stato vidimato " : " \n sono stati vidimati ")
+                        + valDao.getAll(route).size() +
+                        (valDao.getAll(route).size() == 1 ? " \n biglietto " : " \n biglietti ")
+                        + "  sulla tratta " + route.getStartRoutePlace() + " - " + route.getEndRoutePlace());
     }
 
     private static void validatedTicketsByTransportAnd2Date() {
@@ -261,19 +273,28 @@ public class Application {
         LocalDate date1 = getDate();
         System.out.println("\ninserisci la seconda data\n");
         LocalDate date2 = getDate();
-        System.out.println("sono stati vidimati " + valDao.getAll(transport, date1, date2).size() + " biglietti sul trasporto " + transport.getName() + " tra il " + date1 + " e il " + date2);
+        System.out.println((valDao.getAll(transport, date1, date2).size() == 1 ? " \n è stato vidimato " : " \n sono stati vidimati ") + valDao.getAll(transport, date1, date2).size() +
+                (valDao.getAll(transport, date1, date2).size() == 1 ? " \n biglietto " : " \n biglietti ")
+                + " sul trasporto " + transport.getName() + " tra il " + date1 + " e il " + date2);
     }
 
     private static void validatedTicketsByTransportAndDate() {
         Transport transport = getTransport();
         System.out.println("\ninserisci una data\n");
         LocalDate date = getDate();
-        System.out.println("il giorno " + date + " sono stati vidimati " + valDao.getAll(transport, date).size() + " biglietti sul trasporto " + transport.getName());
+        System.out.println("il giorno " + date +
+                (valDao.getAll(transport, date).size() == 1 ? " \n è stato vidimato " : " \n sono stati vidimati ")
+                + valDao.getAll(transport, date).size() +
+                (valDao.getAll(transport, date).size() == 1 ? " \n è biglietto " : " \n biglietti ")
+                +
+                " sul trasporto " + transport.getName());
     }
 
     private static void validatedTicketsByTransport() {
         Transport transport = getTransport();
-        System.out.println("sono stati vidimati " + valDao.getAll(transport).size() + " biglietti sul trasporto " + transport.getName());
+        System.out.println((valDao.getAll(transport).size() == 1 ? " \n è stato vidimato " : " \n sono stati vidimati ") + valDao.getAll(transport).size() +
+                (valDao.getAll(transport).size() == 1 ? " \n biglietto " : " \n biglietti ")
+                + " sul trasporto " + transport.getName());
     }
 
     private static void validatedTicketsBy2Date() {
@@ -281,12 +302,16 @@ public class Application {
         LocalDate date1 = getDate();
         System.out.println("\ninserisci la seconda data\n");
         LocalDate date2 = getDate();
-        System.out.println("\nsono stati vidimati " + valDao.getAll(date1, date2).size() + " biglietti tra il " + date1 + " e il " + date2);
+        System.out.println((valDao.getAll(date1, date2).size() == 1 ? " \n è stato vidimato " : " \n sono stati vidimati ") + valDao.getAll(date1, date2).size() +
+                (valDao.getAll(date1, date2).size() == 1 ? " biglietto " : " biglietti ")
+                + " tra il " + date1 + " e il " + date2);
     }
 
     private static void validatedTicketsByDate() {
         LocalDate date = getDate();
-        System.out.println("il giorno " + date + " sono stati vidimati " + valDao.getAll(date).size() + " biglietti");
+        System.out.println("il giorno " + date + (valDao.getAll(date).size() == 1 ? " \n è stato vidimato " : " \n sono stati vidimati ") + valDao.getAll(date).size() +
+
+                (valDao.getAll(date).size() == 1 ? " biglietto" : " biglietti "));
     }
 
     private static void soldServices() {
@@ -349,12 +374,15 @@ public class Application {
         LocalDate date1 = getDate();
         System.out.println("\ninserisci la seconda data\n");
         LocalDate date2 = getDate();
-        System.out.println("\nsono stati venduti " + subDao.soldSubscription(date1, date2) + " abbonamenti tra il " + date1 + " e il " + date2);
+        System.out.println("\nsono stati venduti " + subDao.soldSubscription(date1, date2) +
+                (subDao.soldSubscription(date1, date2) == 1 ? " abbonamento " : " abbonamenti ") + " tra il " + date1 + " e il " + date2);
     }
 
     private static void soldServicesByDate() {
         LocalDate date = getDate();
-        System.out.println("il giorno " + date + " sono stati venduti " + subDao.soldSubscription(date) + " abbonamenti");
+        System.out.println("il giorno " + date + " sono stati venduti " + subDao.soldSubscription(date) +
+                (subDao.soldSubscription(date) == 1 ? " abbonamento " : " abbonamenti ")
+        );
     }
 
     private static void soldServicesBy2DateAndSeller() {
@@ -364,20 +392,25 @@ public class Application {
         LocalDate date1 = getDate();
         System.out.println("\ninserisci la seconda data\n");
         LocalDate date2 = getDate();
-        System.out.println("\nIl punto vendita n. " + seller.getId() + " ha venduto " + sellDao.soldSubscriptions(seller, date1, date2) + " abbonamenti tra il " + date1 + " e il " + date2);
+        System.out.println("\nIl punto vendita n. " + seller.getId() + " ha venduto " + sellDao.soldSubscriptions(seller, date1, date2) +
+                (sellDao.soldSubscriptions(seller, date1, date2) == 1 ? " abbonamento " : " abbonamenti ")
+                + " tra il " + date1 + " e il " + date2);
     }
 
     private static void soldServicesByDateAndSeller() {
         sellDao.getAll().forEach(System.out::println);
         Seller seller = getSeller();
         LocalDate date = getDate();
-        System.out.println("Il punto vendita n. " + seller.getId() + " ha venduto " + sellDao.soldSubscriptions(seller, date) + " abbonamenti in data " + date);
+        System.out.println("Il punto vendita n. " + seller.getId() + " ha venduto " + sellDao.soldSubscriptions(seller, date) +
+                (sellDao.soldSubscriptions(seller, date) == 1 ? " abbonamento " : " abbonamenti ") +
+                " in data " + date);
     }
 
     private static void soldServicesBySeller() {
         sellDao.getAll().forEach(System.out::println);
         Seller seller = getSeller();
-        System.out.println("Il punto vendita n. " + seller.getId() + " ha venduto " + sellDao.soldSubscriptions(seller) + " abbonamenti");
+        System.out.println("Il punto vendita n. " + seller.getId() + " ha venduto " + sellDao.soldSubscriptions(seller) +
+                (sellDao.soldSubscriptions(seller) == 1 ? " abbonamento " : " abbonamenti "));
     }
 
     private static void soldTickets() {
@@ -430,14 +463,18 @@ public class Application {
         LocalDate date1 = getDate();
         System.out.println("\ninserisci la seconda data\n");
         LocalDate date2 = getDate();
-        System.out.println("\nIl punto vendita n. " + seller.getId() + " ha venduto " + tickDao.getAllSoldTicket(seller, date1, date2).size() + " biglietti tra il " + date1 + " e il " + date2);
+        System.out.println("\nIl punto vendita n. " + seller.getId() + " ha venduto " + tickDao.getAllSoldTicket(seller, date1, date2).size() +
+                (tickDao.getAllSoldTicket(seller, date1, date2).size() == 1 ? " biglietto " : " biglietti ") +
+                " tra il " + date1 + " e il " + date2);
     }
 
     private static void soldTicketsByDateAndSeller() {
         sellDao.getAll().forEach(System.out::println);
         Seller seller = getSeller();
         LocalDate date = getDate();
-        System.out.println("Il punto vendita n. " + seller.getId() + " ha venduto " + tickDao.getAllSoldTicket(seller, date).size() + " biglietti in data " + date);
+        System.out.println("Il punto vendita n. " + seller.getId() + " ha venduto " + tickDao.getAllSoldTicket(seller, date).size() +
+                (tickDao.getAllSoldTicket(seller, date).size() == 1 ? " biglietto " : " biglietti ") +
+                " in data " + date);
     }
 
     private static LocalDate getDate() {
@@ -463,7 +500,8 @@ public class Application {
     private static void soldTicketsBySeller() {
         sellDao.getAll().forEach(System.out::println);
         Seller seller = getSeller();
-        System.out.println("Il punto vendita n. " + seller.getId() + " ha venduto " + tickDao.getAllSoldTicket(seller).size() + " biglietti");
+        System.out.println("Il punto vendita n. " + seller.getId() + " ha venduto " + tickDao.getAllSoldTicket(seller).size() +
+                (tickDao.getAllSoldTicket(seller).size() == 1 ? "biglietto" : "biglietti"));
     }
 
 
@@ -503,7 +541,11 @@ public class Application {
                     menu01 = -1;
                     break;
                 case 5:
-                    rouDao.getAll().forEach(System.out::println);
+                    if (rouDao.getAll().isEmpty()) {
+                        System.out.println("Non ci sono tratte sul database.");
+                    } else {
+                        rouDao.getAll().forEach(System.out::println);
+                    }
                     menu01 = -1;
                     break;
                 case 0:
@@ -521,7 +563,7 @@ public class Application {
         Scanner input = new Scanner(System.in);
         System.out.println("\ninserisci punto di partenza\n");
         String startPlace = input.nextLine();
-        System.out.println("\ninserisci punto di partenza\n");
+        System.out.println("\ninserisci punto di arrivo\n");
         String endPlace = input.nextLine();
         System.out.println("\ninserisci durata in M\n");
         int duration = scanInt();
@@ -544,9 +586,19 @@ public class Application {
                 System.out.println("indietro");
             } else {
                 Route route = getRoute();
+                if (route == null) {
+                    menu01 = 0;
+                    System.out.println("Rotta non inserita");
+                }
                 Transport transport = getTransport();
+                if (transport == null) {
+                    menu01 = 0;
+                    System.out.println("Trasporto non inserito");
+                }
                 LocalDateTime localDateTime = LocalDateTime.now();
-                travDao.save(new Travel(localDateTime.minusMinutes(menu01), localDateTime, route, transport));
+                if (route != null && transport != null) {
+                    travDao.save(new Travel(localDateTime.minusMinutes(menu01), localDateTime, route, transport));
+                }
             }
             if (menu01 != 0) {
                 menu01 = -1;
@@ -573,7 +625,7 @@ public class Application {
         Route route = getRoute();
         travDao.getAllSpecifyTravels(route, transport).forEach(System.out::println);
         int number = travDao.timesTraveled(route, transport);
-        System.out.println("Il mezzo " + transport.getName() + "ha percorso la tratta "
+        System.out.println("Il mezzo " + transport.getName() + " ha percorso la tratta "
                 + route.getStartRoutePlace() + " - " + route.getEndRoutePlace() + " " + number +
                 (number == 1 ? " volta" : " volte"));
     }
@@ -599,11 +651,19 @@ public class Application {
                     menu01 = -1;
                     break;
                 case 2:
-                    servDao.getAllServices().forEach(System.out::println);
+                    if (servDao.getAllServices().isEmpty()) {
+                        System.out.println("Non ci sono mezzi in manutenzione");
+                    } else {
+                        servDao.getAllServices().forEach(System.out::println);
+                    }
                     menu01 = -1;
                     break;
                 case 3:
-                    servDao.getAllServices(getTransport()).forEach(System.out::println);
+                    if (servDao.getAllServices(getTransport()).isEmpty()) {
+                        System.out.println("Non ci sono manutenzioni per questo mezzo");
+                    } else {
+                        servDao.getAllServices(getTransport()).forEach(System.out::println);
+                    }
                     menu01 = -1;
                     break;
                 case 4:
@@ -715,11 +775,16 @@ public class Application {
         while (true) {
             System.out.println("\n inserisci l'id del trasporto \n");
             System.out.println("0 - indietro");
-            transport = transDao.getById(scanInt());
-            if (transport != null) {
-                return transport;
+            int menu01 = scanInt();
+            if (menu01 == 0) {
+                return null;
             } else {
-                System.out.println("trasporto non trovato");
+                transport = transDao.getById(menu01);
+                if (transport != null) {
+                    return transport;
+                } else {
+                    System.out.println("trasporto non trovato");
+                }
             }
         }
     }
@@ -730,11 +795,16 @@ public class Application {
         while (true) {
             System.out.println("\n inserisci l'id della tratta percorsa \n");
             System.out.println("0 - indietro");
-            route = rouDao.getById(scanInt());
-            if (route != null) {
-                return route;
+            int menu01 = scanInt();
+            if (menu01 == 0) {
+                return null;
             } else {
-                System.out.println("Tratta non trovata");
+                route = rouDao.getById(menu01);
+                if (route != null) {
+                    return route;
+                } else {
+                    System.out.println("Tratta non trovata");
+                }
             }
         }
     }
