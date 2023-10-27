@@ -15,11 +15,17 @@ public class TransportDao {
     }
 
     public void save(Transport transport) {
-        EntityTransaction tx = em.getTransaction();
-        tx.begin();
-        em.persist(transport);
-        tx.commit();
-        System.out.println("Transport " + transport.getId() + " saved");
+        try {
+            EntityTransaction tx = em.getTransaction();
+            tx.begin();
+            em.persist(transport);
+            tx.commit();
+            System.out.println("Transport " + transport.getId() + " saved");
+        } catch (Exception ex) {
+            System.err.println("errore : ");
+            System.err.println(ex.getMessage());
+        }
+
     }
 
     public Transport getById(int id) {
