@@ -232,6 +232,18 @@ public class Application {
         }
     }
 
+    private static void validatedTicketsByTransportAndDate() {
+        rouDao.getAll().forEach(System.out::println);
+        Route route = getRoute();
+        if (route != null) {
+            System.out.println("\ninserisci una data\n");
+            LocalDate date = getDate();
+            if (date != null) {
+                System.out.println("sono stati vidimati " + valDao.getAll(route, date).size() + " biglietti sulla tratta " + route.getStartRoutePlace() + " - " + route.getEndRoutePlace() + " in data " + date);
+            }
+        }
+    }
+
     private static void validatedTicketsByRouteAnd2Date() {
         rouDao.getAll().forEach(System.out::println);
         Route route = getRoute();
@@ -277,7 +289,7 @@ public class Application {
         System.out.println("\ninserisci la seconda data\n");
         LocalDate date2 = getDate();
         System.out.println((valDao.getAll(transport, date1, date2).size() == 1 ? " \n è stato vidimato " : " \n sono stati vidimati ") + valDao.getAll(transport, date1, date2).size() +
-                + " sul trasporto " + transport.getName() + " tra il " + date1 + " e il " + date2);
+                " sul trasporto " + transport.getName() + " tra il " + date1 + " e il " + date2);
         if (transport != null) {
             System.out.println("\ninserisci una data\n");
             LocalDate date = getDate();
