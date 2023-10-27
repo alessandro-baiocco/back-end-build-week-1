@@ -39,7 +39,6 @@ public class Application {
     private static final LocalDateTime nowTime = LocalDateTime.now();
 
     public static void main(String[] args) {
-//        createSubscriptions();
         menu();
 
         em.close();
@@ -534,25 +533,24 @@ public class Application {
     //salviamo un viaggio
     private static void travelSave() {
         int menu01 = -1;
+        esterno:
         while (menu01 < 0) {
             System.out.println();
             System.out.println("Inserisci il tempo effettivo della corsa, tipo : 20 .(La data viene calcolata in base al tempo effettivo.)");
             System.out.println("0 - indietro");
             System.out.println();
             menu01 = scanInt();
-            if (menu01 == 0) {
-                System.out.println("indietro");
-            } else {
-                Route route = getRoute();
-                Transport transport = getTransport();
-                LocalDateTime localDateTime = LocalDateTime.now();
-                travDao.save(new Travel(localDateTime.minusMinutes(menu01), localDateTime, route, transport));
-            }
-            if (menu01 != 0) {
-                menu01 = -1;
-            }
+            if (menu01 == 0) break esterno;
+            Route route = getRoute();
+            if (route == null) break esterno;
+            Transport transport = getTransport();
+            if (transport == null) break esterno;
+            travDao.save(new Travel(LocalDateTime.now(), LocalDateTime.now().plusMinutes(menu01), route, transport));
+
         }
+
     }
+
 
     //Visualizza il tempo effettivo di ogni tratta
     private static void travelTime() {
@@ -711,32 +709,41 @@ public class Application {
     }
 
     private static Transport getTransport() {
+        int menu01 = -1;
         Transport transport;
-        while (true) {
+        while (menu01 < 0) {
             System.out.println("\n inserisci l'id del trasporto \n");
             System.out.println("0 - indietro");
-            transport = transDao.getById(scanInt());
+            menu01 = scanInt();
+            if (menu01 == 0) break;
+            transport = transDao.getById(menu01);
             if (transport != null) {
                 return transport;
             } else {
                 System.out.println("trasporto non trovato");
+                menu01 = -1;
             }
         }
+        return null;
     }
 
     // get Route
     private static Route getRoute() {
+        int menu01 = -1;
         Route route;
-        while (true) {
+        while (menu01 < 0) {
             System.out.println("\n inserisci l'id della tratta percorsa \n");
             System.out.println("0 - indietro");
-            route = rouDao.getById(scanInt());
+            menu01 = scanInt();
+            if (menu01 == 0) break;
+            route = rouDao.getById(menu01);
             if (route != null) {
                 return route;
             } else {
-                System.out.println("Tratta non trovata");
+                System.out.println("Tratta non trovata riprova");
             }
         }
+        return null;
     }
 
     private static Seller getSeller() {
