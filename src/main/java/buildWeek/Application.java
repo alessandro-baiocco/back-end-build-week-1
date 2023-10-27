@@ -641,7 +641,7 @@ public class Application {
             System.out.println("\nGestione trasporti\n");
             System.out.println("1 - visualizza tutti i trasporti");
             System.out.println("2 - visualizza tutti i trasporti in manutenzione");
-            System.out.println("3 - visualizza manutenzioni trasporto");
+            System.out.println("3 - visualizza le manutenzioni di un singolo mezzo");
             System.out.println("4 - metti mezzo in manutenzione");
             System.out.println("5 - metti mezzo in servizio");
             System.out.println("6 - visualizza tratta trasporto");
