@@ -234,13 +234,13 @@ public class Application {
     }
 
     private static void validatedTicketsByTransportAndDate() {
-        rouDao.getAll().forEach(System.out::println);
-        Route route = getRoute();
-        if (route != null) {
+        transDao.getAll().forEach(System.out::println);
+        Transport transport = getTransport();
+        if (transport != null) {
             System.out.println("\ninserisci una data\n");
             LocalDate date = getDate();
             if (date != null) {
-                System.out.println("sono stati vidimati " + valDao.getAll(route, date).size() + " biglietti sulla tratta " + route.getStartRoutePlace() + " - " + route.getEndRoutePlace() + " in data " + date);
+                System.out.println("sono stati vidimati " + valDao.getAll(transport, date).size() + " biglietti sul trasporto " + transport.getName() + " in data " + date);
             }
         }
     }
