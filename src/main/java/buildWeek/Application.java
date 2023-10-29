@@ -127,7 +127,7 @@ public class Application {
     }
 
     public static void saveASeller() {
-        int menu01= -1;
+        int menu01 = -1;
         System.out.println("\nScegli la tipologia di venditore\n");
         System.out.println("1 - REAL");
         System.out.println("2 - AUTO");
@@ -143,7 +143,7 @@ public class Application {
                 break;
             default:
                 System.out.println("Scelta errata. Riprova!");
-    }
+        }
     }
 
     private static void licenceManager() {
@@ -181,16 +181,16 @@ public class Application {
             System.out.println();
             Seller seller = getSeller();
             if (seller != null) {
-                    sellDao.setLicenceActiveAgain(seller);
-                    menu01 = 0;
-                } else {
-                    System.out.println("Il venditore non esiste. Riprova.");
-                }
-                if (menu01 != 0) {
-                    menu01 = -1;
-                }
+                sellDao.setLicenceActiveAgain(seller);
+                menu01 = 0;
+            } else {
+                System.out.println("Il venditore non esiste. Riprova.");
+            }
+            if (menu01 != 0) {
+                menu01 = -1;
             }
         }
+    }
 
 
     private static void licenceRevoked() {
@@ -199,19 +199,18 @@ public class Application {
             System.out.println("\nScegli un venditore a cui revocare la licenza.");
             System.out.println("0 - indietro\n");
             System.out.println();
-           Seller seller = getSeller();
-                if (seller != null) {
-                    sellDao.revokeLicence(seller);
-                    menu01 = 0;
-                } else {
-                    System.out.println("Il venditore non esiste. Riprova.");
-                }
-                if (menu01 != 0) {
-                    menu01 = -1;
-                }
+            Seller seller = getSeller();
+            if (seller != null) {
+                sellDao.revokeLicence(seller);
+                menu01 = 0;
+            } else {
+                System.out.println("Il venditore non esiste. Riprova.");
+            }
+            if (menu01 != 0) {
+                menu01 = -1;
             }
         }
-
+    }
 
 
     private static void statistic() {
@@ -1057,7 +1056,7 @@ public class Application {
             if (userRoute != null) {
                 if (rouDao.transportIsActive(userRoute)
                 ) {
-                    System.out.println(userRoute);
+//                    System.out.println(userRoute);
                     userRoute.getTravels().add(new Travel(LocalDateTime.now(), LocalDateTime.now().plusMinutes(userRoute.getDuration()), userRoute, userRoute.getTransports().get(0)));
                     String ritorno = testTicket(userRoute);
                     if (ritorno.equals("0")) break;
