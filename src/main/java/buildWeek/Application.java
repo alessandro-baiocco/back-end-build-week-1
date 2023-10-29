@@ -1100,10 +1100,12 @@ public class Application {
     private static void subscriptionMenu(UserBadge userBadge) {
         userDAO.refresh(userBadge);
         System.out.println("questi sono i tuoi abbonamenti");
-        userBadge.getSubscriptions().forEach(System.out::println);
+        List<Subscription> listaAbbonamenti = userBadge.getSubscriptions().stream().toList();
+        if (listaAbbonamenti.isEmpty()) System.out.println("ops non ci sono abbonamenti qui");
+        listaAbbonamenti.forEach(System.out::println);
         int menu01 = -1;
         while (menu01 < 0) {
-            System.out.println("\n inserisci l'id dell'abbonamento da gestire \n");
+            System.out.println("inserisci l'id dell'abbonamento da gestire \n");
             System.out.println("0 - indietro\n");
             menu01 = scanInt();
             Subscription userSubscription = subDao.getById(menu01);
